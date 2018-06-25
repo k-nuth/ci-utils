@@ -13,7 +13,7 @@ def option_on_off(option):
 #         return f.read().replace('\n', '').replace('\r', '')
 
 def get_content(file_name):
-    file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), file_name)
+    file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', file_name)
     with open(file_path, 'r') as f:
         return f.read().replace('\n', '').replace('\r', '')
 
@@ -40,6 +40,7 @@ def get_value_from_recipe(search_string, recipe_name="conanfile.py"):
     recipe_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', recipe_name)
     with open(recipe_path, "r") as conanfile:
         contents = conanfile.read()
+        print(contents)
         result = re.search(search_string, contents)
     return result
 
