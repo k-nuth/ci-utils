@@ -13,12 +13,12 @@ def option_on_off(option):
 #         return f.read().replace('\n', '').replace('\r', '')
 
 def get_content(file_name):
-    file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), file_name)
+    file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', file_name)
     
-    print(__file__)
-    print(os.path.abspath(__file__))
-    print(os.path.dirname(os.path.abspath(__file__)))
-    print(file_path)
+    # print(__file__)
+    # print(os.path.abspath(__file__))
+    # print(os.path.dirname(os.path.abspath(__file__)))
+    # print(file_path)
 
     with open(file_path, 'r') as f:
         return f.read().replace('\n', '').replace('\r', '')
