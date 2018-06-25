@@ -5,18 +5,17 @@ import re
 import platform
 import importlib
 
-
 def option_on_off(option):
     return "ON" if option else "OFF"
+
+# def get_content(path):
+#     with open(path, 'r') as f:
+#         return f.read().replace('\n', '').replace('\r', '')
 
 def get_content(file_name):
     file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), file_name)
     with open(file_path, 'r') as f:
         return f.read().replace('\n', '').replace('\r', '')
-
-# def get_content(path):
-#     with open(path, 'r') as f:
-#         return f.read().replace('\n', '').replace('\r', '')
 
 def get_version():
     return get_content('conan_version')
@@ -29,7 +28,6 @@ def get_user():
 
 def get_conan_req_version():
     return get_content('conan_req_version')
-
 
 def get_conan_vars():
     login_username = os.getenv("CONAN_LOGIN_USERNAME", "bitprim-bintray")
@@ -103,6 +101,8 @@ def get_builder(args=None):
 
     return builder, name
 
+def handle_microarchs(opt_name, microarchs, filtered_builds, settings, options, env_vars, build_requires):
+    microarchs = list(set(microarchs))
 
 
 microarchitecture_default = 'x86_64'
@@ -126,24 +126,4 @@ def get_cpu_microarchitecture_or_default(default):
 
 def get_cpu_microarchitecture():
     return get_cpu_microarchitecture_or_default(microarchitecture_default)
-
-
-
-# if __name__ == "__main__":
-    
-#     print("Vendor ID         : %s" % cpu_vendor())
-#     print("CPU name          : %s" % cpu_name())
-#     print("Microarchitecture : %s%s" % cpu_microarchitecture())
-#     print("Vector instructions supported:")
-#     print("SSE       : %s" % is_set(1, 3, 25))
-#     print("SSE2      : %s" % is_set(1, 3, 26))
-#     print("SSE3      : %s" % is_set(1, 2, 0))
-#     print("SSSE3     : %s" % is_set(1, 2, 9))
-#     print("SSE4.1    : %s" % is_set(1, 2, 19))
-#     print("SSE4.2    : %s" % is_set(1, 2, 20))
-#     print("SSE4a     : %s" % is_set(0x80000001, 2, 6))
-#     print("AVX       : %s" % is_set(1, 2, 28))
-#     print("AVX2      : %s" % is_set(7, 1, 5))
-#     print("BMI1      : %s" % is_set(7, 1, 3))
-#     print("BMI2      : %s" % is_set(7, 1, 8))
 
