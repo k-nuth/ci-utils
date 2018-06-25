@@ -1,6 +1,6 @@
 from conan.packager import ConanMultiPackager
 import os
-# import copy
+import copy
 import re
 import platform
 import importlib
@@ -36,8 +36,9 @@ def get_conan_vars():
     version = os.getenv("CONAN_VERSION", get_version())
     return login_username, username, channel, version
 
-def get_value_from_recipe(search_string, recipe="conanfile.py"):
-    with open(recipe, "r") as conanfile:
+def get_value_from_recipe(search_string, recipe_name="conanfile.py"):
+    recipe_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', recipe_name)
+    with open(recipe_path, "r") as conanfile:
         contents = conanfile.read()
         result = re.search(search_string, contents)
     return result
@@ -103,6 +104,12 @@ def get_builder(args=None):
 
 def handle_microarchs(opt_name, microarchs, filtered_builds, settings, options, env_vars, build_requires):
     microarchs = list(set(microarchs))
+
+    for ma in microarchs:
+        opts_copy = copy.deepcopy(options)
+        opts_copy[opt_name] = ma
+        filtered_builds.append([settings, opts_copy, env_vars, build_requires])
+
 
 
 microarchitecture_default = 'x86_64'
