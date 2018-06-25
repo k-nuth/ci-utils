@@ -14,12 +14,6 @@ def option_on_off(option):
 
 def get_content(file_name):
     file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', file_name)
-    
-    # print(__file__)
-    # print(os.path.abspath(__file__))
-    # print(os.path.dirname(os.path.abspath(__file__)))
-    # print(file_path)
-
     with open(file_path, 'r') as f:
         return f.read().replace('\n', '').replace('\r', '')
 
@@ -42,8 +36,12 @@ def get_conan_vars():
     version = os.getenv("CONAN_VERSION", get_version())
     return login_username, username, channel, version
 
-def get_value_from_recipe(search_string, recipe="conanfile.py"):
-    with open(recipe, "r") as conanfile:
+def get_value_from_recipe(search_string, recipe_name="conanfile.py"):
+    recipe_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', recipe_name)
+    print(recipe_name)
+    print(recipe_path)
+
+    with open(recipe_path, "r") as conanfile:
         contents = conanfile.read()
         result = re.search(search_string, contents)
     return result
