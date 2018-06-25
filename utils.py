@@ -43,6 +43,7 @@ def get_value_from_recipe(search_string, recipe_name="conanfile.py"):
 
     with open(recipe_path, "r") as conanfile:
         contents = conanfile.read()
+        print(contents)
         result = re.search(search_string, contents)
     return result
 
