@@ -4,6 +4,22 @@ import copy
 import re
 import platform
 import importlib
+import subprocess
+import sys
+
+def get_git_branch(default=None):
+    try:
+        res = subprocess.Popen(["git", "rev-parse", "--abbrev-ref", "HEAD"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        output, _ = res.communicate()
+        if output:
+            if res.returncode == 0:
+                return output.replace('\n', '').replace('\r', '')
+        return default
+    except OSError: # as e:
+        return default
+    except:
+        return default
+
 
 def option_on_off(option):
     return "ON" if option else "OFF"
@@ -17,11 +33,38 @@ def get_content(file_name):
     with open(file_path, 'r') as f:
         return f.read().replace('\n', '').replace('\r', '')
 
+def get_content_default(file_name, default=None):
+    try:
+        return get_content(file_name)
+    except IOError:
+        return default
+
 def get_version():
     return get_content('conan_version')
 
+def get_channel_from_file():
+    return get_content_default('conan_channel')
+
 def get_channel():
-    return get_content('conan_channel')
+    channel = get_channel_from_file()
+    print(channel)
+
+    if channel is None:
+        channel = os.getenv("BITPRIM_CONAN_CHANNEL", None)
+
+    print(channel)
+
+    if channel is None:
+        channel = get_git_branch()
+
+    print(channel)
+
+    if channel is None:
+        channel = 'stable'
+
+    print(channel)
+
+    return channel
 
 def get_user():
     return get_content('conan_user')
