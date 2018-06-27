@@ -20,13 +20,8 @@ def get_git_branch(default=None):
     except:
         return default
 
-
 def option_on_off(option):
     return "ON" if option else "OFF"
-
-# def get_content(path):
-#     with open(path, 'r') as f:
-#         return f.read().replace('\n', '').replace('\r', '')
 
 def get_content(file_name):
     file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', file_name)
@@ -47,27 +42,21 @@ def get_channel_from_file():
 
 def get_channel():
     channel = get_channel_from_file()
-    print(channel)
 
     if channel is None:
         channel = os.getenv("BITPRIM_CONAN_CHANNEL", None)
 
-    print(channel)
-
     if channel is None:
         channel = get_git_branch()
-
-    print(channel)
 
     if channel is None:
         channel = 'stable'
 
-    print(channel)
-
     return channel
 
 def get_user():
-    return get_content('conan_user')
+    # return get_content('conan_user')
+    return get_content_default('conan_user', 'bitprim')
 
 def get_conan_req_version():
     return get_content('conan_req_version')
