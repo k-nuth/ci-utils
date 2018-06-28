@@ -86,9 +86,13 @@ def get_conan_upload(username):
     repository_name = os.getenv("BIPRIM_BINTRAY_REPOSITORY", "bitprim")
     return os.getenv("CONAN_UPLOAD", get_user_repository(username, repository_name))
 
+def get_conan_upload_for_remote(username):
+    repository_name = os.getenv("BIPRIM_BINTRAY_REPOSITORY", "bitprim")
+    return get_user_repository(username, repository_name)
+
 def get_conan_remotes(username):
     # While redundant, this moves upload remote to position 0.
-    remotes = [get_conan_upload(username)]
+    remotes = [get_conan_upload_for_remote(username)]
 
     # # Add bincrafters repository for other users, e.g. if the package would
     # # require other packages from the bincrafters repo.
