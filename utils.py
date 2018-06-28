@@ -13,7 +13,7 @@ def get_git_branch(default=None):
         output, _ = res.communicate()
         if output:
             if res.returncode == 0:
-                return output.replace('\n', '').replace('\r', '')
+                return output.decode("utf-8").replace('\n', '').replace('\r', '')
         return default
     except OSError: # as e:
         return default
