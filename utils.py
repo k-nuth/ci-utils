@@ -23,10 +23,13 @@ def get_git_branch(default=None):
 def option_on_off(option):
     return "ON" if option else "OFF"
 
-def get_content(file_name):
-    file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', file_name)
+def access_file(file_path):
     with open(file_path, 'r') as f:
         return f.read().replace('\n', '').replace('\r', '')
+
+def get_content(file_name):
+    file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', file_name)
+    return access_file(file_path)
 
 def get_content_default(file_name, default=None):
     try:
