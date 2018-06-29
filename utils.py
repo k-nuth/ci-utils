@@ -20,6 +20,9 @@ def get_git_branch(default=None):
     except:
         return default
 
+def get_version_from_branch_name(default=None):
+    return None
+
 def get_version_from_git_describe(default=None):
     #v0.3.0-96-gddc60c3
     try:
@@ -58,6 +61,9 @@ def get_version():
 
     if version is None:
         version = os.getenv("BITPRIM_CONAN_VERSION", None)
+
+    if version is None:
+        version = get_version_from_branch_name()
 
     if version is None:
         version = get_version_from_git_describe()
