@@ -1,4 +1,4 @@
-from conan.packager import ConanMultiPackager
+# from conan.packager import ConanMultiPackager
 import os
 import copy
 import re
@@ -36,6 +36,10 @@ def get_git_describe(default=None):
 
 def get_version_from_git_describe(default=None, increment_minor=False):
     describe = get_git_describe()
+    
+    print('describe')
+    print(describe)
+
     if describe is None:
         return None
     version = describe.split('-')[0][1:]
@@ -49,6 +53,13 @@ def get_version_from_git_describe(default=None, increment_minor=False):
         version = "%s.%s.%s" % (version_arr[0], str(int(version_arr[1]) + 1), version_arr[2])
 
     return version
+
+def copy_env_vars(env_vars):
+    env_vars["BITPRIM_BUILD_NUMBER"] = os.getenv('BITPRIM_BUILD_NUMBER', '-')
+    env_vars["BITPRIM_BRANCH"] = os.getenv('BITPRIM_BRANCH', '-')
+    env_vars["BITPRIM_CONAN_CHANNEL"] = os.getenv('BITPRIM_CONAN_CHANNEL', '-')
+    env_vars["BITPRIM_FULL_BUILD"] = os.getenv('BITPRIM_FULL_BUILD', '-')
+
 
 def is_development_branch():
     branch = get_branch()
@@ -100,14 +111,24 @@ def get_version_from_file():
 def get_version():
     version = get_version_from_file()
 
+    print('------------------------------------------------------')
+    print(version)
+
     if version is None:
         version = os.getenv("BITPRIM_CONAN_VERSION", None)
+
+    print(version)
 
     if version is None:
         version = get_version_from_branch_name()
 
+    print(version)
+
     if version is None:
         version = get_version_from_git_describe(None, is_development_branch())
+
+    print(version)
+    print('------------------------------------------------------')
 
     return version
 
