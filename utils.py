@@ -295,6 +295,9 @@ def get_builder(args=None):
     # stable_branch_pattern = os.getenv("CONAN_STABLE_BRANCH_PATTERN", "stable/*")
 
     archs = get_archs()
+
+    print((login_username, username, channel, version, archs))
+
     builder = ConanMultiPackager(
         args=args,
         username=username,
