@@ -87,7 +87,27 @@ def is_development_branch():
 
     return branch == 'dev' or branch.startswith('feature')    
 
+def is_development_branch_clean():
+    branch = get_branch_clean()
+    if branch is None: 
+        return False
+
+    return branch == 'dev' or branch.startswith('feature')    
+
+
 def get_branch():
+    branch = os.getenv("BITPRIM_BRANCH", None)
+    
+    print("branch: %s" % (branch,))
+
+    if branch is None: 
+        branch = get_git_branch()
+
+    print("branch: %s" % (branch,))
+
+    return branch
+
+def get_branch_clean():
     branch = os.getenv("BITPRIM_BRANCH", None)
     if branch is None: 
         branch = get_git_branch()
@@ -161,7 +181,7 @@ def get_version_clean():
         version = get_version_from_branch_name()
 
     if version is None:
-        version = get_version_from_git_describe_clean(None, is_development_branch())
+        version = get_version_from_git_describe_clean(None, is_development_branch_clean())
 
     return version
 
