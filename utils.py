@@ -163,17 +163,17 @@ def get_version_from_file():
     return get_content_default('conan_version')
 
 def get_version():
-    # print("get_version()----------------------------------------------------------")
-    # print("BITPRIM_BUILD_NUMBER:  %s" % (os.getenv("BITPRIM_BUILD_NUMBER", None),))
-    # print("BITPRIM_BRANCH:        %s" % (os.getenv("BITPRIM_BRANCH", None),))
-    # print("BITPRIM_CONAN_CHANNEL: %s" % (os.getenv("BITPRIM_CONAN_CHANNEL", None),))
-    # print("BITPRIM_FULL_BUILD:    %s" % (os.getenv("BITPRIM_FULL_BUILD", None),))
-    # print("BITPRIM_CONAN_VERSION: %s" % (os.getenv("BITPRIM_CONAN_VERSION", None),))
+    print("get_version()----------------------------------------------------------")
+    print("BITPRIM_BUILD_NUMBER:  %s" % (os.getenv("BITPRIM_BUILD_NUMBER", None),))
+    print("BITPRIM_BRANCH:        %s" % (os.getenv("BITPRIM_BRANCH", None),))
+    print("BITPRIM_CONAN_CHANNEL: %s" % (os.getenv("BITPRIM_CONAN_CHANNEL", None),))
+    print("BITPRIM_FULL_BUILD:    %s" % (os.getenv("BITPRIM_FULL_BUILD", None),))
+    print("BITPRIM_CONAN_VERSION: %s" % (os.getenv("BITPRIM_CONAN_VERSION", None),))
 
     version = get_version_from_file()
 
-    # print('------------------------------------------------------')
-    # print("version 1: %s" % (version,))
+    print('------------------------------------------------------')
+    print("version 1: %s" % (version,))
 
     if version is None:
         version = os.getenv("BITPRIM_CONAN_VERSION", None)
