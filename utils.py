@@ -47,12 +47,31 @@ def get_version_from_git_describe(default=None, increment_minor=False):
     if increment_minor:
         version_arr = version.split('.')
         if len(version_arr) != 3:
-            print('version has to be of the following format: xx.xx.xx')
+            # print('version has to be of the following format: xx.xx.xx')
             return None
 
         version = "%s.%s.%s" % (version_arr[0], str(int(version_arr[1]) + 1), version_arr[2])
 
     return version
+
+
+def get_version_from_git_describe_clean(default=None, increment_minor=False):
+    describe = get_git_describe()
+    
+    if describe is None:
+        return None
+    version = describe.split('-')[0][1:]
+
+    if increment_minor:
+        version_arr = version.split('.')
+        if len(version_arr) != 3:
+            # print('version has to be of the following format: xx.xx.xx')
+            return None
+
+        version = "%s.%s.%s" % (version_arr[0], str(int(version_arr[1]) + 1), version_arr[2])
+
+    return version
+
 
 def copy_env_vars(env_vars):
     env_vars["BITPRIM_BUILD_NUMBER"] = os.getenv('BITPRIM_BUILD_NUMBER', '-')
@@ -131,6 +150,21 @@ def get_version():
     print('------------------------------------------------------')
 
     return version
+
+def get_version_clean():
+    version = get_version_from_file()
+
+    if version is None:
+        version = os.getenv("BITPRIM_CONAN_VERSION", None)
+
+    if version is None:
+        version = get_version_from_branch_name()
+
+    if version is None:
+        version = get_version_from_git_describe_clean(None, is_development_branch())
+
+    return version
+
 
 def get_channel_from_file():
     return get_content_default('conan_channel')
