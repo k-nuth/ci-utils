@@ -1,4 +1,4 @@
-# from conan.packager import ConanMultiPackager
+from conan.packager import ConanMultiPackager
 import os
 import copy
 import re
