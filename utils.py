@@ -37,8 +37,8 @@ def get_git_describe(default=None):
 def get_version_from_git_describe(default=None, increment_minor=False):
     describe = get_git_describe()
     
-    print('describe')
-    print(describe)
+    # print('describe')
+    # print(describe)
 
     if describe is None:
         return None
@@ -55,22 +55,22 @@ def get_version_from_git_describe(default=None, increment_minor=False):
     return version
 
 
-def get_version_from_git_describe_clean(default=None, increment_minor=False):
-    describe = get_git_describe()
+# def get_version_from_git_describe_clean(default=None, increment_minor=False):
+#     describe = get_git_describe()
     
-    if describe is None:
-        return None
-    version = describe.split('-')[0][1:]
+#     if describe is None:
+#         return None
+#     version = describe.split('-')[0][1:]
 
-    if increment_minor:
-        version_arr = version.split('.')
-        if len(version_arr) != 3:
-            # print('version has to be of the following format: xx.xx.xx')
-            return None
+#     if increment_minor:
+#         version_arr = version.split('.')
+#         if len(version_arr) != 3:
+#             # print('version has to be of the following format: xx.xx.xx')
+#             return None
 
-        version = "%s.%s.%s" % (version_arr[0], str(int(version_arr[1]) + 1), version_arr[2])
+#         version = "%s.%s.%s" % (version_arr[0], str(int(version_arr[1]) + 1), version_arr[2])
 
-    return version
+#     return version
 
 
 def copy_env_vars(env_vars):
@@ -87,31 +87,31 @@ def is_development_branch():
 
     return branch == 'dev' or branch.startswith('feature')    
 
-def is_development_branch_clean():
-    branch = get_branch_clean()
-    if branch is None: 
-        return False
+# def is_development_branch_clean():
+#     branch = get_branch_clean()
+#     if branch is None: 
+#         return False
 
-    return branch == 'dev' or branch.startswith('feature')    
+#     return branch == 'dev' or branch.startswith('feature')    
 
 
 def get_branch():
     branch = os.getenv("BITPRIM_BRANCH", None)
     
-    print("branch: %s" % (branch,))
+    # print("branch: %s" % (branch,))
 
     if branch is None: 
         branch = get_git_branch()
 
-    print("branch: %s" % (branch,))
+    # print("branch: %s" % (branch,))
 
     return branch
 
-def get_branch_clean():
-    branch = os.getenv("BITPRIM_BRANCH", None)
-    if branch is None: 
-        branch = get_git_branch()
-    return branch
+# def get_branch_clean():
+#     branch = os.getenv("BITPRIM_BRANCH", None)
+#     if branch is None: 
+#         branch = get_git_branch()
+#     return branch
 
 def get_version_from_branch_name():
     branch = get_branch()
@@ -127,19 +127,19 @@ def get_version_from_branch_name():
 
     return None
 
-def get_version_from_branch_name_clean():
-    branch = get_branch_clean()
+# def get_version_from_branch_name_clean():
+#     branch = get_branch_clean()
 
-    if branch is None: 
-        return None
+#     if branch is None: 
+#         return None
 
-    if branch.startswith("release-") or branch.startswith("hotfix-"):
-        return branch.split('-', 1)[1]
+#     if branch.startswith("release-") or branch.startswith("hotfix-"):
+#         return branch.split('-', 1)[1]
 
-    if branch.startswith("release_") or branch.startswith("hotfix_"):
-        return branch.split('_', 1)[1]
+#     if branch.startswith("release_") or branch.startswith("hotfix_"):
+#         return branch.split('_', 1)[1]
 
-    return None
+#     return None
 
 
 def option_on_off(option):
@@ -163,50 +163,50 @@ def get_version_from_file():
     return get_content_default('conan_version')
 
 def get_version():
-    print("get_version()----------------------------------------------------------")
-    print("BITPRIM_BUILD_NUMBER:  %s" % (os.getenv("BITPRIM_BUILD_NUMBER", None),))
-    print("BITPRIM_BRANCH:        %s" % (os.getenv("BITPRIM_BRANCH", None),))
-    print("BITPRIM_CONAN_CHANNEL: %s" % (os.getenv("BITPRIM_CONAN_CHANNEL", None),))
-    print("BITPRIM_FULL_BUILD:    %s" % (os.getenv("BITPRIM_FULL_BUILD", None),))
-    print("BITPRIM_CONAN_VERSION: %s" % (os.getenv("BITPRIM_CONAN_VERSION", None),))
+    # print("get_version()----------------------------------------------------------")
+    # print("BITPRIM_BUILD_NUMBER:  %s" % (os.getenv("BITPRIM_BUILD_NUMBER", None),))
+    # print("BITPRIM_BRANCH:        %s" % (os.getenv("BITPRIM_BRANCH", None),))
+    # print("BITPRIM_CONAN_CHANNEL: %s" % (os.getenv("BITPRIM_CONAN_CHANNEL", None),))
+    # print("BITPRIM_FULL_BUILD:    %s" % (os.getenv("BITPRIM_FULL_BUILD", None),))
+    # print("BITPRIM_CONAN_VERSION: %s" % (os.getenv("BITPRIM_CONAN_VERSION", None),))
 
     version = get_version_from_file()
 
-    print('------------------------------------------------------')
-    print("version 1: %s" % (version,))
+    # print('------------------------------------------------------')
+    # print("version 1: %s" % (version,))
 
     if version is None:
         version = os.getenv("BITPRIM_CONAN_VERSION", None)
 
-    print("version 2: %s" % (version,))
-    print("BITPRIM_CONAN_VERSION: %s" % (os.getenv("BITPRIM_CONAN_VERSION", None),))
+    # print("version 2: %s" % (version,))
+    # print("BITPRIM_CONAN_VERSION: %s" % (os.getenv("BITPRIM_CONAN_VERSION", None),))
 
     if version is None:
         version = get_version_from_branch_name()
 
-    print("version 3: %s" % (version,))
+    # print("version 3: %s" % (version,))
 
     if version is None:
         version = get_version_from_git_describe(None, is_development_branch())
 
-    print("version 4: %s" % (version,))
-    print('------------------------------------------------------')
+    # print("version 4: %s" % (version,))
+    # print('------------------------------------------------------')
 
     return version
 
-def get_version_clean():
-    version = get_version_from_file()
+# def get_version_clean():
+#     version = get_version_from_file()
 
-    if version is None:
-        version = os.getenv("BITPRIM_CONAN_VERSION", None)
+#     if version is None:
+#         version = os.getenv("BITPRIM_CONAN_VERSION", None)
 
-    if version is None:
-        version = get_version_from_branch_name_clean()
+#     if version is None:
+#         version = get_version_from_branch_name_clean()
 
-    if version is None:
-        version = get_version_from_git_describe_clean(None, is_development_branch_clean())
+#     if version is None:
+#         version = get_version_from_git_describe_clean(None, is_development_branch_clean())
 
-    return version
+#     return version
 
 
 def get_channel_from_file():
