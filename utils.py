@@ -26,20 +26,44 @@ def get_git_describe(default=None):
         output, _ = res.communicate()
         if output:
             if res.returncode == 0:
-                return output.decode("utf-8").replace('\n', '').replace('\r', '')
+                # return output.decode("utf-8").replace('\n', '').replace('\r', '')
+                return output.replace('\n', '').replace('\r', '')
         return default
     except OSError: # as e:
         return default
     except:
         return default
 
-
-def get_version_from_git_describe(default=None):
+def get_version_from_git_describe(default=None, increment_minor=False):
 # v0.3.0-96-gddc60c
     describe = get_git_describe()
+    # print(describe)
     if describe is None:
         return None
-    return describe.split('-')[0][1:]
+    version = describe.split('-')[0][1:]
+
+    if increment_minor:
+        version_arr = version.split('.')
+        if len(version_arr) != 3:
+            print('version has to be of the following format: xx.xx.xx')
+            return None
+
+        version = "%s.%s.%s" % (version_arr[0], str(int(version_arr[1]) + 1), version_arr[2])
+
+    return version
+
+def is_development_branch():
+    branch = os.getenv("BITPRIM_BRANCH", None)
+
+    if branch is None: 
+        branch = get_git_branch()
+
+    if branch is None: 
+        return None
+
+    return branch == 'dev' or branch.startswith('feature')    
+
+
 
 def get_version_from_branch_name():
     branch = os.getenv("BITPRIM_BRANCH", None)
@@ -86,7 +110,7 @@ def get_version():
         version = get_version_from_branch_name()
 
     if version is None:
-        version = get_version_from_git_describe()
+        version = get_version_from_git_describe(None, is_development_branch())
 
     return version
 
