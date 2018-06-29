@@ -20,6 +20,41 @@ def get_git_branch(default=None):
     except:
         return default
 
+def get_git_describe(default=None):
+    try:
+        res = subprocess.Popen(["git", "describe"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        output, _ = res.communicate()
+        if output:
+            if res.returncode == 0:
+                return output.decode("utf-8").replace('\n', '').replace('\r', '')
+        return default
+    except OSError: # as e:
+        return default
+    except:
+        return default
+
+
+def get_version_from_git_describe(default=None):
+# v0.3.0-96-gddc60c
+    describe = get_git_describe()
+    if describe is None:
+        return None
+    return describe.split('-')[0][1:]
+
+def get_version_from_branch_name():
+    branch = os.getenv("BITPRIM_BRANCH", None)
+
+    if branch is None: 
+        return None
+
+    if branch.startswith("release-") or branch.startswith("hotfix-"):
+        return branch.split('-', 1)[1]
+
+    if branch.startswith("release_") or branch.startswith("hotfix_"):
+        return branch.split('_', 1)[1]
+
+    return None
+
 def option_on_off(option):
     return "ON" if option else "OFF"
 
@@ -37,8 +72,23 @@ def get_content_default(file_name, default=None):
     except IOError:
         return default
 
+def get_version_from_file():
+    return get_content_default('conan_version')
+
 def get_version():
-    return get_content('conan_version')
+    #return get_content('conan_version')
+    version = get_version_from_file()
+
+    if version is None:
+        version = os.getenv("BITPRIM_CONAN_VERSION", None)
+
+    if version is None:
+        version = get_version_from_branch_name()
+
+    if version is None:
+        version = get_version_from_git_describe()
+
+    return version
 
 def get_channel_from_file():
     return get_content_default('conan_channel')
