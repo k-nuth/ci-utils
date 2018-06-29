@@ -1,0 +1,12 @@
+{
+  "secp256k1": [],
+  "bitprim-core": ["secp256k1"],
+  "bitprim-consensus": ["secp256k1", "bitprim-core"],
+  "bitprim-database":["bitprim-core"],
+  "bitprim-network":["bitprim-core"],
+  "bitprim-blockchain":["bitprim-database"],
+  "bitprim-node" : ["bitprim-blockchain", "bitprim-network"],
+  "bitprim-rpc" : ["bitprim-node"],
+  "bitprim-node-exe": ["bitprim-node", "bitprim-rpc"],
+  "bitprim-node-cint": ["bitprim-node"]
+}
