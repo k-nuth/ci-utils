@@ -17,4 +17,10 @@ export BITPRIM_CONAN_VERSION="${BITPRIM_BUILD_NUMBER}"
 echo "${BITPRIM_BUILD_NUMBER}"
 echo "${BITPRIM_CONAN_VERSION}"
 
+if [ ! -f conan_version ]; then
+    echo "Creating conan_version file"
+    printf "${BITPRIM_BUILD_NUMBER}" > conan_version
+fi
+
+
 python build.py

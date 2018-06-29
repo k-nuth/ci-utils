@@ -178,19 +178,19 @@ def get_version():
     if version is None:
         version = os.getenv("BITPRIM_CONAN_VERSION", None)
 
-    # print("version 2: %s" % (version,))
-    # print("BITPRIM_CONAN_VERSION: %s" % (os.getenv("BITPRIM_CONAN_VERSION", None),))
+    print("version 2: %s" % (version,))
+    print("BITPRIM_CONAN_VERSION: %s" % (os.getenv("BITPRIM_CONAN_VERSION", None),))
 
     if version is None:
         version = get_version_from_branch_name()
 
-    # print("version 3: %s" % (version,))
+    print("version 3: %s" % (version,))
 
     if version is None:
         version = get_version_from_git_describe(None, is_development_branch())
 
-    # print("version 4: %s" % (version,))
-    # print('------------------------------------------------------')
+    print("version 4: %s" % (version,))
+    print('------------------------------------------------------')
 
     return version
 
