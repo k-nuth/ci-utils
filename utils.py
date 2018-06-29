@@ -127,6 +127,21 @@ def get_version_from_branch_name():
 
     return None
 
+def get_version_from_branch_name_clean():
+    branch = get_branch_clean()
+
+    if branch is None: 
+        return None
+
+    if branch.startswith("release-") or branch.startswith("hotfix-"):
+        return branch.split('-', 1)[1]
+
+    if branch.startswith("release_") or branch.startswith("hotfix_"):
+        return branch.split('_', 1)[1]
+
+    return None
+
+
 def option_on_off(option):
     return "ON" if option else "OFF"
 
@@ -178,7 +193,7 @@ def get_version_clean():
         version = os.getenv("BITPRIM_CONAN_VERSION", None)
 
     if version is None:
-        version = get_version_from_branch_name()
+        version = get_version_from_branch_name_clean()
 
     if version is None:
         version = get_version_from_git_describe_clean(None, is_development_branch_clean())
