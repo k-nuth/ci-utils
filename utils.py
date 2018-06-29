@@ -53,20 +53,20 @@ def get_version_from_git_describe(default=None, increment_minor=False):
     return version
 
 def is_development_branch():
-    branch = os.getenv("BITPRIM_BRANCH", None)
-
+    branch = get_branch()
     if branch is None: 
-        branch = get_git_branch()
-
-    if branch is None: 
-        return None
+        return False
 
     return branch == 'dev' or branch.startswith('feature')    
 
-
+def get_branch():
+    branch = os.getenv("BITPRIM_BRANCH", None)
+    if branch is None: 
+        branch = get_git_branch()
+    return branch
 
 def get_version_from_branch_name():
-    branch = os.getenv("BITPRIM_BRANCH", None)
+    branch = get_branch()
 
     if branch is None: 
         return None
