@@ -23,19 +23,30 @@ def get_git_branch(default=None):
 def get_git_describe(default=None):
     try:
         res = subprocess.Popen(["git", "describe"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        output, _ = res.communicate()
+        output, error = res.communicate()
+
+        print(res)
+        print(output)
+        print(error)
+        print(res.returncode)
+
         if output:
             if res.returncode == 0:
                 # return output.decode("utf-8").replace('\n', '').replace('\r', '')
                 return output.replace('\n', '').replace('\r', '')
         return default
     except OSError: # as e:
+        print('error 1')
         return default
     except:
+        print('error 2')
         return default
 
 def get_version_from_git_describe(default=None, increment_minor=False):
 # v0.3.0-96-gddc60c
+    print('increment_minor')
+    print(increment_minor)
+
     describe = get_git_describe()
     print(describe)
     if describe is None:
