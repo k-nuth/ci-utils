@@ -37,7 +37,7 @@ def get_git_describe(default=None):
 def get_version_from_git_describe(default=None, increment_minor=False):
 # v0.3.0-96-gddc60c
     describe = get_git_describe()
-    # print(describe)
+    print(describe)
     if describe is None:
         return None
     version = describe.split('-')[0][1:]
@@ -61,8 +61,11 @@ def is_development_branch():
 
 def get_branch():
     branch = os.getenv("BITPRIM_BRANCH", None)
+    print(branch)
     if branch is None: 
         branch = get_git_branch()
+
+    print(branch)
     return branch
 
 def get_version_from_branch_name():
@@ -102,15 +105,22 @@ def get_version_from_file():
 def get_version():
     #return get_content('conan_version')
     version = get_version_from_file()
+    print(version)
 
     if version is None:
         version = os.getenv("BITPRIM_CONAN_VERSION", None)
 
+    print(version)
+
     if version is None:
         version = get_version_from_branch_name()
 
+    print(version)
+
     if version is None:
         version = get_version_from_git_describe(None, is_development_branch())
+
+    print(version)
 
     return version
 
