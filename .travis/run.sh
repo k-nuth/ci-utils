@@ -10,4 +10,11 @@ if [[ "$(uname -s)" == 'Darwin' ]]; then
     pyenv activate conan
 fi
 
+python ci_utils/print_version.py
+
+export BITPRIM_BUILD_NUMBER="$(python ci_utils/print_version.py)"
+export BITPRIM_CONAN_VERSION="${BITPRIM_BUILD_NUMBER}"
+echo "${BITPRIM_BUILD_NUMBER}"
+echo "${BITPRIM_CONAN_VERSION}"
+
 python build.py
