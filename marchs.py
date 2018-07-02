@@ -151,9 +151,8 @@ marchs_families['apple-clang']= {}
 marchs_families_base = {
     'amd_high':   ['x86-64', 'k8', 'k8-sse3', 'amdfam10', 'bdver1', 'bdver2', 'bdver3', 'bdver4'],
     'amd_low':    ['x86-64', 'k8', 'k8-sse3', 'amdfam10', 'btver1', 'btver2'],
-
     'intel_core': ['x86-64', 'core2', 'penryn', 'nehalem', 'westmere', 'sandybridge', 'ivybridge', 'haswell', 'broadwell'],
-    'intel_atom': ['x86-64', 'core2', 'bonnell', 'silvermont', 'goldmont'],
+    'intel_atom': ['x86-64', 'core2', 'bonnell', 'silvermont'],
 }
 
 marchs_families['apple-clang'][9.1] = copy.deepcopy(marchs_families_base)
@@ -161,9 +160,9 @@ marchs_families['apple-clang'][9.1]['amd_high'].extend(['znver1'])
 marchs_families['apple-clang'][9.1]['intel_high'] = copy.deepcopy(marchs_families['apple-clang'][9.1]['intel_core'])
 marchs_families['apple-clang'][9.1]['intel_core'].extend(['skylake', 'skylake-avx512', 'cannonlake'])
 marchs_families['apple-clang'][9.1]['intel_high'].extend(['knl'])
+marchs_families['apple-clang'][9.1]['intel_atom'].extend(['goldmont'])
 
 marchs_families['gcc'][4] = copy.deepcopy(marchs_families_base)
-marchs_families['gcc'][4]['intel_atom'].extend(['goldmont-plus', 'tremont'])
 
 marchs_families['gcc'][5] = copy.deepcopy(marchs_families['gcc'][4])
 marchs_families['gcc'][5]['intel_high'] = copy.deepcopy(marchs_families['gcc'][5]['intel_core'])
@@ -181,6 +180,12 @@ marchs_families['gcc'][8] = copy.deepcopy(marchs_families['gcc'][7])
 marchs_families['gcc'][8]['intel_high'].extend(['knm'])
 marchs_families['gcc'][8]['intel_core'].extend(['cannonlake', 'icelake-client', 'icelake-server'])
 
+marchs_families['gcc'][9] = copy.deepcopy(marchs_families['gcc'][8])
+marchs_families['gcc'][9]['intel_atom'].extend(['goldmont', 'goldmont-plus', 'tremont'])
+
+
+def get_full_family():
+    return marchs_families['gcc'][9]
 
 def translate_alias(alias):
     if alias in marchs_aliases:
@@ -204,7 +209,7 @@ def get_march_basis(march_detected, compiler, compiler_version, full, default):
     return default
 
 def get_march(march_detected, compiler, compiler_version):
-    full = marchs_families['gcc'][8]
+    full = get_full_family()
     default = 'x86-64'
     return get_march_basis(march_detected, compiler, compiler_version, full, default)
 
@@ -219,7 +224,7 @@ def march_exists_in(march_detected, compiler, compiler_version):
     return False
 
 def march_exists_full(march_detected):
-    data = marchs_families['gcc'][8]
+    data = get_full_family()
     march_detected = translate_alias(march_detected)
 
     for _, value in data.items():
@@ -236,11 +241,15 @@ def marchs_full_list_basis(data):
     # return ret
 
 def marchs_full_list():
-    full = marchs_families['gcc'][8]
+    full = get_full_family()
     return marchs_full_list_basis(full)
 
+def marchs_compiler_list(compiler, compiler_version):
+    data = marchs_families[compiler][compiler_version]
+    return marchs_full_list_basis(data)
+
 def march_close_name(march_incorrect): #, compiler, compiler_version):
-    # full = marchs_families['gcc'][8]
+    # full = get_full_family()
     return difflib.get_close_matches(march_incorrect, marchs_full_list())
     
 
@@ -297,7 +306,7 @@ def march_close_name(march_incorrect): #, compiler, compiler_version):
 #     'amd_low':    ['x86-64', 'k8', 'k8-sse3', 'amdfam10', 'btver1', 'btver2'],
 
 #     'intel_core': ['x86-64', 'core2', 'penryn', 'nehalem', 'westmere', 'sandybridge', 'ivybridge', 'haswell', 'broadwell'],
-#     'intel_atom': ['x86-64', 'core2', 'bonnell', 'silvermont', 'goldmont', 'goldmont-plus', 'tremont'],
+#     'intel_atom': ['x86-64', 'core2', 'bonnell', 'silvermont'],
 #     # 'intel_high': ['x86-64', 'core2', 'penryn', 'nehalem', 'westmere', 'sandybridge', 'ivybridge', 'haswell', 'broadwell'],
 # }
 
@@ -307,7 +316,7 @@ def march_close_name(march_incorrect): #, compiler, compiler_version):
 #     'amd_low':    ['x86-64', 'k8', 'k8-sse3', 'amdfam10', 'btver1', 'btver2'],
 
 #     'intel_core': ['x86-64', 'core2', 'penryn', 'nehalem', 'westmere', 'sandybridge', 'ivybridge', 'haswell', 'broadwell', 'skylake', 'skylake-avx512', 'cannonlake', 'icelake-client', 'icelake-server'],
-#     'intel_atom': ['x86-64', 'core2', 'bonnell', 'silvermont', 'goldmont', 'goldmont-plus', 'tremont'],
+#     'intel_atom': ['x86-64', 'core2', 'bonnell', 'silvermont'],
 #     'intel_high': ['x86-64', 'core2', 'penryn', 'nehalem', 'westmere', 'sandybridge', 'ivybridge', 'haswell', 'broadwell', 'knl', 'knm'],
 
 #     'via_eden':   ['x86-64', 'eden-x2', 'eden-x4'],
