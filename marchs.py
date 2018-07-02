@@ -189,6 +189,11 @@ marchs_families['clang'][6.0] = copy.deepcopy(marchs_families['gcc'][9])
 marchs_families['clang'][5.0] = copy.deepcopy(marchs_families['gcc'][9])
 marchs_families['clang'][4.0] = copy.deepcopy(marchs_families['gcc'][9])
 
+marchs_families['apple-clang'][9.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
+marchs_families['apple-clang'][8.3] = copy.deepcopy(marchs_families['apple-clang'][9.1])
+marchs_families['apple-clang'][7.3] = copy.deepcopy(marchs_families['apple-clang'][9.1])
+
+
 def get_full_family():
     return marchs_families['gcc'][9]
 
