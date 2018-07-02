@@ -193,7 +193,7 @@ marchs_families_base = {
 }
 
 marchs_families['clang'][4.0] = copy.deepcopy(marchs_families_base)
-marchs_families['clang'][4.0]['amd_high'].extend(['znver1'])
+# marchs_families['clang'][4.0]['amd_high'].extend(['znver1'])
 marchs_families['clang'][4.0]['intel_high'] = copy.deepcopy(marchs_families['clang'][4.0]['intel_core'])
 marchs_families['clang'][4.0]['intel_core'].extend(['skylake', 'skylake-avx512', 'cannonlake'])
 marchs_families['clang'][4.0]['intel_high'].extend(['knl'])
