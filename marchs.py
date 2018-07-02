@@ -215,9 +215,12 @@ marchs_families['gcc'][5] = copy.deepcopy(marchs_families['gcc'][4])
 marchs_families['gcc'][5]['intel_high'] = copy.deepcopy(marchs_families['gcc'][5]['intel_core'])
 marchs_families['gcc'][5]['intel_high'].extend(['knl'])
 
-marchs_families['gcc'][6] = copy.deepcopy(marchs_families['gcc'][5])
-marchs_families['gcc'][6]['intel_core'].extend(['skylake', 'skylake-avx512'])
-marchs_families['gcc'][6]['amd_high'].extend(['znver1'])
+marchs_families['mingw'][7] = copy.deepcopy(marchs_families['gcc'][5])
+marchs_families['mingw'][7]['intel_core'].extend(['skylake'])
+marchs_families['mingw'][7]['amd_high'].extend(['znver1'])
+
+marchs_families['gcc'][6] = copy.deepcopy(marchs_families['mingw'][7])
+marchs_families['gcc'][6]['intel_core'].extend(['skylake-avx512'])
 
 marchs_families['gcc'][7] = copy.deepcopy(marchs_families['gcc'][6])
 marchs_families['gcc'][7]['via_eden'] = ['x86-64', 'eden-x2', 'eden-x4']
@@ -226,6 +229,11 @@ marchs_families['gcc'][7]['via_nano'] = ['x86-64', 'nano', 'nano-1000', 'nano-20
 marchs_families['gcc'][8] = copy.deepcopy(marchs_families['gcc'][7])
 marchs_families['gcc'][8]['intel_high'].extend(['knm'])
 marchs_families['gcc'][8]['intel_core'].extend(['cannonlake', 'icelake-client', 'icelake-server'])
+
+marchs_families['mingw'][8] = copy.deepcopy(marchs_families['gcc'][7])
+marchs_families['mingw'][8]['intel_high'].extend(['knm'])
+marchs_families['mingw'][8]['intel_core'].extend(['cannonlake', 'icelake-server'])
+
 
 marchs_families['gcc'][9] = copy.deepcopy(marchs_families['gcc'][8])
 marchs_families['gcc'][9]['intel_atom'].extend(['goldmont', 'goldmont-plus', 'tremont'])
@@ -252,7 +260,14 @@ def translate_alias(alias):
     else:
         return alias
 
-def get_march_basis(march_detected, compiler, compiler_version, full, default):
+def adjust_compiler_name(os, compiler):
+    if os == "Windows" and compiler == "gcc":
+        return "mingw"
+    return compiler
+        
+def get_march_basis(march_detected, os, compiler, compiler_version, full, default):
+    compiler = adjust_compiler_name(os, compiler)
+
     if compiler not in marchs_families:
         return default
 
@@ -273,12 +288,14 @@ def get_march_basis(march_detected, compiler, compiler_version, full, default):
 
     return default
 
-def get_march(march_detected, compiler, compiler_version):
+def get_march(march_detected, os, compiler, compiler_version):
     full = get_full_family()
     default = 'x86-64'
-    return get_march_basis(march_detected, compiler, compiler_version, full, default)
+    return get_march_basis(march_detected, os, compiler, compiler_version, full, default)
 
-def march_exists_in(march_detected, compiler, compiler_version):
+def march_exists_in(march_detected, os, compiler, compiler_version):
+    compiler = adjust_compiler_name(os, compiler)
+
     if compiler not in marchs_families:
         return False
 
@@ -315,7 +332,9 @@ def marchs_full_list():
     full = get_full_family()
     return marchs_full_list_basis(full)
 
-def marchs_compiler_list(compiler, compiler_version):
+def marchs_compiler_list(os, compiler, compiler_version):
+    compiler = adjust_compiler_name(os, compiler)
+
     if compiler not in marchs_families:
         return marchs_full_list() #[]
 
