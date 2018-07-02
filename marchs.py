@@ -147,6 +147,7 @@ marchs_aliases = {
 marchs_families = {}
 marchs_families['gcc']= {}
 marchs_families['apple-clang']= {}
+marchs_families['clang']= {}
 
 marchs_families_base = {
     'amd_high':   ['x86-64', 'k8', 'k8-sse3', 'amdfam10', 'bdver1', 'bdver2', 'bdver3', 'bdver4'],
@@ -195,6 +196,12 @@ def translate_alias(alias):
         return alias
 
 def get_march_basis(march_detected, compiler, compiler_version, full, default):
+    if compiler not in marchs_families:
+        return default
+
+    if compiler_version not in marchs_families[compiler]:
+        return default
+
     data = marchs_families[compiler][compiler_version]
     march_detected = translate_alias(march_detected)
 
@@ -215,6 +222,12 @@ def get_march(march_detected, compiler, compiler_version):
     return get_march_basis(march_detected, compiler, compiler_version, full, default)
 
 def march_exists_in(march_detected, compiler, compiler_version):
+    if compiler not in marchs_families:
+        return False
+
+    if compiler_version not in marchs_families[compiler]:
+        return False
+
     data = marchs_families[compiler][compiler_version]
     march_detected = translate_alias(march_detected)
 
@@ -246,6 +259,12 @@ def marchs_full_list():
     return marchs_full_list_basis(full)
 
 def marchs_compiler_list(compiler, compiler_version):
+    if compiler not in marchs_families:
+        return marchs_full_list() #[]
+
+    if compiler_version not in marchs_families[compiler]:
+        return marchs_full_list() #[]
+
     data = marchs_families[compiler][compiler_version]
     return marchs_full_list_basis(data)
 
