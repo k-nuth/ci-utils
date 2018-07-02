@@ -251,6 +251,13 @@ marchs_families['apple-clang'][8.3] = copy.deepcopy(marchs_families_clang_base)
 marchs_families['apple-clang'][8.1] = copy.deepcopy(marchs_families_clang_base)
 marchs_families['apple-clang'][7.3] = copy.deepcopy(marchs_families_clang_base)
 
+print(marchs_families['apple-clang'][7.3])
+remove_ext(marchs_families['apple-clang'][7.3], "skylake")
+print(marchs_families['apple-clang'][7.3])
+
+def remove_ext(data, ext):
+    for _, value in data.items():
+        value.remove(ext)
 
 def get_full_family():
     return marchs_families['gcc'][9]
