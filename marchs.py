@@ -188,7 +188,7 @@ msvc_to_extensions = {
 
 def msvc_to_ext(march):
     march_str = str(march)
-    print(march_str)
+    # print(march_str)
     if march_str in msvc_to_extensions:
         return msvc_to_extensions[march_str]
     return None
