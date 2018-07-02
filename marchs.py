@@ -148,6 +148,41 @@ marchs_families = {}
 marchs_families['gcc']= {}
 marchs_families['apple-clang']= {}
 marchs_families['clang']= {}
+marchs_families['Visual Studio']= {}
+
+# Visual Studio 2017
+    # (x86)
+        # /arch:[IA32|SSE|SSE2|AVX|AVX2]  
+    # (x64)
+        # /arch:[AVX|AVX2]  
+    # (ARM)
+        # /arch:[ARMv7VE|VFPv4]  
+
+marchs_families['Visual Studio'][14] = {
+    'amd_high':   ['x86-64', 'bdver1', 'bdver4'],
+    'amd_low':    ['x86-64', 'btver2'],
+    'intel_core': ['x86-64', 'sandybridge', 'haswell'],
+    'via_eden':   ['x86-64', 'eden-x4'],
+}
+
+marchs_families['Visual Studio'][15] = copy.deepcopy(marchs_families['Visual Studio'][14])
+
+
+msvc_to_extensions = {
+    'x86-64':        None,
+    'bdver1':       'AVX',
+    'bdver4':       'AVX2',
+    'btver2':       'AVX',
+    'sandybridge':  'AVX',
+    'haswell':      'AVX2',
+    'eden-x4':      'AVX2',
+}
+
+def msvc_to_ext(march):
+    if march in msvc_to_extensions:
+        msvc_to_extensions[march]
+    
+    return None
 
 marchs_families_base = {
     'amd_high':   ['x86-64', 'k8', 'k8-sse3', 'amdfam10', 'bdver1', 'bdver2', 'bdver3', 'bdver4'],
@@ -156,7 +191,6 @@ marchs_families_base = {
     'intel_core': ['x86-64', 'core2', 'nehalem', 'westmere', 'sandybridge', 'ivybridge', 'haswell', 'broadwell'],
     'intel_atom': ['x86-64', 'core2', 'bonnell', 'silvermont'],
 }
-
 marchs_families['apple-clang'][9.1] = copy.deepcopy(marchs_families_base)
 marchs_families['apple-clang'][9.1]['amd_high'].extend(['znver1'])
 marchs_families['apple-clang'][9.1]['intel_high'] = copy.deepcopy(marchs_families['apple-clang'][9.1]['intel_core'])
@@ -185,9 +219,13 @@ marchs_families['gcc'][8]['intel_core'].extend(['cannonlake', 'icelake-client', 
 marchs_families['gcc'][9] = copy.deepcopy(marchs_families['gcc'][8])
 marchs_families['gcc'][9]['intel_atom'].extend(['goldmont', 'goldmont-plus', 'tremont'])
 
-marchs_families['clang'][6.0] = copy.deepcopy(marchs_families['gcc'][9])
-marchs_families['clang'][5.0] = copy.deepcopy(marchs_families['gcc'][9])
-marchs_families['clang'][4.0] = copy.deepcopy(marchs_families['gcc'][9])
+# marchs_families['clang'][6.0] = copy.deepcopy(marchs_families['gcc'][9])
+# marchs_families['clang'][5.0] = copy.deepcopy(marchs_families['gcc'][9])
+# marchs_families['clang'][4.0] = copy.deepcopy(marchs_families['gcc'][9])
+
+marchs_families['clang'][6.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
+marchs_families['clang'][5.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
+marchs_families['clang'][4.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
 
 marchs_families['apple-clang'][9.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
 marchs_families['apple-clang'][8.3] = copy.deepcopy(marchs_families['apple-clang'][9.1])
