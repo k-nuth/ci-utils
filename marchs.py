@@ -356,19 +356,25 @@ def marchs_compiler_list(os, compiler, compiler_version):
     data = marchs_families[compiler][compiler_version]
     return marchs_full_list_basis(data)
 
-def filter_valid_exts(os, compiler, compiler_version, list):
+def filter_valid_exts(os, compiler, compiler_version, exts):
     data = marchs_compiler_list(os, compiler, compiler_version)
 
     ret = []
-    for x in list:
+    for x in exts:
         if x in data:
-            ret.extend(x)
+            ret.append(x)
+
     return list(set(ret))
 
 def march_close_name(march_incorrect): #, compiler, compiler_version):
     # full = get_full_family()
     return difflib.get_close_matches(march_incorrect, marchs_full_list())
     
+
+
+
+# marchs = filter_valid_exts('Windows', 'Visual Studio', 15, ['x86-64', 'sandybridge', 'ivybridge', 'haswell', 'skylake', 'skylake-avx512'])
+# print(marchs)
 
 
 # >>> difflib.get_close_matches('anlmal', ['car', 'animal', 'house', 'animation'])
