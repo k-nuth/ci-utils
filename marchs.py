@@ -24,7 +24,8 @@ import difflib
 
 marchs_extensions = {
     'x86-64':         ['64-bit extensions'],
-# Intel
+
+# Intel Core
     #tock
     'core2':          ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3'],
     #tick
@@ -62,7 +63,7 @@ marchs_extensions = {
     'goldmont-plus':  ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3', 'MOVBE', 'SSE4', 'SSE4.1', 'SSE4.2', 'POPCNT', 'AES', 'PCLMUL', 'RDRND', 'XSAVE', 'XSAVEOPT', 'FSGSBASE', 'PTWRITE', 'RDPID', 'SGX', 'UMIP'],
     'tremont':        ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3', 'MOVBE', 'SSE4', 'SSE4.1', 'SSE4.2', 'POPCNT', 'AES', 'PCLMUL', 'RDRND', 'XSAVE', 'XSAVEOPT', 'FSGSBASE', 'PTWRITE', 'RDPID', 'SGX', 'UMIP', 'GFNI-SSE', 'CLWB', 'ENCLV'],
 
-#????
+# Intel High-end
     'knl':            ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3', 'SSE4', 'SSE4.1', 'SSE4.2', 'POPCNT', 'AES', 'PCLMUL', 'AVX', 'FSGSBASE', 'RDRND', 'F16C', 'FMA', 'BMI', 'BMI2', 'MOVBE', 'AVX2', 'RDSEED', 'ADCX', 'PREFETCHW',                                   'AVX512F', 'AVX512CD', 'AVX512PF', 'AVX512ER'],
     'knm':            ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3', 'SSE4', 'SSE4.1', 'SSE4.2', 'POPCNT', 'AES', 'PCLMUL', 'AVX', 'FSGSBASE', 'RDRND', 'F16C', 'FMA', 'BMI', 'BMI2', 'MOVBE', 'AVX2', 'RDSEED', 'ADCX', 'PREFETCHW',                                   'AVX512F', 'AVX512CD', 'AVX512PF', 'AVX512ER', 'AVX5124VNNIW', 'AVX5124FMAPS', 'AVX512VPOPCNTDQ'],
 
@@ -116,6 +117,7 @@ marchs_extensions = {
     'nano-x4':        ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3', 'SSE4.1'], 
 
 }
+
 
 marchs_aliases = {
     'k8':            'k8',
@@ -264,8 +266,9 @@ def get_full_family():
     return marchs_families['gcc'][9]
 
 def translate_alias(alias):
-    if alias in marchs_aliases:
-        return marchs_aliases[alias]
+    alias_str = str(alias)
+    if alias_str in marchs_aliases:
+        return marchs_aliases[alias_str]
     else:
         return alias
 
