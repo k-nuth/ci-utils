@@ -191,11 +191,14 @@ marchs_families_base = {
     'intel_core': ['x86-64', 'core2', 'nehalem', 'westmere', 'sandybridge', 'ivybridge', 'haswell', 'broadwell'],
     'intel_atom': ['x86-64', 'core2', 'bonnell', 'silvermont'],
 }
-marchs_families['apple-clang'][9.1] = copy.deepcopy(marchs_families_base)
-marchs_families['apple-clang'][9.1]['amd_high'].extend(['znver1'])
-marchs_families['apple-clang'][9.1]['intel_high'] = copy.deepcopy(marchs_families['apple-clang'][9.1]['intel_core'])
-marchs_families['apple-clang'][9.1]['intel_core'].extend(['skylake', 'skylake-avx512', 'cannonlake'])
-marchs_families['apple-clang'][9.1]['intel_high'].extend(['knl'])
+
+marchs_families['clang'][4.0] = copy.deepcopy(marchs_families_base)
+marchs_families['clang'][4.0]['amd_high'].extend(['znver1'])
+marchs_families['clang'][4.0]['intel_high'] = copy.deepcopy(marchs_families['clang'][4.0]['intel_core'])
+marchs_families['clang'][4.0]['intel_core'].extend(['skylake', 'skylake-avx512', 'cannonlake'])
+marchs_families['clang'][4.0]['intel_high'].extend(['knl'])
+
+marchs_families['apple-clang'][9.1] = copy.deepcopy(marchs_families['clang'][4.0])
 marchs_families['apple-clang'][9.1]['intel_atom'].extend(['goldmont'])
 
 marchs_families['gcc'][4] = copy.deepcopy(marchs_families_base)
@@ -222,10 +225,9 @@ marchs_families['gcc'][9]['intel_atom'].extend(['goldmont', 'goldmont-plus', 'tr
 # marchs_families['clang'][6.0] = copy.deepcopy(marchs_families['gcc'][9])
 # marchs_families['clang'][5.0] = copy.deepcopy(marchs_families['gcc'][9])
 # marchs_families['clang'][4.0] = copy.deepcopy(marchs_families['gcc'][9])
-
 marchs_families['clang'][6.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
 marchs_families['clang'][5.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
-marchs_families['clang'][4.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
+# marchs_families['clang'][4.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
 
 marchs_families['apple-clang'][9.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
 marchs_families['apple-clang'][8.3] = copy.deepcopy(marchs_families['apple-clang'][9.1])
