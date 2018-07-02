@@ -199,6 +199,7 @@ marchs_families_base = {
 }
 
 
+
 marchs_families_clang_base = copy.deepcopy(marchs_families_base)
 marchs_families_clang_base['intel_high'] = copy.deepcopy(marchs_families_clang_base['intel_core'])
 marchs_families_clang_base['intel_core'].extend(['skylake', 'skylake-avx512', 'cannonlake'])
@@ -338,7 +339,6 @@ def marchs_full_list_basis(data):
     for _, value in data.items():
         ret.extend(value)
     return list(set(ret))
-    # return ret
 
 def marchs_full_list():
     full = get_full_family()
@@ -348,13 +348,22 @@ def marchs_compiler_list(os, compiler, compiler_version):
     compiler = adjust_compiler_name(os, compiler)
 
     if compiler not in marchs_families:
-        return marchs_full_list() #[]
+        return []
 
     if compiler_version not in marchs_families[compiler]:
-        return marchs_full_list() #[]
+        return []
 
     data = marchs_families[compiler][compiler_version]
     return marchs_full_list_basis(data)
+
+def filter_valid_exts(os, compiler, compiler_version, list):
+    data = marchs_compiler_list(os, compiler, compiler_version)
+
+    ret = []
+    for x in list:
+        if x in data:
+            ret.extend(x)
+    return list(set(ret))
 
 def march_close_name(march_incorrect): #, compiler, compiler_version):
     # full = get_full_family()
