@@ -185,6 +185,9 @@ marchs_families['gcc'][8]['intel_core'].extend(['cannonlake', 'icelake-client', 
 marchs_families['gcc'][9] = copy.deepcopy(marchs_families['gcc'][8])
 marchs_families['gcc'][9]['intel_atom'].extend(['goldmont', 'goldmont-plus', 'tremont'])
 
+marchs_families['clang'][6.0] = copy.deepcopy(marchs_families['gcc'][9])
+marchs_families['clang'][5.0] = copy.deepcopy(marchs_families['gcc'][9])
+marchs_families['clang'][4.0] = copy.deepcopy(marchs_families['gcc'][9])
 
 def get_full_family():
     return marchs_families['gcc'][9]
