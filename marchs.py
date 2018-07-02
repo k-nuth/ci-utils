@@ -192,11 +192,19 @@ marchs_families_base = {
     'intel_atom': ['x86-64', 'core2', 'bonnell', 'silvermont'],
 }
 
-marchs_families['clang'][4.0] = copy.deepcopy(marchs_families_base)
-# marchs_families['clang'][4.0]['amd_high'].extend(['znver1'])
-marchs_families['clang'][4.0]['intel_high'] = copy.deepcopy(marchs_families['clang'][4.0]['intel_core'])
-marchs_families['clang'][4.0]['intel_core'].extend(['skylake', 'skylake-avx512', 'cannonlake'])
-marchs_families['clang'][4.0]['intel_high'].extend(['knl'])
+# Mingw 8
+#   icelake-client
+# Mingw 7
+#   skylake-avx512
+
+
+marchs_families_clang_base = copy.deepcopy(marchs_families_base)
+marchs_families_clang_base['intel_high'] = copy.deepcopy(marchs_families_clang_base['intel_core'])
+marchs_families_clang_base['intel_core'].extend(['skylake', 'skylake-avx512', 'cannonlake'])
+marchs_families_clang_base['intel_high'].extend(['knl'])
+
+marchs_families['clang'][4.0] = copy.deepcopy(marchs_families_clang_base)
+marchs_families['clang'][4.0]['amd_high'].extend(['znver1'])
 
 marchs_families['apple-clang'][9.1] = copy.deepcopy(marchs_families['clang'][4.0])
 marchs_families['apple-clang'][9.1]['intel_atom'].extend(['goldmont'])
@@ -230,9 +238,9 @@ marchs_families['clang'][5.0] = copy.deepcopy(marchs_families['apple-clang'][9.1
 # marchs_families['clang'][4.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
 
 marchs_families['apple-clang'][9.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
-marchs_families['apple-clang'][8.3] = copy.deepcopy(marchs_families['apple-clang'][9.1])
-marchs_families['apple-clang'][8.1] = copy.deepcopy(marchs_families['apple-clang'][9.1])
-marchs_families['apple-clang'][7.3] = copy.deepcopy(marchs_families['apple-clang'][9.1])
+marchs_families['apple-clang'][8.3] = copy.deepcopy(marchs_families_clang_base)
+marchs_families['apple-clang'][8.1] = copy.deepcopy(marchs_families_clang_base)
+marchs_families['apple-clang'][7.3] = copy.deepcopy(marchs_families_clang_base)
 
 
 def get_full_family():
