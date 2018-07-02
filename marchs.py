@@ -227,6 +227,9 @@ marchs_families['mingw'][7]['amd_high'].extend(['znver1'])
 marchs_families['gcc'][6] = copy.deepcopy(marchs_families['mingw'][7])
 marchs_families['gcc'][6]['intel_core'].extend(['skylake-avx512'])
 
+marchs_families['mingw'][6] = copy.deepcopy(marchs_families['gcc'][6])
+marchs_families['mingw'][5] = copy.deepcopy(marchs_families['gcc'][5])
+
 marchs_families['gcc'][7] = copy.deepcopy(marchs_families['gcc'][6])
 marchs_families['gcc'][7]['via_eden'] = ['x86-64', 'eden-x2', 'eden-x4']
 marchs_families['gcc'][7]['via_nano'] = ['x86-64', 'nano', 'nano-1000', 'nano-2000', 'nano-3000', 'nano-x2', 'nano-x4']
