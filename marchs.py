@@ -233,7 +233,7 @@ marchs_families['gcc'][8]['intel_core'].extend(['cannonlake', 'icelake-client', 
 
 marchs_families['mingw'][8] = copy.deepcopy(marchs_families['gcc'][7])
 marchs_families['mingw'][8]['intel_high'].extend(['knm'])
-marchs_families['mingw'][8]['intel_core'].extend(['cannonlake', 'icelake-server'])
+marchs_families['mingw'][8]['intel_core'].extend(['cannonlake'])
 
 
 marchs_families['gcc'][9] = copy.deepcopy(marchs_families['gcc'][8])
