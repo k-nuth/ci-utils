@@ -145,7 +145,8 @@ marchs_aliases = {
 
 def remove_ext(data, ext):
     for _, value in data.items():
-        value.remove(ext)
+        if ext in value:
+            value.remove(ext)
 
 
 marchs_families = {}
