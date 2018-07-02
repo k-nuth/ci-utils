@@ -224,6 +224,8 @@ marchs_families['gcc'][6] = copy.deepcopy(marchs_families['mingw'][7])
 marchs_families['gcc'][6]['intel_core'].extend(['skylake-avx512'])
 
 marchs_families['mingw'][6] = copy.deepcopy(marchs_families['gcc'][6])
+remove_ext(marchs_families['mingw'][6], "skylake-avx512")
+
 marchs_families['mingw'][5] = copy.deepcopy(marchs_families['gcc'][5])
 
 marchs_families['gcc'][7] = copy.deepcopy(marchs_families['gcc'][6])
@@ -236,6 +238,8 @@ marchs_families['gcc'][8]['intel_core'].extend(['cannonlake', 'icelake-client', 
 
 marchs_families['mingw'][8] = copy.deepcopy(marchs_families['gcc'][7])
 marchs_families['mingw'][8]['intel_high'].extend(['knm'])
+remove_ext(marchs_families['mingw'][8], "skylake-avx512")
+
 
 marchs_families['gcc'][9] = copy.deepcopy(marchs_families['gcc'][8])
 marchs_families['gcc'][9]['intel_atom'].extend(['goldmont', 'goldmont-plus', 'tremont'])
@@ -253,6 +257,8 @@ marchs_families['apple-clang'][8.1] = copy.deepcopy(marchs_families_clang_base)
 marchs_families['apple-clang'][7.3] = copy.deepcopy(marchs_families_clang_base)
 remove_ext(marchs_families['apple-clang'][7.3], "skylake")
 remove_ext(marchs_families['apple-clang'][7.3], "cannonlake")
+remove_ext(marchs_families['apple-clang'][7.3], "skylake-avx512")
+
 
 def get_full_family():
     return marchs_families['gcc'][9]
