@@ -148,9 +148,10 @@ marchs_families = {}
 marchs_families['gcc']= {}
 marchs_families['apple-clang']= {}
 marchs_families['clang']= {}
-marchs_families['Visual Studio']= {}
+marchs_families['msvc']= {}
+marchs_families['mingw']= {}
 
-# Visual Studio 2017
+# msvc 2017
     # (x86)
         # /arch:[IA32|SSE|SSE2|AVX|AVX2]  
     # (x64)
@@ -158,14 +159,14 @@ marchs_families['Visual Studio']= {}
     # (ARM)
         # /arch:[ARMv7VE|VFPv4]  
 
-marchs_families['Visual Studio'][14] = {
+marchs_families['msvc'][14] = {
     'amd_high':   ['x86-64', 'bdver1', 'bdver4'],
     'amd_low':    ['x86-64', 'btver2'],
     'intel_core': ['x86-64', 'sandybridge', 'haswell'],
     'via_eden':   ['x86-64', 'eden-x4'],
 }
 
-marchs_families['Visual Studio'][15] = copy.deepcopy(marchs_families['Visual Studio'][14])
+marchs_families['msvc'][15] = copy.deepcopy(marchs_families['msvc'][14])
 
 
 msvc_to_extensions = {
@@ -263,6 +264,9 @@ def translate_alias(alias):
 def adjust_compiler_name(os, compiler):
     if os == "Windows" and compiler == "gcc":
         return "mingw"
+    if compiler == "Visual Studio":
+        return "msvc"
+        
     return compiler
         
 def get_march_basis(march_detected, os, compiler, compiler_version, full, default):
