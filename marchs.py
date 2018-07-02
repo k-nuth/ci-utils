@@ -20,6 +20,7 @@
 # import os
 # from utils import get_cpu_microarchitecture, get_cpuid
 import copy
+import difflib
 
 marchs_extensions = {
     'x86-64':         ['64-bit extensions'],
@@ -155,11 +156,11 @@ marchs_families_base = {
     'intel_atom': ['x86-64', 'core2', 'bonnell', 'silvermont', 'goldmont'],
 }
 
-marchs_families['apple-clang'][91] = copy.deepcopy(marchs_families_base)
-marchs_families['apple-clang'][91]['amd_high'].extend(['znver1'])
-marchs_families['apple-clang'][91]['intel_high'] = copy.deepcopy(marchs_families['apple-clang'][91]['intel_core'])
-marchs_families['apple-clang'][91]['intel_core'].extend(['skylake', 'skylake-avx512', 'cannonlake'])
-marchs_families['apple-clang'][91]['intel_high'].extend(['knl'])
+marchs_families['apple-clang'][9.1] = copy.deepcopy(marchs_families_base)
+marchs_families['apple-clang'][9.1]['amd_high'].extend(['znver1'])
+marchs_families['apple-clang'][9.1]['intel_high'] = copy.deepcopy(marchs_families['apple-clang'][9.1]['intel_core'])
+marchs_families['apple-clang'][9.1]['intel_core'].extend(['skylake', 'skylake-avx512', 'cannonlake'])
+marchs_families['apple-clang'][9.1]['intel_high'].extend(['knl'])
 
 marchs_families['gcc'][4] = copy.deepcopy(marchs_families_base)
 marchs_families['gcc'][4]['intel_atom'].extend(['goldmont-plus', 'tremont'])
@@ -207,6 +208,44 @@ def get_march(march_detected, compiler, compiler_version):
     default = 'x86-64'
     return get_march_basis(march_detected, compiler, compiler_version, full, default)
 
+def march_exists_in(march_detected, compiler, compiler_version):
+    data = marchs_families[compiler][compiler_version]
+    march_detected = translate_alias(march_detected)
+
+    for _, value in data.items():
+        if march_detected in value:
+            return True
+
+    return False
+
+def march_exists_full(march_detected):
+    data = marchs_families['gcc'][8]
+    march_detected = translate_alias(march_detected)
+
+    for _, value in data.items():
+        if march_detected in value:
+            return True
+
+    return False
+
+def marchs_full_list_basis(data):
+    ret = []
+    for _, value in data.items():
+        ret.extend(value)
+    return list(set(ret))
+    # return ret
+
+def marchs_full_list():
+    full = marchs_families['gcc'][8]
+    return marchs_full_list_basis(full)
+
+def march_close_name(march_incorrect): #, compiler, compiler_version):
+    # full = marchs_families['gcc'][8]
+    return difflib.get_close_matches(march_incorrect, marchs_full_list())
+    
+
+
+# >>> difflib.get_close_matches('anlmal', ['car', 'animal', 'house', 'animation'])
 
 # --------------------------------------------------------------------------------
 
@@ -288,7 +327,7 @@ def get_march(march_detected, compiler, compiler_version):
 
 # print(marchs_families['gcc'][4] == marchs_families_gcc4_temp)
 # print(marchs_families['gcc'][8] == marchs_families_gcc8_temp)
-# print(marchs_families['apple-clang'][91] == marchs_families_apple91_temp)
+# print(marchs_families['apple-clang'][9.1] == marchs_families_apple91_temp)
 
 
 # --------------------------------------------------------------------------------
