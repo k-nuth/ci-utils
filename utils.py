@@ -6,7 +6,11 @@ import platform
 import importlib
 import subprocess
 import sys
-from marchs import get_march, march_exists_in, march_exists_full, march_close_name, msvc_to_ext
+
+if (sys.version_info > (3, 0)):
+    from .marchs import get_march, march_exists_in, march_exists_full, march_close_name, msvc_to_ext
+else:
+    from marchs import get_march, march_exists_in, march_exists_full, march_close_name, msvc_to_ext
 
 def get_git_branch(default=None):
     try:
