@@ -50,8 +50,8 @@ def get_version_from_git_describe(default=None, increment_minor=False):
         if len(version_arr) != 3:
             # print('version has to be of the following format: xx.xx.xx')
             return None
-
-        version = "%s.%s.%s" % (version_arr[0], str(int(version_arr[1]) + 1), version_arr[2])
+        # version = "%s.%s.%s" % (version_arr[0], str(int(version_arr[1]) + 1), version_arr[2])
+        version = "%s.%s.%s" % (version_arr[0], str(int(version_arr[1]) + 1), 0)
 
     return version
 
