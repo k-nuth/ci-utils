@@ -6,6 +6,7 @@ import platform
 import importlib
 import subprocess
 import sys
+from marchs import get_march, march_exists_in, march_exists_full, march_close_name, msvc_to_ext
 
 def get_git_branch(default=None):
     try:
@@ -345,3 +346,74 @@ def get_cpu_microarchitecture_or_default(default):
 def get_cpu_microarchitecture():
     return get_cpu_microarchitecture_or_default(microarchitecture_default)
 
+
+
+def march_conan_manip(conanobj):
+    if conanobj.settings.arch != "x86_64":
+        return
+
+    if conanobj.options.microarchitecture == "_DUMMY_":
+        conanobj.options.microarchitecture = get_cpu_microarchitecture().replace('_', '-')
+        if get_cpuid() == None:
+            march_from = 'default'
+        else:
+            march_from = 'taken from cpuid'
+    else:
+        march_from = 'user defined'
+
+        # conanobj.output.error("%s" % (marchs_full_list(),))
+
+        if not march_exists_full(conanobj.options.microarchitecture):
+            close = march_close_name(str(conanobj.options.microarchitecture))
+            if not conanobj.options.fix_march:
+                # conanobj.output.error("fixed_march: %s" % (fixed_march,))
+
+                if len(close) > 0:
+                    raise Exception ("Microarchitecture '%s' is not recognized. Did you mean '%s'?." % (conanobj.options.microarchitecture, close[0]))
+                    # conanobj.output.error("Microarchitecture '%s' is not recognized. Did you mean '%s'?." % (conanobj.options.microarchitecture, close[0]))
+                    # sys.exit
+                else:
+                    raise Exception ("Microarchitecture '%s' is not recognized." % (conanobj.options.microarchitecture,))
+                    # conanobj.output.error("Microarchitecture '%s' is not recognized." % (conanobj.options.microarchitecture,))
+                    # sys.exit
+            else:
+                if len(close) > 0:
+                    fixed_march = get_march(close[0], str(conanobj.settings.os), str(conanobj.settings.compiler), float(str(conanobj.settings.compiler.version)))
+                else:
+                    fixed_march = get_march(conanobj.options.microarchitecture, str(conanobj.settings.os), str(conanobj.settings.compiler), float(str(conanobj.settings.compiler.version)))
+
+                conanobj.output.warn("Microarchitecture '%s' is not recognized, but it will be automatically fixed to '%s'." % (conanobj.options.microarchitecture, fixed_march))
+                conanobj.options.microarchitecture = fixed_march
+
+        if not march_exists_in(conanobj.options.microarchitecture, str(conanobj.settings.os), str(conanobj.settings.compiler), float(str(conanobj.settings.compiler.version))):
+            fixed_march = get_march(conanobj.options.microarchitecture, str(conanobj.settings.os), str(conanobj.settings.compiler), float(str(conanobj.settings.compiler.version)))
+            if not conanobj.options.fix_march:
+                raise Exception ("Microarchitecture '%s' is not supported by your compiler, you could use '%s'." % (conanobj.options.microarchitecture,fixed_march))
+                # conanobj.output.error("Microarchitecture '%s' is not supported by your compiler, you could use '%s'." % (conanobj.options.microarchitecture,fixed_march))
+                # sys.exit
+            else:
+                conanobj.output.warn("Microarchitecture '%s' is not supported by your compiler, but it will be automatically fixed to '%s'." % (conanobj.options.microarchitecture, fixed_march))
+
+
+    fixed_march = get_march(conanobj.options.microarchitecture, str(conanobj.settings.os), str(conanobj.settings.compiler), float(str(conanobj.settings.compiler.version)))
+
+    if march_from == 'user defined':
+        conanobj.output.info("Provided microarchitecture (%s): %s" % (march_from, conanobj.options.microarchitecture))
+    else:
+        conanobj.output.info("Detected microarchitecture (%s): %s" % (march_from, conanobj.options.microarchitecture))
+
+    if conanobj.options.microarchitecture != fixed_march:
+        conanobj.options.microarchitecture = fixed_march
+        conanobj.output.info("Corrected microarchitecture for compiler: %s" % (conanobj.options.microarchitecture,))
+
+def pass_march_to_compiler(conanobj, cmake):
+    if conanobj.settings.compiler != "Visual Studio":
+        gcc_march = str(conanobj.options.microarchitecture)
+        cmake.definitions["CONAN_CXX_FLAGS"] = cmake.definitions.get("CONAN_CXX_FLAGS", "") + " -march=" + gcc_march
+        cmake.definitions["CONAN_C_FLAGS"] = cmake.definitions.get("CONAN_C_FLAGS", "") + " -march=" + gcc_march
+    else:
+        ext = msvc_to_ext(str(conanobj.options.microarchitecture))
+
+        if ext is not None:
+            cmake.definitions["CONAN_CXX_FLAGS"] = cmake.definitions.get("CONAN_CXX_FLAGS", "") + " /arch:" + ext
+            cmake.definitions["CONAN_C_FLAGS"] = cmake.definitions.get("CONAN_C_FLAGS", "") + " /arch:" + ext
