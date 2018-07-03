@@ -6,7 +6,8 @@ import platform
 import importlib
 import subprocess
 import sys
-from ci_utils.marchs import get_march, march_exists_in, march_exists_full, march_close_name, msvc_to_ext
+from ci_utils import get_march, march_exists_in, march_exists_full, march_close_name, msvc_to_ext
+# import ci_utils
 
 def get_git_branch(default=None):
     try:
