@@ -1,4 +1,4 @@
-from conan.packager import ConanMultiPackager
+# from conan.packager import ConanMultiPackager
 import os
 import copy
 import re
@@ -7,6 +7,16 @@ import importlib
 import subprocess
 import sys
 import difflib
+
+def get_conan_packager():
+    pkg = importlib.import_module('conan.packager')
+    return pkg
+    # try:
+    #     pkg = importlib.import_module('conan.packager')
+    #     return pkg
+    # except ImportError:
+    #     # print("*** cpuid could not be imported")
+    #     return None
 
 def get_git_branch(default=None):
     try:
@@ -301,7 +311,8 @@ def get_builder(args=None):
 
     # print((login_username, username, channel, version, archs))
 
-    builder = ConanMultiPackager(
+
+    builder = get_conan_packager().ConanMultiPackager(
         args=args,
         username=username,
         login_username=login_username,
@@ -776,7 +787,6 @@ def pass_march_to_compiler(conanobj, cmake):
         if ext is not None:
             cmake.definitions["CONAN_CXX_FLAGS"] = cmake.definitions.get("CONAN_CXX_FLAGS", "") + " /arch:" + ext
             cmake.definitions["CONAN_C_FLAGS"] = cmake.definitions.get("CONAN_C_FLAGS", "") + " /arch:" + ext
-
 
 
 
