@@ -85,14 +85,18 @@ def is_development_branch():
     if branch is None: 
         return False
 
-    return branch == 'dev' or branch.startswith('feature')    
+    # return branch == 'dev' or branch.startswith('feature')    
 
-# def is_development_branch_clean():
-#     branch = get_branch_clean()
-#     if branch is None: 
-#         return False
+    if branch == 'master':
+        return False
+    if branch.startswith('release'):
+        return False
+    if branch.startswith('hotfix'):
+        return False
 
-#     return branch == 'dev' or branch.startswith('feature')    
+    return True
+
+
 
 
 def get_branch():
