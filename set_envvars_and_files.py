@@ -40,7 +40,7 @@ if not os.path.exists('conan_version'):
 
 if platform.system() == "Windows":
     # export_str = "set BITPRIM_BRANCH=%s | set BITPRIM_CONAN_CHANNEL=%s | set BITPRIM_FULL_BUILD=%s | set BITPRIM_CONAN_VERSION=%s | set BITPRIM_BUILD_NUMBER=%s"
-    export_str = '$Env:BITPRIM_BRANCH="%s"; $Env:set BITPRIM_CONAN_CHANNEL="%s"; $Env:BITPRIM_FULL_BUILD="%s"; $Env:BITPRIM_CONAN_VERSION="%s"; $Env:BITPRIM_BUILD_NUMBER="%s"'
+    export_str = '$Env:BITPRIM_BRANCH="%s"; $Env:BITPRIM_CONAN_CHANNEL="%s"; $Env:BITPRIM_FULL_BUILD="%s"; $Env:BITPRIM_CONAN_VERSION="%s"; $Env:BITPRIM_BUILD_NUMBER="%s"'
     # $Env:BITPRIM_CONAN_CHANNEL = "testing"
 else:
     export_str = "export BITPRIM_BRANCH=%s BITPRIM_CONAN_CHANNEL=%s BITPRIM_FULL_BUILD=%s BITPRIM_CONAN_VERSION=%s BITPRIM_BUILD_NUMBER=%s"
