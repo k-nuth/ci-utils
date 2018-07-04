@@ -4,9 +4,9 @@ from utils import get_version
 # cd ${TRAVIS_BUILD_DIR}
 # git fetch --unshallow
 
-if os.environ.has_key('TRAVIS_BRANCH'):
+if 'TRAVIS_BRANCH' in os.environ:
     branch = os.environ.get('TRAVIS_BRANCH')
-elif os.environ.has_key('APPVEYOR_REPO_BRANCH'):
+elif 'APPVEYOR_REPO_BRANCH' in os.environ:
     branch = os.environ.get('APPVEYOR_REPO_BRANCH')
 
 os.environ['BITPRIM_BRANCH'] = branch
