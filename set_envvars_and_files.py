@@ -37,9 +37,16 @@ if not os.path.exists('conan_version'):
         file.write(version)
 
 if platform.system() == "Windows":
-    print("set BITPRIM_BRANCH=%s | set BITPRIM_CONAN_CHANNEL=%s | set BITPRIM_FULL_BUILD=%s | set BITPRIM_CONAN_VERSION=%s | set BITPRIM_BUILD_NUMBER=%s" % (pipes.quote(str(branch))))
+    export_str = "set BITPRIM_BRANCH=%s | set BITPRIM_CONAN_CHANNEL=%s | set BITPRIM_FULL_BUILD=%s | set BITPRIM_CONAN_VERSION=%s | set BITPRIM_BUILD_NUMBER=%s"
 else:
-    print("export BITPRIM_BRANCH=%s BITPRIM_CONAN_CHANNEL=%s BITPRIM_FULL_BUILD=%s BITPRIM_CONAN_VERSION=%s BITPRIM_BUILD_NUMBER=%s" % (pipes.quote(str(branch))))
+    export_str = "export BITPRIM_BRANCH=%s BITPRIM_CONAN_CHANNEL=%s BITPRIM_FULL_BUILD=%s BITPRIM_CONAN_VERSION=%s BITPRIM_BUILD_NUMBER=%s"
+
+print(export_str % (pipes.quote(str(branch)), 
+                    pipes.quote(str(channel)),
+                    pipes.quote(str(full_build)),
+                    pipes.quote(str(version)),
+                    pipes.quote(str(version)),
+     ))
 
 
 
