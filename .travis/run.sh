@@ -21,7 +21,9 @@ fi
 #     printf "${BITPRIM_BUILD_NUMBER}" > conan_version
 # fi
 
-python ci_utils/set_envvars_and_files.py
+# python ci_utils/set_envvars_and_files.py
+alias setenvs="eval $(python ci_utils/set_envvars_and_files.py)"
+setenvs
 
 echo $BITPRIM_CONAN_VERSION
 echo $BITPRIM_CONAN_CHANNEL
