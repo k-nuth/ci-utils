@@ -34,14 +34,13 @@ if not os.path.exists('conan_version'):
         file.write(version)
 
 if platform.system() == "Windows":
-    export_str = '$Env:BITPRIM_BRANCH="%s"; $Env:BITPRIM_CONAN_CHANNEL="%s"; $Env:BITPRIM_FULL_BUILD="%s"; $Env:BITPRIM_CONAN_VERSION="%s"; $Env:BITPRIM_BUILD_NUMBER="%s"'
+    export_str = '$Env:BITPRIM_BRANCH="%s"; $Env:BITPRIM_CONAN_CHANNEL="%s"; $Env:BITPRIM_FULL_BUILD="%s"; $Env:BITPRIM_CONAN_VERSION="%s";'
 else:
-    export_str = "export BITPRIM_BRANCH=%s BITPRIM_CONAN_CHANNEL=%s BITPRIM_FULL_BUILD=%s BITPRIM_CONAN_VERSION=%s BITPRIM_BUILD_NUMBER=%s"
+    export_str = "export BITPRIM_BRANCH=%s BITPRIM_CONAN_CHANNEL=%s BITPRIM_FULL_BUILD=%s BITPRIM_CONAN_VERSION=%s"
 
 print(export_str % (pipes.quote(str(branch)), 
                     pipes.quote(str(channel)),
                     pipes.quote(str(full_build)),
-                    pipes.quote(str(version)),
                     pipes.quote(str(version)),
      ))
 

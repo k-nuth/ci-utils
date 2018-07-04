@@ -75,7 +75,6 @@ def get_version_from_git_describe(default=None, increment_minor=False):
 
 
 def copy_env_vars(env_vars):
-    env_vars["BITPRIM_BUILD_NUMBER"] = os.getenv('BITPRIM_BUILD_NUMBER', '-')
     env_vars["BITPRIM_BRANCH"] = os.getenv('BITPRIM_BRANCH', '-')
     env_vars["BITPRIM_CONAN_CHANNEL"] = os.getenv('BITPRIM_CONAN_CHANNEL', '-')
     env_vars["BITPRIM_FULL_BUILD"] = os.getenv('BITPRIM_FULL_BUILD', '-')
@@ -165,7 +164,6 @@ def get_version_from_file():
 
 def get_version():
     # print("get_version()----------------------------------------------------------")
-    # print("BITPRIM_BUILD_NUMBER:  %s" % (os.getenv("BITPRIM_BUILD_NUMBER", None),))
     # print("BITPRIM_BRANCH:        %s" % (os.getenv("BITPRIM_BRANCH", None),))
     # print("BITPRIM_CONAN_CHANNEL: %s" % (os.getenv("BITPRIM_CONAN_CHANNEL", None),))
     # print("BITPRIM_FULL_BUILD:    %s" % (os.getenv("BITPRIM_FULL_BUILD", None),))
