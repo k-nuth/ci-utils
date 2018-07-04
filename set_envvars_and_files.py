@@ -13,19 +13,19 @@ os.environ['BITPRIM_BRANCH'] = branch
 
 if branch == 'dev':
     os.environ['BITPRIM_CONAN_CHANNEL'] = "testing"
-    os.environ['BITPRIM_FULL_BUILD'] = 0
+    os.environ['BITPRIM_FULL_BUILD'] = "0"
 elif branch.startswith('release'):
     os.environ['BITPRIM_CONAN_CHANNEL'] = "prerelease"
-    os.environ['BITPRIM_FULL_BUILD'] = 1
+    os.environ['BITPRIM_FULL_BUILD'] = "1"
 elif branch.startswith('hotfix'):
     os.environ['BITPRIM_CONAN_CHANNEL'] = "prerelease"
-    os.environ['BITPRIM_FULL_BUILD'] = 1
+    os.environ['BITPRIM_FULL_BUILD'] = "1"
 elif branch.startswith('feature'):
     os.environ['BITPRIM_CONAN_CHANNEL'] = branch
-    os.environ['BITPRIM_FULL_BUILD'] = 0
+    os.environ['BITPRIM_FULL_BUILD'] = "0"
 else:
     os.environ['BITPRIM_CONAN_CHANNEL'] = "prerelease"
-    os.environ['BITPRIM_FULL_BUILD'] = 1
+    os.environ['BITPRIM_FULL_BUILD'] = "1"
 
 # export BITPRIM_CONAN_VERSION="$(python ci_utils/print_version.py)"
 version = get_version()
