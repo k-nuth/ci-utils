@@ -32,7 +32,7 @@ else:
 version = get_version()
 
 if not os.path.exists('conan_version'):
-    print("Creating conan_version file")
+    # print("Creating conan_version file")
     with open("conan_version", "w") as file:
         file.write(version)
 
