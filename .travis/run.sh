@@ -22,8 +22,10 @@ fi
 # fi
 
 # python ci_utils/set_envvars_and_files.py
-alias setenvs="eval $(python ci_utils/set_envvars_and_files.py)"
-setenvs
+
+eval $(python ci_utils/set_envvars_and_files.py)
+# alias setenvs="eval $(python ci_utils/set_envvars_and_files.py)"
+# setenvs
 
 echo $BITPRIM_CONAN_VERSION
 echo $BITPRIM_CONAN_CHANNEL
