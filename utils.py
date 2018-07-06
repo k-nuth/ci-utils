@@ -7,6 +7,11 @@ import importlib
 import subprocess
 import sys
 import difflib
+from conans import ConanFile, CMake
+from conans.errors import ConanException
+from conans.model.version import Version
+from conans import __version__ as conan_version
+
 
 def get_conan_packager():
     pkg = importlib.import_module('conan.packager')
@@ -790,6 +795,51 @@ def pass_march_to_compiler(conanobj, cmake):
 
 
 
+class BitprimConanFile(ConanFile):
+    if Version(conan_version) < Version(get_conan_req_version()):
+        raise Exception ("Conan version should be greater or equal than %s. Detected: %s." % (get_conan_req_version(), conan_version))
+
+    @property
+    def msvc_mt_build(self):
+        return "MT" in str(self.settings.compiler.runtime)
+
+    @property
+    def fPIC_enabled(self):
+        if self.settings.compiler == "Visual Studio":
+            return False
+        else:
+            return self.options.fPIC
+
+    @property
+    def is_shared(self):
+        # if self.settings.compiler == "Visual Studio" and self.msvc_mt_build:
+        #     return False
+        # else:
+        #     return self.options.shared
+        return self.options.shared
+
+
+    @property
+    def channel(self):
+        if not self._channel:
+            self._channel = os.getenv("CONAN_CHANNEL")
+            if not self._channel:
+                self._channel = get_channel()
+            if not self._channel:
+                raise ConanException("CONAN_CHANNEL environment variable not defined, "
+                                     "but self.channel is used in conanfile")
+        return self._channel
+
+    @property
+    def user(self):
+        if not self._user:
+            self._user = os.getenv("CONAN_USERNAME")
+            if not self._user:
+                self._user = get_user()
+            if not self._user:
+                raise ConanException("CONAN_USERNAME environment variable not defined, "
+                                     "but self.user is used in conanfile")
+        return self._user
 
 
 
