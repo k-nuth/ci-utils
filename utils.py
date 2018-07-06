@@ -810,13 +810,22 @@ class BitprimConanFile(ConanFile):
         else:
             return self.options.fPIC
 
+    # Version Node-Cint
+    # @property
+    # def is_shared(self):
+    #     # if self.settings.compiler == "Visual Studio" and self.msvc_mt_build:
+    #     #     return False
+    #     # else:
+    #     #     return self.options.shared
+    #     return self.options.shared
+
     @property
     def is_shared(self):
-        # if self.settings.compiler == "Visual Studio" and self.msvc_mt_build:
-        #     return False
-        # else:
-        #     return self.options.shared
-        return self.options.shared
+        if self.options.shared and self.msvc_mt_build:
+            return False
+        else:
+            return self.options.shared
+
 
 
     @property
