@@ -112,6 +112,26 @@ def is_development_branch():
     return True
 
 
+# if ($Env:APPVEYOR_REPO_BRANCH -ceq "dev") {
+# +        $Env:BITPRIM_CONAN_CHANNEL = "testing"
+# +        $Env:BITPRIM_FULL_BUILD = 0
+# +      }
+# +      elseif ($Env:APPVEYOR_REPO_BRANCH.StartsWith("release")) {
+# +        $Env:BITPRIM_CONAN_CHANNEL = "stable"
+# +        $Env:BITPRIM_FULL_BUILD = 1
+# +      }
+# +      elseif ($Env:APPVEYOR_REPO_BRANCH.StartsWith("hotfix")) {
+# +        $Env:BITPRIM_CONAN_CHANNEL = "stable"
+# +        $Env:BITPRIM_FULL_BUILD = 1
+# +      }
+# +      elseif ($Env:APPVEYOR_REPO_BRANCH.StartsWith("feature")) {
+# +        $Env:BITPRIM_CONAN_CHANNEL = $Env:APPVEYOR_REPO_BRANCH
+# +        $Env:BITPRIM_FULL_BUILD = 0
+# +      }
+# +      else {
+# +        $Env:BITPRIM_CONAN_CHANNEL = "stable"
+# +        $Env:BITPRIM_FULL_BUILD = 1
+# +      }
 
 
 def get_branch():
@@ -230,6 +250,24 @@ def get_version():
 def get_channel_from_file():
     return get_content_default('conan_channel')
 
+
+def branch_to_channel(branch):
+    if branch is None:
+        return "prerelease"
+    if branch == 'dev':
+        return "testing"
+    if branch.startswith('release'):
+        return "prerelease"
+    if branch.startswith('hotfix'):
+        return "prerelease"
+    if branch.startswith('feature'):
+        return branch
+
+    return "prerelease"
+
+def get_channel_from_branch():
+    return branch_to_channel(get_branch())
+    
 def get_channel():
     channel = get_channel_from_file()
 
@@ -237,10 +275,11 @@ def get_channel():
         channel = os.getenv("BITPRIM_CONAN_CHANNEL", None)
 
     if channel is None:
-        channel = get_git_branch()
+        # channel = get_git_branch()
+        channel = get_channel_from_branch()
 
     if channel is None:
-        channel = 'stable'
+        channel = 'prerelease'
 
     return channel
 
@@ -830,13 +869,19 @@ class BitprimConanFile(ConanFile):
 
     @property
     def channel(self):
+        # self.output.info("--- 1 --- self._channel: %s" % (self._channel,))
         if not self._channel:
+            # self.output.info("--- 2 --- self._channel: %s" % (self._channel,))
             self._channel = os.getenv("CONAN_CHANNEL")
+            # self.output.info("--- 3 --- self._channel: %s" % (self._channel,))
             if not self._channel:
                 self._channel = get_channel()
+                # self.output.info("--- 4 --- self._channel: %s" % (self._channel,))
             if not self._channel:
                 raise ConanException("CONAN_CHANNEL environment variable not defined, "
                                      "but self.channel is used in conanfile")
+        
+        # self.output.info("--- 5 --- self._channel: %s" % (self._channel,))
         return self._channel
 
     @property

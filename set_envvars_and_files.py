@@ -10,6 +10,7 @@ elif 'APPVEYOR_REPO_BRANCH' in os.environ:
 
 os.environ['BITPRIM_BRANCH'] = branch       # needed by get_version()
 
+#Note: duplicated in utils.branch_to_channel
 if branch == 'dev':
     channel = "testing"
     full_build = "0"
