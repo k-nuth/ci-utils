@@ -872,7 +872,7 @@ class BitprimConanFile(ConanFile):
         # self.output.info("--- 1 --- self._channel: %s" % (self._channel,))
         if not self._channel:
             # self.output.info("--- 2 --- self._channel: %s" % (self._channel,))
-            self._channel = os.getenv("CONAN_CHANNEL")
+            # self._channel = os.getenv("CONAN_CHANNEL")
             # self.output.info("--- 3 --- self._channel: %s" % (self._channel,))
             if not self._channel:
                 self._channel = get_channel()
