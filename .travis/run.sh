@@ -10,5 +10,7 @@ if [[ "$(uname -s)" == 'Darwin' ]]; then
     pyenv activate conan
 fi
 
+echo $CONAN_CHANNEL
 eval $(python ci_utils/set_envvars_and_files.py)
+echo $CONAN_CHANNEL
 python build.py
