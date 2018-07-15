@@ -379,10 +379,13 @@ def handle_microarchs(opt_name, microarchs, filtered_builds, settings, options, 
         opts_copy[opt_name] = ma
         filtered_builds.append([settings, opts_copy, env_vars, build_requires])
 
-def filter_marchs_tests(name, builds, test_options):
+def filter_marchs_tests(name, builds, test_options, march_opt=None):
+    if march_opt is None:
+        march_opt = "%s:microarchitecture" % name
+
     for b in builds:
         options = b[1]
-        if options["%s:microarchitecture" % name] != "x86-64":
+        if options[march_opt] != "x86-64":
             for to in test_options:
                 options[to] = "False"
 
