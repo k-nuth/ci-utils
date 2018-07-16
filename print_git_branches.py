@@ -20,6 +20,11 @@ def release_branch_version(branch):
     version = branch.split('-')[-1]
     # print(version)
     verarr = version.split('.')
+
+    if len(verarr) != 3:
+        return (None, None)
+
+    # print(verarr)
     verstr = verarr[0].zfill(5) + verarr[1].zfill(5) + verarr[2].zfill(5)
     # print(verstr)
     return (int(verstr), version)
@@ -37,10 +42,10 @@ def max_release_branch(default=None):
         # print(line)
         if line.startswith("origin/release-"):
             veri, vers = release_branch_version(line)
-
-            if max is None or veri > max:
-                max = veri
-                max_str = vers
+            if veri is not None:
+                if max is None or veri > max:
+                    max = veri
+                    max_str = vers
 
     return (max, max_str)
 

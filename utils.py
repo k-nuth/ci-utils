@@ -50,7 +50,7 @@ def get_git_describe(default=None):
     except:
         return default
 
-def get_version_from_git_describe(default=None, increment_minor=False):
+def get_version_from_git_describe(default=None, is_dev_branch=False):
     describe = get_git_describe()
     
     # print('describe')
@@ -60,7 +60,13 @@ def get_version_from_git_describe(default=None, increment_minor=False):
         return None
     version = describe.split('-')[0][1:]
 
-    if increment_minor:
+    if is_dev_branch:
+        # print(version)
+        # print(release_branch_version_to_int(version))
+        max_release_i, max_release_s = max_release_branch()
+        if max_release_i > release_branch_version_to_int(version):
+            version = max_release_s
+
         version_arr = version.split('.')
         if len(version_arr) != 3:
             # print('version has to be of the following format: xx.xx.xx')
@@ -69,6 +75,53 @@ def get_version_from_git_describe(default=None, increment_minor=False):
         version = "%s.%s.%s" % (version_arr[0], str(int(version_arr[1]) + 1), 0)
 
     return version
+
+def get_git_branches(default=None):
+    try:
+        res = subprocess.Popen(["git", "branch", "-r"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        # res = subprocess.Popen(["git", "branch"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        output, _ = res.communicate()
+        if output:
+            if res.returncode == 0:
+                # return output.decode("utf-8").replace('\n', '').replace('\r', '')
+                return output.decode("utf-8")
+        return default
+    except OSError: # as e:
+        return default
+    except:
+        return default
+
+def release_branch_version_to_int(version):
+    verarr = version.split('.')
+    if len(verarr) != 3:
+        return None
+    verstr = verarr[0].zfill(5) + verarr[1].zfill(5) + verarr[2].zfill(5)
+    return int(verstr)
+
+def release_branch_version(branch):
+    version = branch.split('-')[-1]
+    return (release_branch_version_to_int(version), version)
+
+def max_release_branch(default=None):
+    branches = get_git_branches()
+    if branches is None:
+        return False
+
+    max = None
+    max_str = None
+
+    for line in branches.splitlines():
+        line = line.strip()
+        # print(line)
+        if line.startswith("origin/release-"):
+            veri, vers = release_branch_version(line)
+            if veri is not None:
+                if max is None or veri > max:
+                    max = veri
+                    max_str = vers
+
+    return (max, max_str)
+
 
 
 # def get_version_from_git_describe_clean(default=None, increment_minor=False):
