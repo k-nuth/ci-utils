@@ -64,7 +64,7 @@ def get_version_from_git_describe(default=None, is_dev_branch=False):
         # print(version)
         # print(release_branch_version_to_int(version))
         max_release_i, max_release_s = max_release_branch()
-        if max_release_i > release_branch_version_to_int(version):
+        if max_release_i is not None and max_release_i > release_branch_version_to_int(version):
             version = max_release_s
 
         version_arr = version.split('.')
