@@ -50,6 +50,28 @@ def get_git_describe(default=None):
     except:
         return default
 
+        
+
+def get_version_from_git_describe_no_releases(default=None, is_dev_branch=False):
+    describe = get_git_describe()
+    
+    # print('describe')
+    # print(describe)
+
+    if describe is None:
+        return None
+    version = describe.split('-')[0][1:]
+
+    if is_dev_branch:
+        version_arr = version.split('.')
+        if len(version_arr) != 3:
+            # print('version has to be of the following format: xx.xx.xx')
+            return None
+        # version = "%s.%s.%s" % (version_arr[0], str(int(version_arr[1]) + 1), version_arr[2])
+        version = "%s.%s.%s" % (version_arr[0], str(int(version_arr[1]) + 1), 0)
+
+    return version
+
 def get_version_from_git_describe(default=None, is_dev_branch=False):
     describe = get_git_describe()
     
@@ -284,6 +306,38 @@ def get_version():
     # print('------------------------------------------------------')
 
     return version
+
+def get_version_no_releases():
+    # print("get_version()----------------------------------------------------------")
+    # print("BITPRIM_BRANCH:        %s" % (os.getenv("BITPRIM_BRANCH", None),))
+    # print("BITPRIM_CONAN_CHANNEL: %s" % (os.getenv("BITPRIM_CONAN_CHANNEL", None),))
+    # print("BITPRIM_FULL_BUILD:    %s" % (os.getenv("BITPRIM_FULL_BUILD", None),))
+    # print("BITPRIM_CONAN_VERSION: %s" % (os.getenv("BITPRIM_CONAN_VERSION", None),))
+
+    version = get_version_from_file()
+
+    # print('------------------------------------------------------')
+    # print("version 1: %s" % (version,))
+
+    if version is None:
+        version = os.getenv("BITPRIM_CONAN_VERSION", None)
+
+    # print("version 2: %s" % (version,))
+    # print("BITPRIM_CONAN_VERSION: %s" % (os.getenv("BITPRIM_CONAN_VERSION", None),))
+
+    if version is None:
+        version = get_version_from_branch_name()
+
+    # print("version 3: %s" % (version,))
+
+    if version is None:
+        version = get_version_from_git_describe_no_releases(None, is_development_branch())
+
+    # print("version 4: %s" % (version,))
+    # print('------------------------------------------------------')
+
+    return version
+
 
 # def get_version_clean():
 #     version = get_version_from_file()
