@@ -38,7 +38,7 @@ def get_git_branch(default=None):
 
 def get_git_describe(default=None):
     try:
-        res = subprocess.Popen(["git", "describe"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        res = subprocess.Popen(["git", "describe", "master"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, _ = res.communicate()
         if output:
             if res.returncode == 0:
