@@ -78,14 +78,22 @@ def get_version_from_git_describe(default=None, is_dev_branch=False):
     # print('describe')
     # print(describe)
 
+    # if describe is None:
+    #     return None
+
     if describe is None:
-        return None
+        describe = "v0.0.0-"
+
     version = describe.split('-')[0][1:]
 
     if is_dev_branch:
         # print(version)
         # print(release_branch_version_to_int(version))
+        
+        # print(max_release_branch())
+
         max_release_i, max_release_s = max_release_branch()
+        
         if max_release_i is not None and max_release_i > release_branch_version_to_int(version):
             version = max_release_s
 
@@ -100,8 +108,12 @@ def get_version_from_git_describe(default=None, is_dev_branch=False):
 
 def get_git_branches(default=None):
     try:
-        res = subprocess.Popen(["git", "branch", "-r"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        # res = subprocess.Popen(["git", "branch", "-r"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         # res = subprocess.Popen(["git", "branch"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+        # git ls-remote --heads origin
+        # res = subprocess.Popen(["git", "ls-remote", "--heads"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        res = subprocess.Popen(["git", "ls-remote", "--heads", "origin"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, _ = res.communicate()
         if output:
             if res.returncode == 0:
@@ -126,6 +138,7 @@ def release_branch_version(branch):
 
 def max_release_branch(default=None):
     branches = get_git_branches()
+    # print(branches)
     if branches is None:
         return False
 
@@ -135,7 +148,8 @@ def max_release_branch(default=None):
     for line in branches.splitlines():
         line = line.strip()
         # print(line)
-        if line.startswith("origin/release-"):
+        # if line.startswith("origin/release-"):
+        if "release-" in line: 
             veri, vers = release_branch_version(line)
             if veri is not None:
                 if max is None or veri > max:
