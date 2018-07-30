@@ -184,6 +184,25 @@ def copy_env_vars(env_vars):
     env_vars["BITPRIM_FULL_BUILD"] = os.getenv('BITPRIM_FULL_BUILD', '-')
     env_vars["BITPRIM_CONAN_VERSION"] = os.getenv('BITPRIM_CONAN_VERSION', '-')
 
+def is_development_branch_internal(branch = None):
+    if branch is None: 
+        branch = get_branch()
+        
+    if branch is None: 
+        return False
+
+    # return branch == 'dev' or branch.startswith('feature')    
+
+    if branch == 'master':
+        return False
+    if branch.startswith('release'):
+        return False
+    if branch.startswith('hotfix'):
+        return False
+
+    return True
+
+
 def is_development_branch():
     branch = get_branch()
     if branch is None: 
