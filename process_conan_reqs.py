@@ -76,8 +76,11 @@ def write_req_file():
                 file.write(alias)
 
 
-write_req_file()
+channel = os.environ.get('BITPRIM_CONAN_CHANNEL')
+print("--------------------------------------------")
+print("process_conan_reqs.py")
+print(channel)
+print("--------------------------------------------")
 
-
-
-# print(get_conan_requires())
+if channel == 'prerelease':
+    write_req_file()
