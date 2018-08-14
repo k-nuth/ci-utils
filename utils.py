@@ -984,9 +984,54 @@ def pass_march_to_compiler(conanobj, cmake):
 
 
 
+def get_conan_get(package, remote=None, default=None):
+    try:
+        if remote is None:
+            params = ["conan", "get", package]
+        else:
+            params = ["conan", "get", package, "-r", remote]
+
+        res = subprocess.Popen(params, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        output, _ = res.communicate()
+        if output:
+            if res.returncode == 0:
+                return output.decode("utf-8")
+        return default
+    except OSError: # as e:
+        return default
+    except:
+        return default
+
+def get_alias_version(package, remote=None, default=None):
+    conan_alias = get_conan_get(package, remote, default)
+    conan_alias = conan_alias.split('\n')[4:][0]
+    return conan_alias[12:].replace('"', '')
+
+
+def get_requirements_from_file():
+    if os.path.exists('conan_requirements'):
+        with open('conan_requirements', 'r') as f:
+            return [line.rstrip('\n') for line in f]
+
+    return []
+
+
+
 class BitprimConanFile(ConanFile):
     if Version(conan_version) < Version(get_conan_req_version()):
         raise Exception ("Conan version should be greater or equal than %s. Detected: %s." % (get_conan_req_version(), conan_version))
+
+    def add_reqs(self, reqs):
+        for r in reqs:
+            self.requires(r % (self.user, self.channel))
+
+    def bitprim_requires(self, default_reqs):
+        file_reqs = get_requirements_from_file()
+
+        if len(file_reqs) != 0:
+            self.add_reqs(file_reqs)
+        else:
+            self.add_reqs(default_reqs)
 
     @property
     def msvc_mt_build(self):
