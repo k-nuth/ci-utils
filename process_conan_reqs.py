@@ -68,7 +68,7 @@ def write_req_file():
         with open("conan_requirements", "w") as file:
             for r in reqs:
                 # print(r)
-                alias = get_alias_version("%s/0.X@%s/%s" % (r, "bitprim", "stable"), "bitprim_temp")
+                alias = get_alias_version("%s/0.X@%s/%s" % (r, "bitprim", "stable"), "bitprim")
                 pos = alias.find('@')
                 alias = alias[:pos]
                 alias = alias + "@%s/%s"
