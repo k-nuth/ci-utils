@@ -1,5 +1,6 @@
 import os
 import subprocess
+import fileinput
 
 def get_conan_info(default=None):
     try:
@@ -58,29 +59,70 @@ def get_alias_version(package, remote=None, default=None):
     conan_alias = conan_alias.split('\n')[4:][0]
     return conan_alias[12:].replace('"', '')
     
-def write_req_file():
+# def write_req_file():
+#     reqs = get_conan_requires()
+#     if len(reqs) == 0:
+#         return
+
+#     if not os.path.exists('conan_requirements'):
+#         with open("conan_requirements", "w") as file:
+#             for r in reqs:
+#                 # print(r)
+#                 alias = get_alias_version("%s/0.X@%s/%s" % (r, "bitprim", "stable"), "bitprim")
+#                 pos = alias.find('@')
+#                 alias = alias[:pos]
+#                 alias = alias + "@%s/%s"
+#                 # print(alias)
+#                 file.write(alias)
+
+
+
+def replace_conan_recipe(recipe_file, text_to_search, replacement_text):
+    # Read in the file
+    with open(recipe_file, 'r') as file:
+        filedata = file.read()
+
+    # Replace the target string
+    filedata = filedata.replace(text_to_search, replacement_text)
+
+    # Write the file out again
+    with open(recipe_file, 'w') as file:
+        file.write(filedata)
+
+    # # with fileinput.FileInput(filename, inplace=True, backup='.bak') as file:
+    # with fileinput.FileInput(recipe_file, inplace=True) as file:
+    #     for line in file:
+    #         print(line.replace(text_to_search, replacement_text), end='')
+
+def replace_conan_deps():
     reqs = get_conan_requires()
     if len(reqs) == 0:
-        print("hello")
         return
 
     if not os.path.exists('conan_requirements'):
-        with open("conan_requirements", "w") as file:
-            for r in reqs:
-                # print(r)
-                alias = get_alias_version("%s/0.X@%s/%s" % (r, "bitprim", "stable"), "bitprim")
-                pos = alias.find('@')
-                alias = alias[:pos]
-                alias = alias + "@%s/%s"
-                # print(alias)
-                file.write(alias)
+        for r in reqs:
+            # print(r)
+            orig_req = ("%s/0.X@" % (r,)) + "%s/%s"
+            print(orig_req)
+            alias = get_alias_version(orig_req % ("bitprim", "stable"), "bitprim")
+            # print(alias)
+            pos = alias.find('@')
+            alias = alias[:pos]
+            # print(alias)
+            alias = alias + "@%s/%s"
+            print(alias)
+            replace_conan_recipe("conanfile.py", orig_req, alias)
 
+# self.requires("secp256k1/0.X@%s/%s" % (self.user, self.channel))
+# secp256k1/0.5.0@%s/%s
 
 channel = os.environ.get('BITPRIM_CONAN_CHANNEL')
-print("--------------------------------------------")
-print("process_conan_reqs.py")
-print(channel)
-print("--------------------------------------------")
+# channel = "staging"
+# print("--------------------------------------------")
+# print("process_conan_reqs.py")
+# print(channel)
+# print("--------------------------------------------")
 
 if channel == 'staging':
-    write_req_file()
+    # write_req_file()
+    replace_conan_deps()

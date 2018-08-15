@@ -15,7 +15,7 @@ eval $(python ci_utils/set_envvars_and_files.py)
 echo $CONAN_CHANNEL
 
 conan remote add bitprim https://api.bintray.com/conan/bitprim/bitprim
-# conan info . --only None
+conan info . --only None
 python ci_utils/process_conan_reqs.py
 conan remote remove bitprim
 
