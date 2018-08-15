@@ -15,16 +15,16 @@ if branch == 'dev':
     channel = "testing"
     full_build = "0"
 elif branch.startswith('release'):
-    channel = "prerelease"
+    channel = "staging"
     full_build = "1"
 elif branch.startswith('hotfix'):
-    channel = "prerelease"
+    channel = "staging"
     full_build = "1"
 elif branch.startswith('feature'):
     channel = branch
     full_build = "0"
 else:
-    channel = "prerelease"
+    channel = "staging"
     full_build = "1"
 
 # export BITPRIM_CONAN_VERSION="$(python ci_utils/print_version.py)"

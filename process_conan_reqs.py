@@ -82,5 +82,5 @@ print("process_conan_reqs.py")
 print(channel)
 print("--------------------------------------------")
 
-if channel == 'prerelease':
+if channel == 'staging':
     write_req_file()

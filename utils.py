@@ -393,17 +393,17 @@ def get_channel_from_file():
 
 def branch_to_channel(branch):
     if branch is None:
-        return "prerelease"
+        return "staging"
     if branch == 'dev':
         return "testing"
     if branch.startswith('release'):
-        return "prerelease"
+        return "staging"
     if branch.startswith('hotfix'):
-        return "prerelease"
+        return "staging"
     if branch.startswith('feature'):
         return branch
 
-    return "prerelease"
+    return "staging"
 
 def get_channel_from_branch():
     return branch_to_channel(get_branch())
@@ -419,7 +419,7 @@ def get_channel():
         channel = get_channel_from_branch()
 
     if channel is None:
-        channel = 'prerelease'
+        channel = 'staging'
 
     return channel
 
