@@ -63,23 +63,21 @@ def get_alias_version(package, remote=None, default=None):
     conan_alias = conan_alias.split('\n')[4:][0]
     return conan_alias[12:].replace('"', '')
     
-# def write_req_file():
-#     reqs = get_conan_requires()
-#     if len(reqs) == 0:
-#         return
+def write_req_file():
+    reqs = get_conan_requires()
+    if len(reqs) == 0:
+        return
 
-#     if not os.path.exists('conan_requirements'):
-#         with open("conan_requirements", "w") as file:
-#             for r in reqs:
-#                 # print(r)
-#                 alias = get_alias_version("%s/0.X@%s/%s" % (r, "bitprim", "stable"), "bitprim")
-#                 pos = alias.find('@')
-#                 alias = alias[:pos]
-#                 alias = alias + "@%s/%s"
-#                 # print(alias)
-#                 file.write(alias)
-
-
+    if not os.path.exists('conan_requirements'):
+        with open("conan_requirements", "w") as file:
+            for r in reqs:
+                # print(r)
+                alias = get_alias_version("%s/0.X@%s/%s" % (r, "bitprim", "stable"), "bitprim")
+                pos = alias.find('@')
+                alias = alias[:pos]
+                alias = alias + "@%s/%s"
+                # print(alias)
+                file.write(alias)
 
 def replace_conan_recipe(recipe_file, text_to_search, replacement_text):
     # Read in the file
@@ -128,5 +126,5 @@ channel = os.environ.get('BITPRIM_CONAN_CHANNEL')
 # print("--------------------------------------------")
 
 if channel == 'staging':
-    # write_req_file()
-    replace_conan_deps()
+    write_req_file()
+    # replace_conan_deps()

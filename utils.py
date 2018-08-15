@@ -1010,8 +1010,11 @@ def get_alias_version(package, remote=None, default=None):
 
 def get_requirements_from_file():
     if os.path.exists('conan_requirements'):
+        print("conan_requirements exists")
         with open('conan_requirements', 'r') as f:
             return [line.rstrip('\n') for line in f]
+    else:
+        print("conan_requirements DOESNT exists")
 
     return []
 
@@ -1027,6 +1030,7 @@ class BitprimConanFile(ConanFile):
 
     def bitprim_requires(self, default_reqs):
         file_reqs = get_requirements_from_file()
+        print(file_reqs)
 
         if len(file_reqs) != 0:
             self.add_reqs(file_reqs)
