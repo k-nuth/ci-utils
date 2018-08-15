@@ -14,5 +14,6 @@ echo $CONAN_CHANNEL
 eval $(python ci_utils/set_envvars_and_files.py)
 echo $CONAN_CHANNEL
 
+conan info . --only None
 python ci_utils/process_conan_reqs.py
 python build.py
