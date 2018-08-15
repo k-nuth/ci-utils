@@ -5,7 +5,11 @@ import fileinput
 def get_conan_info(default=None):
     try:
         # conan info . --only None  
-        params = ["conan", "info", ".", "--only", "None"]
+        # params = ["conan", "info", ".", "--only", "None"]
+
+        # conan info . --only None -s compiler=gcc -s compiler.version=5 -s compiler.libcxx=libstdc++
+        params = ["conan", "info", ".", "--only", "None", "-s", "compiler=gcc", "-s", "compiler.version=5", "-s", "compiler.libcxx=libstdc++"]
+
         res = subprocess.Popen(params, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, _ = res.communicate()
         if output:
