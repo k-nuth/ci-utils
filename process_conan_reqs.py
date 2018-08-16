@@ -145,5 +145,5 @@ channel = 'staging'
 # print("--------------------------------------------")
 
 if channel == 'staging':
-    write_req_file()
-    # replace_conan_deps()
+    # write_req_file()
+    replace_conan_deps()

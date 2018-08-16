@@ -1049,7 +1049,7 @@ class BitprimConanFile(ConanFile):
 
     def bitprim_requires(self, default_reqs):
         file_reqs = get_requirements_from_file()
-        print(file_reqs)
+        # print(file_reqs)
 
         if len(file_reqs) != 0:
             self.add_reqs(file_reqs)
