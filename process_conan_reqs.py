@@ -84,19 +84,19 @@ def get_alias_version(package, remote=None, default=None):
     
 def write_req_file():
     reqs = get_conan_requires()
-    print(reqs)
+    # print(reqs)
     if len(reqs) == 0:
         return
 
     if not os.path.exists('conan_requirements'):
         with open("conan_requirements", "w") as file:
             for r in reqs:
-                print(r)
+                # print(r)
                 alias = get_alias_version("%s/0.X@%s/%s" % (r, "bitprim", "staging"), "bitprim")
                 pos = alias.find('@')
                 alias = alias[:pos]
                 alias = alias + "@%s/%s"
-                print(alias)
+                # print(alias)
                 file.write(alias)
                 file.write("\n")
 

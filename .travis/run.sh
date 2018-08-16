@@ -16,7 +16,7 @@ echo $CONAN_CHANNEL
 
 conan remote add bitprim https://api.bintray.com/conan/bitprim/bitprim
 # conan info . --only None
-conan info . --only None -s compiler=gcc -s compiler.version=5 -s compiler.libcxx=libstdc++
+# conan info . --only None -s compiler=gcc -s compiler.version=5 -s compiler.libcxx=libstdc++
 python ci_utils/process_conan_reqs.py
 conan remote remove bitprim
 
