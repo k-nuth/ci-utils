@@ -7,12 +7,13 @@ def get_conan_info(default=None):
     try:
 
         if platform.system() == "Linux":
-            # conan info . --only None -s compiler=gcc -s compiler.version=5 -s compiler.libcxx=libstdc++
-            params = ["conan", "info", ".", "--only", "None", "-s", "compiler=gcc", "-s", "compiler.version=5", "-s", "compiler.libcxx=libstdc++"]
+            # conan info . --only requires -s compiler=gcc -s compiler.version=5 -s compiler.libcxx=libstdc++
+            params = ["conan", "info", ".", "--only", "requires", "-s", "compiler=gcc", "-s", "compiler.version=5", "-s", "compiler.libcxx=libstdc++"]
         else:
-            # conan info . --only None  
-            params = ["conan", "info", ".", "--only", "None"]
-
+            # # conan info . --only None  
+            # params = ["conan", "info", ".", "--only", "None"]
+            # conan info . --only requires
+            params = ["conan", "info", ".", "--only", "requires"]
 
 
         res = subprocess.Popen(params, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -29,6 +30,7 @@ def get_conan_info(default=None):
 def get_conan_requires():
     info = get_conan_info()
     after_proj = False
+    after_requires = False
 
     res = []
     for line in info.splitlines():
@@ -36,11 +38,23 @@ def get_conan_requires():
             if line == "PROJECT":
                 after_proj = True
         else:
-            pos = line.find('/')
-            name = line[:pos]
-            if name == "secp256k1" or name.startswith("bitprim-"):
-                # print(name)
-                res.append(name)
+            if not after_requires:
+                if line == "    Requires:":
+                    after_requires = True
+            else:
+                if line.startswith("        "):
+                    line = line.strip()
+                    # print(line)
+                    # print(line[0] == '/t')
+                    # print(line[0] == ' ')
+                    pos = line.find('/')
+                    name = line[:pos]
+                    # print(name)
+                    if name == "secp256k1" or name.startswith("bitprim-"):
+                        # print(name)
+                        res.append(name)
+                else:
+                    break
     return res
 
 
@@ -70,19 +84,21 @@ def get_alias_version(package, remote=None, default=None):
     
 def write_req_file():
     reqs = get_conan_requires()
+    print(reqs)
     if len(reqs) == 0:
         return
 
     if not os.path.exists('conan_requirements'):
         with open("conan_requirements", "w") as file:
             for r in reqs:
-                # print(r)
-                alias = get_alias_version("%s/0.X@%s/%s" % (r, "bitprim", "stable"), "bitprim")
+                print(r)
+                alias = get_alias_version("%s/0.X@%s/%s" % (r, "bitprim", "staging"), "bitprim")
                 pos = alias.find('@')
                 alias = alias[:pos]
                 alias = alias + "@%s/%s"
-                # print(alias)
+                print(alias)
                 file.write(alias)
+                file.write("\n")
 
 def replace_conan_recipe(recipe_file, text_to_search, replacement_text):
     # Read in the file
@@ -111,7 +127,7 @@ def replace_conan_deps():
             # print(r)
             orig_req = ("%s/0.X@" % (r,)) + "%s/%s"
             # print(orig_req)
-            alias = get_alias_version(orig_req % ("bitprim", "stable"), "bitprim")
+            alias = get_alias_version(orig_req % ("bitprim", "staging"), "bitprim")
             # print(alias)
             pos = alias.find('@')
             alias = alias[:pos]
@@ -122,6 +138,7 @@ def replace_conan_deps():
 
 
 channel = os.environ.get('BITPRIM_CONAN_CHANNEL')
+channel = 'staging'
 # print("--------------------------------------------")
 # print("process_conan_reqs.py")
 # print(channel)
