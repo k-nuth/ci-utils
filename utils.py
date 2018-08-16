@@ -1018,22 +1018,22 @@ def get_conan_requirements_path():
 def get_requirements_from_file():
     conan_requirements = get_conan_requirements_path()
     if os.path.exists(conan_requirements):
-        print("conan_requirements exists")
+        # print("conan_requirements exists")
         with open(conan_requirements, 'r') as f:
             return [line.rstrip('\n') for line in f]
-    else:
-        print("-----------------------------------------------")
-        print("conan_requirements DOESNT exists")
-        print(os.getcwd())
+    # else:
+    #     # print("-----------------------------------------------")
+    #     # print("conan_requirements DOESNT exists")
+    #     # print(os.getcwd())
 
-        recipe_dir = get_recipe_dir()
-        print(recipe_dir)
-        print(get_conan_requirements_path())
+    #     recipe_dir = get_recipe_dir()
+    #     # print(recipe_dir)
+    #     # print(get_conan_requirements_path())
 
-        # files = [f for f in os.listdir('.') if os.path.isfile(f)]
-        files = [f for f in recipe_dir if os.path.isfile(f)]
-        for f in files:
-            print(f)
+    #     # files = [f for f in os.listdir('.') if os.path.isfile(f)]
+    #     files = [f for f in recipe_dir if os.path.isfile(f)]
+    #     for f in files:
+    #         print(f)
 
     return []
 

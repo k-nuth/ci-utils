@@ -110,21 +110,18 @@ def replace_conan_deps():
         for r in reqs:
             # print(r)
             orig_req = ("%s/0.X@" % (r,)) + "%s/%s"
-            print(orig_req)
+            # print(orig_req)
             alias = get_alias_version(orig_req % ("bitprim", "stable"), "bitprim")
             # print(alias)
             pos = alias.find('@')
             alias = alias[:pos]
             # print(alias)
             alias = alias + "@%s/%s"
-            print(alias)
+            # print(alias)
             replace_conan_recipe("conanfile.py", orig_req, alias)
 
-# self.requires("secp256k1/0.X@%s/%s" % (self.user, self.channel))
-# secp256k1/0.5.0@%s/%s
 
 channel = os.environ.get('BITPRIM_CONAN_CHANNEL')
-# channel = "staging"
 # print("--------------------------------------------")
 # print("process_conan_reqs.py")
 # print(channel)
