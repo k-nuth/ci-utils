@@ -1008,16 +1008,30 @@ def get_alias_version(package, remote=None, default=None):
     return conan_alias[12:].replace('"', '')
 
 
+def get_recipe_dir():
+    recipe_dir = os.path.dirname(os.path.realpath(__file__))
+    return os.path.normpath(recipe_dir + os.sep + os.pardir)
+
+def get_conan_requirements_path():
+    return os.path.normpath(get_recipe_dir() + os.sep + 'conan_requirements')
+
 def get_requirements_from_file():
-    if os.path.exists('conan_requirements'):
+    conan_requirements = get_conan_requirements_path()
+    if os.path.exists(conan_requirements):
         print("conan_requirements exists")
-        with open('conan_requirements', 'r') as f:
+        with open(conan_requirements, 'r') as f:
             return [line.rstrip('\n') for line in f]
     else:
         print("-----------------------------------------------")
         print("conan_requirements DOESNT exists")
         print(os.getcwd())
-        files = [f for f in os.listdir('.') if os.path.isfile(f)]
+
+        recipe_dir = get_recipe_dir()
+        print(recipe_dir)
+        print(get_conan_requirements_path())
+
+        # files = [f for f in os.listdir('.') if os.path.isfile(f)]
+        files = [f for f in recipe_dir if os.path.isfile(f)]
         for f in files:
             print(f)
 
