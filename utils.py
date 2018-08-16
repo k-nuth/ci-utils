@@ -1014,7 +1014,12 @@ def get_requirements_from_file():
         with open('conan_requirements', 'r') as f:
             return [line.rstrip('\n') for line in f]
     else:
+        print("-----------------------------------------------")
         print("conan_requirements DOESNT exists")
+        print(os.getcwd())
+        files = [f for f in os.listdir('.') if os.path.isfile(f)]
+        for f in files:
+            print(f)
 
     return []
 
