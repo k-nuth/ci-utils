@@ -1058,7 +1058,10 @@ class BitprimConanFile(ConanFile):
 
     @property
     def msvc_mt_build(self):
-        return "MT" in str(self.settings.compiler.runtime)
+        # return "MT" in str(self.settings.compiler.runtime)
+        return "MT" in str(self.settings.get_safe("compiler.runtime"))
+
+        
 
     @property
     def fPIC_enabled(self):
