@@ -138,7 +138,7 @@ def replace_conan_deps():
 
 
 channel = os.environ.get('BITPRIM_CONAN_CHANNEL')
-channel = 'staging'
+# channel = 'staging'
 # print("--------------------------------------------")
 # print("process_conan_reqs.py")
 # print(channel)
