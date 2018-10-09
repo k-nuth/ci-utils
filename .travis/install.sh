@@ -23,4 +23,5 @@ pip install conan --upgrade > /dev/null
 pip install conan_package_tools > /dev/null
 pip install cpuid --upgrade > /dev/null
 
+conan --version
 conan user
