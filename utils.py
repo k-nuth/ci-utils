@@ -1088,33 +1088,40 @@ class BitprimConanFile(ConanFile):
 
 
 
+    # @property
+    # def channel(self):
+    #     if not self._channel:
+    #         if not self._channel:
+    #             self._channel = get_channel()
+    #         if not self._channel:
+    #             raise ConanException("CONAN_CHANNEL environment variable not defined, "
+    #                                  "but self.channel is used in conanfile")
+    #     return self._channel
+
+    # @property
+    # def user(self):
+    #     if not self._user:
+    #         self._user = os.getenv("CONAN_USERNAME")
+    #         if not self._user:
+    #             self._user = get_user()
+    #         if not self._user:
+    #             raise ConanException("CONAN_USERNAME environment variable not defined, "
+    #                                  "but self.user is used in conanfile")
+    #     return self._user
+
     @property
     def channel(self):
-        # self.output.info("--- 1 --- self._channel: %s" % (self._channel,))
-        if not self._channel:
-            # self.output.info("--- 2 --- self._channel: %s" % (self._channel,))
-            # self._channel = os.getenv("CONAN_CHANNEL")
-            # self.output.info("--- 3 --- self._channel: %s" % (self._channel,))
-            if not self._channel:
-                self._channel = get_channel()
-                # self.output.info("--- 4 --- self._channel: %s" % (self._channel,))
-            if not self._channel:
-                raise ConanException("CONAN_CHANNEL environment variable not defined, "
-                                     "but self.channel is used in conanfile")
-        
-        # self.output.info("--- 5 --- self._channel: %s" % (self._channel,))
-        return self._channel
+        try:
+            return super(BitprimConanFile, self).channel
+        except ConanException:
+            return get_channel()
 
     @property
     def user(self):
-        if not self._user:
-            self._user = os.getenv("CONAN_USERNAME")
-            if not self._user:
-                self._user = get_user()
-            if not self._user:
-                raise ConanException("CONAN_USERNAME environment variable not defined, "
-                                     "but self.user is used in conanfile")
-        return self._user
+        try:
+            return super(BitprimConanFile, self).user
+        except ConanException:
+            return get_user()
 
 
 
