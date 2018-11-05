@@ -285,7 +285,7 @@ def get_version_from_branch_name():
     if branch.startswith("release_") or branch.startswith("hotfix_"):
         return branch.split('_', 1)[1]
 
-    return branch
+    return None
 
 # def get_version_from_branch_name_clean():
 #     branch = get_branch_clean()
@@ -353,7 +353,7 @@ def get_version():
 
     return version
 
-def get_version_no_releases():
+def get_version_no_releases(default=None):
     # print("get_version()----------------------------------------------------------")
     # print("BITPRIM_BRANCH:        %s" % (os.getenv("BITPRIM_BRANCH", None),))
     # print("BITPRIM_CONAN_CHANNEL: %s" % (os.getenv("BITPRIM_CONAN_CHANNEL", None),))
@@ -381,6 +381,10 @@ def get_version_no_releases():
 
     # print("version 4: %s" % (version,))
     # print('------------------------------------------------------')
+
+    if version is None:
+        version = default
+
 
     return version
 
