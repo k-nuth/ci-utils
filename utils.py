@@ -27,13 +27,24 @@ def get_git_branch(default=None):
     try:
         res = subprocess.Popen(["git", "rev-parse", "--abbrev-ref", "HEAD"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, _ = res.communicate()
+        # print('fer 0')
+
         if output:
+            # print('fer 0.1')
             if res.returncode == 0:
-                return output.decode("utf-8").replace('\n', '').replace('\r', '')
+                # print('fer 0.2')
+                # print(output)
+                # print(output.decode("utf-8"))
+                # print(output.decode("utf-8").replace('\n', ''))
+                ret = output.decode("utf-8").replace('\n', '').replace('\r', '')
+                # print(ret)
+                return ret
         return default
     except OSError: # as e:
+        # print('fer 1')
         return default
     except:
+        # print('fer 2')
         return default
 
 def get_git_describe(default=None):
@@ -263,6 +274,8 @@ def get_branch():
 def get_version_from_branch_name():
     branch = get_branch()
 
+    # print("get_version_from_branch_name - branch: %s" % (branch,))
+
     if branch is None: 
         return None
 
@@ -272,7 +285,7 @@ def get_version_from_branch_name():
     if branch.startswith("release_") or branch.startswith("hotfix_"):
         return branch.split('_', 1)[1]
 
-    return None
+    return branch
 
 # def get_version_from_branch_name_clean():
 #     branch = get_branch_clean()
