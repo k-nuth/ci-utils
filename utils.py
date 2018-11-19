@@ -24,28 +24,48 @@ def get_compilation_symbols_gcc_string_program(filename, default=None):
     afile = filename + '.a'
     try:
 
+        print("get_compilation_symbols_gcc_string_program - 1")
+
         # g++ -D_GLIBCXX_USE_CXX11_ABI=1 -c test.cxx -o test-v2.o
         # ar cr test-v1.a test-v1.o
         # nm test-v1.a
 
         p = Popen(['g++', '-D_GLIBCXX_USE_CXX11_ABI=1', '-c', '-o', ofile, '-x', 'c++', '-'], stdout=PIPE, stdin=PIPE, stderr=STDOUT)    
+        print("get_compilation_symbols_gcc_string_program - 2")
+
         output, _ = p.communicate(input=b'#include <string>\nstd::string foo __attribute__ ((visibility ("default")));\nstd::string bar __attribute__ ((visibility ("default")));\n')
+        print("get_compilation_symbols_gcc_string_program - 3")
 
         if p.returncode != 0:
+            print("get_compilation_symbols_gcc_string_program - 4")
             return default
+
+        print("get_compilation_symbols_gcc_string_program - 5")
 
         p = Popen(['ar', 'cr', afile, ofile], stdout=PIPE, stdin=PIPE, stderr=STDOUT)    
+
+        print("get_compilation_symbols_gcc_string_program - 6")
         output, _ = p.communicate()
+        print("get_compilation_symbols_gcc_string_program - 7")
 
         if p.returncode != 0:
+            print("get_compilation_symbols_gcc_string_program - 8")
             return default
 
+        print("get_compilation_symbols_gcc_string_program - 9")
+
         p = Popen(['nm', afile], stdout=PIPE, stdin=PIPE, stderr=STDOUT)    
+        print("get_compilation_symbols_gcc_string_program - 10")
         output, _ = p.communicate()
+        print("get_compilation_symbols_gcc_string_program - 11")
 
         if p.returncode == 0:
+            print("get_compilation_symbols_gcc_string_program - 12")
             if output:
+                print("get_compilation_symbols_gcc_string_program - 13")
                 return output.decode("utf-8")
+
+        print("get_compilation_symbols_gcc_string_program - 14")
 
         return default
     except OSError: # as e:
