@@ -1110,13 +1110,13 @@ class BitprimCxx11ABIFixer(ConanFile):
         if self.options.get_safe("glibcxx_supports_cxx11_abi") is None:
             return
 
-        if self.settings.get_safe("compiler.libcxx") is None:
-            self.output.info("glibcxx_supports_cxx11_abi option is only useful for 'libstdc++' or 'libstdc++11', deleting it. Your compiler.libcxx is: '%s'." % (str(self.settings.compiler.libcxx),))
+        if not (self.settings.compiler == "gcc" or self.settings.compiler == "clang"):
+            self.output.info("glibcxx_supports_cxx11_abi option is only valid for 'gcc' or 'clang' compilers, deleting it. Your compiler is: '%s'." % (str(self.settings.compiler),))
             del self.options.glibcxx_supports_cxx11_abi
             return
 
-        if not (self.settings.compiler == "gcc" or self.settings.compiler == "clang"):
-            self.output.info("glibcxx_supports_cxx11_abi option is only valid for 'gcc' or 'clang' compilers, deleting it. Your compiler is: '%s'." % (str(self.settings.compiler),))
+        if self.settings.get_safe("compiler.libcxx") is None:
+            self.output.info("glibcxx_supports_cxx11_abi option is only useful for 'libstdc++' or 'libstdc++11', deleting it. Your compiler.libcxx is: '%s'." % (str(self.settings.compiler.libcxx),))
             del self.options.glibcxx_supports_cxx11_abi
             return
 
