@@ -7,10 +7,58 @@ import importlib
 import subprocess
 import sys
 import difflib
+import tempfile
 from conans import ConanFile, CMake
 from conans.errors import ConanException
 from conans.model.version import Version
 from conans import __version__ as conan_version
+
+from subprocess import Popen, PIPE, STDOUT
+
+
+def get_tempfile_name():
+    return os.path.join(tempfile.gettempdir(), next(tempfile._get_candidate_names()))
+
+def get_compilation_symbols_gcc_string_program(filename, default=None):
+    ofile = filename + '.o'
+    afile = filename + '.a'
+    try:
+
+        # g++ -D_GLIBCXX_USE_CXX11_ABI=1 -c test.cxx -o test-v2.o
+        # ar cr test-v1.a test-v1.o
+        # nm test-v1.a
+
+        p = Popen(['g++', '-D_GLIBCXX_USE_CXX11_ABI=1', '-c', '-o', ofile, '-x', 'c++', '-'], stdout=PIPE, stdin=PIPE, stderr=STDOUT)    
+        output, _ = p.communicate(input=b'#include <string>\nstd::string foo __attribute__ ((visibility ("default")));\nstd::string bar __attribute__ ((visibility ("default")));\n')
+
+        if p.returncode != 0:
+            return default
+
+        p = Popen(['ar', 'cr', afile, ofile], stdout=PIPE, stdin=PIPE, stderr=STDOUT)    
+        output, _ = p.communicate()
+
+        if p.returncode != 0:
+            return default
+
+        p = Popen(['nm', afile], stdout=PIPE, stdin=PIPE, stderr=STDOUT)    
+        output, _ = p.communicate()
+
+        if p.returncode == 0:
+            if output:
+                return output.decode("utf-8")
+
+        return default
+    except OSError: # as e:
+        return default
+    except:
+        return default
+
+def glibcxx_supports_cxx11_abi():
+    name = get_tempfile_name()
+    flags = get_compilation_symbols_gcc_string_program(name)
+    if flags is None:
+        return False
+    return "__cxx11" in flags
 
 
 def get_conan_packager():
