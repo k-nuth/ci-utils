@@ -1104,76 +1104,61 @@ def get_requirements_from_file():
 
 
 class BitprimCxx11ABIFixer(ConanFile):
-    # def configure(self):
-    #     # self.output.info("glibcxx_supports_cxx11_abi: %s" % (glibcxx_supports_cxx11_abi(),))
+    def configure(self):
+        self.output.info("configure() - glibcxx_supports_cxx11_abi: %s" % (self.options.get_safe("glibcxx_supports_cxx11_abi"),))
 
-    #     if self.settings.get_safe("compiler.libcxx") is None:
-    #         return
+        if self.options.get_safe("glibcxx_supports_cxx11_abi") is None:
+            return
 
-    #     self.output.info("dont_fix_glibcxx_abi: %s" % (self.options.get_safe("dont_fix_glibcxx_abi"),))
+        if self.settings.get_safe("compiler.libcxx") is None:
+            self.output.info("glibcxx_supports_cxx11_abi option is only useful for 'libstdc++' or 'libstdc++11', deleting it. Your compiler.libcxx is: '%s'." % (str(self.settings.compiler.libcxx),))
+            del self.options.glibcxx_supports_cxx11_abi
+            return
 
-    #     # self.options.get_safe("dont_fix_glibcxx_abi") is not None
+        if not (self.settings.compiler == "gcc" or self.settings.compiler == "clang"):
+            self.output.info("glibcxx_supports_cxx11_abi option is only valid for 'gcc' or 'clang' compilers, deleting it. Your compiler is: '%s'." % (str(self.settings.compiler),))
+            del self.options.glibcxx_supports_cxx11_abi
+            return
 
-    #     # if self.options.get_safe("dont_fix_glibcxx_abi"):
-    #     #     self.output.info("************* dont_fix_glibcxx_abi SET")
+        if not (str(self.settings.compiler.libcxx) == "libstdc++" or str(self.settings.compiler.libcxx) == "libstdc++11"):
+            self.output.info("glibcxx_supports_cxx11_abi option is only useful for 'libstdc++' or 'libstdc++11', deleting it. Your compiler.libcxx is: '%s'." % (str(self.settings.compiler.libcxx),))
+            del self.options.glibcxx_supports_cxx11_abi
+            return
 
-    #     if self.settings.compiler == "gcc" or self.settings.compiler == "clang":
-    #         if str(self.settings.compiler.libcxx) == "libstdc++" or str(self.settings.compiler.libcxx) == "libstdc++11":
-    #             if not self.options.get_safe("dont_fix_glibcxx_abi"):
-    
-    #                 abi_support = glibcxx_supports_cxx11_abi()
-    #                 libcxx_old = str(self.settings.compiler.libcxx)
-    #                 if str(self.settings.compiler.libcxx) == "libstdc++" and abi_support:
-    #                     self.settings.compiler.libcxx = "libstdc++11"
-    #                     # self.settings["*"].compiler.libcxx = self.settings.compiler.libcxx
-    #                     self.output.info("compiler.libcxx changed from %s to %s" % (libcxx_old, str(self.settings.compiler.libcxx),))
+        if self.options.get_safe("glibcxx_supports_cxx11_abi") != "_DUMMY_":
+            return
 
-    #                 if str(self.settings.compiler.libcxx) == "libstdc++11" and not abi_support:
-    #                     self.settings.compiler.libcxx = "libstdc++"
-    #                     # self.settings["*"].compiler.libcxx = self.settings.compiler.libcxx
-    #                     self.output.info("compiler.libcxx changed from %s to %s" % (libcxx_old, str(self.settings.compiler.libcxx),))
+        abi_support = glibcxx_supports_cxx11_abi()
+        self.output.info("glibcxx_supports_cxx11_abi(): %s" % (glibcxx_supports_cxx11_abi(),))
+        
+        self.options.glibcxx_supports_cxx11_abi = abi_support
+        self.options["*"].glibcxx_supports_cxx11_abi = self.options.glibcxx_supports_cxx11_abi
+        self.output.info("configure() - 2 - glibcxx_supports_cxx11_abi: %s" % (self.options.get_safe("glibcxx_supports_cxx11_abi"),))
+        self.libcxx_changed = True
 
-    #             # if not glibcxx_supports_cxx11_abi():
-    #             #     raise Exception ("C++ Standard library implementation not supported, run with option `--build`.")
+        # libcxx_old = str(self.settings.compiler.libcxx)
+        # if str(self.settings.compiler.libcxx) == "libstdc++" and abi_support:
+        #     self.settings.compiler.libcxx = "libstdc++11"
+        #     # self.settings["*"].compiler.libcxx = self.settings.compiler.libcxx
+        #     self.output.info("compiler.libcxx changed from %s to %s" % (libcxx_old, str(self.settings.compiler.libcxx),))
 
-
-
-    #     # if self.settings.compiler == "gcc" or self.settings.compiler == "clang":
-    #     #     if str(self.settings.compiler.libcxx) == "libstdc++" or str(self.settings.compiler.libcxx) == "libstdc++11":
-    #     #         if not glibcxx_supports_cxx11_abi():
-    #     #             raise Exception ("C++ Standard library implementation not supported, run with option `--build`.")
+        # if str(self.settings.compiler.libcxx) == "libstdc++11" and not abi_support:
+        #     self.settings.compiler.libcxx = "libstdc++"
+        #     # self.settings["*"].compiler.libcxx = self.settings.compiler.libcxx
+        #     self.output.info("compiler.libcxx changed from %s to %s" % (libcxx_old, str(self.settings.compiler.libcxx),))
 
 
     def package_id(self):
-        # self.output.info("glibcxx_supports_cxx11_abi: %s" % (glibcxx_supports_cxx11_abi(),))
+        self.output.info("package_id() - glibcxx_supports_cxx11_abi: %s" % (self.options.get_safe("glibcxx_supports_cxx11_abi"),))
 
-        if self.settings.get_safe("compiler.libcxx") is None:
-            return
+        # self.info.settings.compiler.libcxx = "libstdc++11"
 
-        self.output.info("dont_fix_glibcxx_abi: %s" % (self.options.get_safe("dont_fix_glibcxx_abi"),))
-
-        # self.options.get_safe("dont_fix_glibcxx_abi") is not None
-
-        # if self.options.get_safe("dont_fix_glibcxx_abi"):
-        #     self.output.info("************* dont_fix_glibcxx_abi SET")
-
+        #For Bitprim Packages libstdc++ and libstdc++11 are the same
         if self.settings.compiler == "gcc" or self.settings.compiler == "clang":
             if str(self.settings.compiler.libcxx) == "libstdc++" or str(self.settings.compiler.libcxx) == "libstdc++11":
-                if not self.options.get_safe("dont_fix_glibcxx_abi"):
-    
-                    abi_support = glibcxx_supports_cxx11_abi()
-                    libcxx_old = str(self.settings.compiler.libcxx)
-                    if str(self.settings.compiler.libcxx) == "libstdc++" and abi_support:
-                        # self.settings.compiler.libcxx = "libstdc++11"
-                        self.info.settings.compiler.libcxx = "libstdc++11"
-                        self.output.info("compiler.libcxx changed from %s to %s" % (libcxx_old, str(self.settings.compiler.libcxx),))
-                        self.output.info("compiler.libcxx changed from %s to %s" % (libcxx_old, str(self.info.settings.compiler.libcxx),))
+                # self.info.settings.compiler.libcxx = "ANY"
+                self.info.settings.compiler.libcxx = "libstdc++"
 
-                    if str(self.settings.compiler.libcxx) == "libstdc++11" and not abi_support:
-                        # self.settings.compiler.libcxx = "libstdc++"
-                        self.info.settings.compiler.libcxx = "libstdc++"
-                        self.output.info("compiler.libcxx changed from %s to %s" % (libcxx_old, str(self.settings.compiler.libcxx),))
-                        self.output.info("compiler.libcxx changed from %s to %s" % (libcxx_old, str(self.info.settings.compiler.libcxx),))
 
 
 class BitprimConanFile(BitprimCxx11ABIFixer):
