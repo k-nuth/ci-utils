@@ -1125,10 +1125,12 @@ class BitprimCxx11ABIFixer(ConanFile):
                     libcxx_old = str(self.settings.compiler.libcxx)
                     if str(self.settings.compiler.libcxx) == "libstdc++" and abi_support:
                         self.settings.compiler.libcxx = "libstdc++11"
+                        self.settings["*"].compiler.libcxx = self.settings.compiler.libcxx
                         self.output.info("compiler.libcxx changed from %s to %s" % (libcxx_old, str(self.settings.compiler.libcxx),))
 
                     if str(self.settings.compiler.libcxx) == "libstdc++11" and not abi_support:
                         self.settings.compiler.libcxx = "libstdc++"
+                        self.settings["*"].compiler.libcxx = self.settings.compiler.libcxx
                         self.output.info("compiler.libcxx changed from %s to %s" % (libcxx_old, str(self.settings.compiler.libcxx),))
 
                 # if not glibcxx_supports_cxx11_abi():
