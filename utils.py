@@ -30,6 +30,10 @@ def get_compilation_symbols_gcc_string_program(filename, default=None):
         # ar cr test-v1.a test-v1.o
         # nm test-v1.a
 
+        # g++ -D_GLIBCXX_USE_CXX11_ABI=1 -c -o ofile.o -x c++ -
+        # ar cr ofile.a ofile.o
+        # nm ofile.a
+
         p = Popen(['g++', '-D_GLIBCXX_USE_CXX11_ABI=1', '-c', '-o', ofile, '-x', 'c++', '-'], stdout=PIPE, stdin=PIPE, stderr=STDOUT)    
         print("get_compilation_symbols_gcc_string_program - 2")
 
@@ -68,7 +72,8 @@ def get_compilation_symbols_gcc_string_program(filename, default=None):
         print("get_compilation_symbols_gcc_string_program - 14")
 
         return default
-    except OSError: # as e:
+    except OSError as e:
+        print(e)
         return default
     except:
         return default
