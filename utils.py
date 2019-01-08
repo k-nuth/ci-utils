@@ -82,9 +82,9 @@ def get_compilation_symbols_gcc_string_program(filename, default=None):
 
 def glibcxx_supports_cxx11_abi():
     name = get_tempfile_name()
-    print(name)
+    # print(name)
     flags = get_compilation_symbols_gcc_string_program(name)
-    print(flags)
+    # print(flags)
     if flags is None:
         return False
     return "__cxx11" in flags
