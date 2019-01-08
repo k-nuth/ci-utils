@@ -24,7 +24,7 @@ def get_compilation_symbols_gcc_string_program(filename, default=None):
     afile = filename + '.a'
     try:
 
-        print("get_compilation_symbols_gcc_string_program - 1")
+        # print("get_compilation_symbols_gcc_string_program - 1")
 
         # g++ -D_GLIBCXX_USE_CXX11_ABI=1 -c test.cxx -o test-v2.o
         # ar cr test-v1.a test-v1.o
@@ -35,49 +35,49 @@ def get_compilation_symbols_gcc_string_program(filename, default=None):
         # nm ofile.a
 
         p = Popen(['g++', '-D_GLIBCXX_USE_CXX11_ABI=1', '-c', '-o', ofile, '-x', 'c++', '-'], stdout=PIPE, stdin=PIPE, stderr=STDOUT)    
-        print("get_compilation_symbols_gcc_string_program - 2")
+        # print("get_compilation_symbols_gcc_string_program - 2")
 
         output, _ = p.communicate(input=b'#include <string>\nstd::string foo __attribute__ ((visibility ("default")));\nstd::string bar __attribute__ ((visibility ("default")));\n')
-        print("get_compilation_symbols_gcc_string_program - 3")
+        # print("get_compilation_symbols_gcc_string_program - 3")
 
         if p.returncode != 0:
-            print("get_compilation_symbols_gcc_string_program - 4")
+            # print("get_compilation_symbols_gcc_string_program - 4")
             return default
 
-        print("get_compilation_symbols_gcc_string_program - 5")
+        # print("get_compilation_symbols_gcc_string_program - 5")
 
         p = Popen(['ar', 'cr', afile, ofile], stdout=PIPE, stdin=PIPE, stderr=STDOUT)    
 
-        print("get_compilation_symbols_gcc_string_program - 6")
+        # print("get_compilation_symbols_gcc_string_program - 6")
         output, _ = p.communicate()
-        print("get_compilation_symbols_gcc_string_program - 7")
+        # print("get_compilation_symbols_gcc_string_program - 7")
 
         if p.returncode != 0:
-            print("get_compilation_symbols_gcc_string_program - 8")
+            # print("get_compilation_symbols_gcc_string_program - 8")
             return default
 
-        print("get_compilation_symbols_gcc_string_program - 9")
+        # print("get_compilation_symbols_gcc_string_program - 9")
 
         p = Popen(['nm', afile], stdout=PIPE, stdin=PIPE, stderr=STDOUT)    
-        print("get_compilation_symbols_gcc_string_program - 10")
+        # print("get_compilation_symbols_gcc_string_program - 10")
         output, _ = p.communicate()
-        print("get_compilation_symbols_gcc_string_program - 11")
+        # print("get_compilation_symbols_gcc_string_program - 11")
 
         if p.returncode == 0:
-            print("get_compilation_symbols_gcc_string_program - 12")
+            # print("get_compilation_symbols_gcc_string_program - 12")
             if output:
-                print("get_compilation_symbols_gcc_string_program - 13")
+                # print("get_compilation_symbols_gcc_string_program - 13")
                 return output.decode("utf-8")
 
-        print("get_compilation_symbols_gcc_string_program - 14")
+        # print("get_compilation_symbols_gcc_string_program - 14")
 
         return default
     except OSError as e:
-        print("get_compilation_symbols_gcc_string_program - 15")
+        # print("get_compilation_symbols_gcc_string_program - 15")
         print(e)
         return default
     except:
-        print("get_compilation_symbols_gcc_string_program - 16")
+        # print("get_compilation_symbols_gcc_string_program - 16")
         return default
 
 def glibcxx_supports_cxx11_abi():
@@ -1141,6 +1141,11 @@ class BitprimCxx11ABIFixer(ConanFile):
 
         if not (self.settings.compiler == "gcc" or self.settings.compiler == "clang"):
             self.output.info("glibcxx_supports_cxx11_abi option is only valid for 'gcc' or 'clang' compilers, deleting it. Your compiler is: '%s'." % (str(self.settings.compiler),))
+            del self.options.glibcxx_supports_cxx11_abi
+            return
+
+        if self.settings.compiler == "gcc" and self.settings.os == "Windows":
+            self.output.info("glibcxx_supports_cxx11_abi option is not valid for 'MinGW' compiler, deleting it. Your compiler is: '%s, %s'." % (str(self.settings.compiler),str(self.settings.os)))
             del self.options.glibcxx_supports_cxx11_abi
             return
 
