@@ -884,6 +884,8 @@ marchs_families['clang'][6.0] = copy.deepcopy(marchs_families['apple-clang'][9.1
 marchs_families['clang'][5.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
 # marchs_families['clang'][4.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
 
+#TODO(fernando): check if new march are supported in apple-clang 10.0
+marchs_families['apple-clang'][10.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
 marchs_families['apple-clang'][9.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
 marchs_families['apple-clang'][8.3] = copy.deepcopy(marchs_families_clang_base)
 marchs_families['apple-clang'][8.1] = copy.deepcopy(marchs_families_clang_base)
@@ -1007,6 +1009,13 @@ def march_close_name(march_incorrect): #, compiler, compiler_version):
 
 
 def march_conan_manip(conanobj):
+
+    # conanobj.output.warn("conanobj.settings.arch '%s'" % conanobj.settings.arch)
+    # conanobj.output.warn("conanobj.options.microarchitecture '%s'" % conanobj.options.microarchitecture)
+    # conanobj.output.warn("conanobj.settings.os '%s'" % conanobj.settings.os)
+    # conanobj.output.warn("conanobj.settings.compiler '%s'" % conanobj.settings.compiler)
+    # conanobj.output.warn("conanobj.settings.compiler.version '%s'" % conanobj.settings.compiler.version)
+
     if conanobj.settings.arch != "x86_64":
         return
 
