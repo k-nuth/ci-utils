@@ -23,8 +23,8 @@ fi
 
 pip install  --upgrade pip > /dev/null
 # pip install  --upgrade conan > /dev/null
-# pip install conan==1.7.4 > /dev/null
-pip install conan==1.14.1 > /dev/null
+pip install conan==1.7.4 > /dev/null
+# pip install conan==1.14.1 > /dev/null
 pip install conan_package_tools > /dev/null
 pip install cpuid --upgrade > /dev/null
 
