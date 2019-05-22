@@ -23,7 +23,7 @@ ALREADY_INSTALLED_DEPS.append('secp256k1')
 
 
 def parse_args():
-    parser = ArgumentParser('Bitprim Build Dependencies Manager')
+    parser = ArgumentParser('Knuth Build Dependencies Manager')
     parser.add_argument("-rp", "--root_path", dest="root_path", help="root path where the projects are",
                         default=expanduser("~"))
     parser.add_argument('-p', "--project", dest="project", type=str, nargs=1, help='Project that is going to be built')

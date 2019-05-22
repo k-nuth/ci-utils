@@ -267,10 +267,10 @@ def max_release_branch(default=None):
 
 
 def copy_env_vars(env_vars):
-    env_vars["BITPRIM_BRANCH"] = os.getenv('BITPRIM_BRANCH', '-')
-    env_vars["BITPRIM_CONAN_CHANNEL"] = os.getenv('BITPRIM_CONAN_CHANNEL', '-')
-    env_vars["BITPRIM_FULL_BUILD"] = os.getenv('BITPRIM_FULL_BUILD', '-')
-    env_vars["BITPRIM_CONAN_VERSION"] = os.getenv('BITPRIM_CONAN_VERSION', '-')
+    env_vars["KNUTH_BRANCH"] = os.getenv('KNUTH_BRANCH', '-')
+    env_vars["KNUTH_CONAN_CHANNEL"] = os.getenv('KNUTH_CONAN_CHANNEL', '-')
+    env_vars["KNUTH_FULL_BUILD"] = os.getenv('KNUTH_FULL_BUILD', '-')
+    env_vars["KNUTH_CONAN_VERSION"] = os.getenv('KNUTH_CONAN_VERSION', '-')
 
 def is_development_branch_internal(branch = None):
     if branch is None: 
@@ -309,29 +309,29 @@ def is_development_branch():
 
 
 # if ($Env:APPVEYOR_REPO_BRANCH -ceq "dev") {
-# +        $Env:BITPRIM_CONAN_CHANNEL = "testing"
-# +        $Env:BITPRIM_FULL_BUILD = 0
+# +        $Env:KNUTH_CONAN_CHANNEL = "testing"
+# +        $Env:KNUTH_FULL_BUILD = 0
 # +      }
 # +      elseif ($Env:APPVEYOR_REPO_BRANCH.StartsWith("release")) {
-# +        $Env:BITPRIM_CONAN_CHANNEL = "stable"
-# +        $Env:BITPRIM_FULL_BUILD = 1
+# +        $Env:KNUTH_CONAN_CHANNEL = "stable"
+# +        $Env:KNUTH_FULL_BUILD = 1
 # +      }
 # +      elseif ($Env:APPVEYOR_REPO_BRANCH.StartsWith("hotfix")) {
-# +        $Env:BITPRIM_CONAN_CHANNEL = "stable"
-# +        $Env:BITPRIM_FULL_BUILD = 1
+# +        $Env:KNUTH_CONAN_CHANNEL = "stable"
+# +        $Env:KNUTH_FULL_BUILD = 1
 # +      }
 # +      elseif ($Env:APPVEYOR_REPO_BRANCH.StartsWith("feature")) {
-# +        $Env:BITPRIM_CONAN_CHANNEL = $Env:APPVEYOR_REPO_BRANCH
-# +        $Env:BITPRIM_FULL_BUILD = 0
+# +        $Env:KNUTH_CONAN_CHANNEL = $Env:APPVEYOR_REPO_BRANCH
+# +        $Env:KNUTH_FULL_BUILD = 0
 # +      }
 # +      else {
-# +        $Env:BITPRIM_CONAN_CHANNEL = "stable"
-# +        $Env:BITPRIM_FULL_BUILD = 1
+# +        $Env:KNUTH_CONAN_CHANNEL = "stable"
+# +        $Env:KNUTH_FULL_BUILD = 1
 # +      }
 
 
 def get_branch():
-    branch = os.getenv("BITPRIM_BRANCH", None)
+    branch = os.getenv("KNUTH_BRANCH", None)
     
     # print("branch: %s" % (branch,))
 
@@ -343,7 +343,7 @@ def get_branch():
     return branch
 
 # def get_branch_clean():
-#     branch = os.getenv("BITPRIM_BRANCH", None)
+#     branch = os.getenv("KNUTH_BRANCH", None)
 #     if branch is None: 
 #         branch = get_git_branch()
 #     return branch
@@ -401,10 +401,10 @@ def get_version_from_file():
 
 def get_version():
     # print("get_version()----------------------------------------------------------")
-    # print("BITPRIM_BRANCH:        %s" % (os.getenv("BITPRIM_BRANCH", None),))
-    # print("BITPRIM_CONAN_CHANNEL: %s" % (os.getenv("BITPRIM_CONAN_CHANNEL", None),))
-    # print("BITPRIM_FULL_BUILD:    %s" % (os.getenv("BITPRIM_FULL_BUILD", None),))
-    # print("BITPRIM_CONAN_VERSION: %s" % (os.getenv("BITPRIM_CONAN_VERSION", None),))
+    # print("KNUTH_BRANCH:        %s" % (os.getenv("KNUTH_BRANCH", None),))
+    # print("KNUTH_CONAN_CHANNEL: %s" % (os.getenv("KNUTH_CONAN_CHANNEL", None),))
+    # print("KNUTH_FULL_BUILD:    %s" % (os.getenv("KNUTH_FULL_BUILD", None),))
+    # print("KNUTH_CONAN_VERSION: %s" % (os.getenv("KNUTH_CONAN_VERSION", None),))
 
     version = get_version_from_file()
 
@@ -412,10 +412,10 @@ def get_version():
     # print("version 1: %s" % (version,))
 
     if version is None:
-        version = os.getenv("BITPRIM_CONAN_VERSION", None)
+        version = os.getenv("KNUTH_CONAN_VERSION", None)
 
     # print("version 2: %s" % (version,))
-    # print("BITPRIM_CONAN_VERSION: %s" % (os.getenv("BITPRIM_CONAN_VERSION", None),))
+    # print("KNUTH_CONAN_VERSION: %s" % (os.getenv("KNUTH_CONAN_VERSION", None),))
 
     if version is None:
         version = get_version_from_branch_name()
@@ -432,10 +432,10 @@ def get_version():
 
 def get_version_no_releases(default=None):
     # print("get_version()----------------------------------------------------------")
-    # print("BITPRIM_BRANCH:        %s" % (os.getenv("BITPRIM_BRANCH", None),))
-    # print("BITPRIM_CONAN_CHANNEL: %s" % (os.getenv("BITPRIM_CONAN_CHANNEL", None),))
-    # print("BITPRIM_FULL_BUILD:    %s" % (os.getenv("BITPRIM_FULL_BUILD", None),))
-    # print("BITPRIM_CONAN_VERSION: %s" % (os.getenv("BITPRIM_CONAN_VERSION", None),))
+    # print("KNUTH_BRANCH:        %s" % (os.getenv("KNUTH_BRANCH", None),))
+    # print("KNUTH_CONAN_CHANNEL: %s" % (os.getenv("KNUTH_CONAN_CHANNEL", None),))
+    # print("KNUTH_FULL_BUILD:    %s" % (os.getenv("KNUTH_FULL_BUILD", None),))
+    # print("KNUTH_CONAN_VERSION: %s" % (os.getenv("KNUTH_CONAN_VERSION", None),))
 
     version = get_version_from_file()
 
@@ -443,10 +443,10 @@ def get_version_no_releases(default=None):
     # print("version 1: %s" % (version,))
 
     if version is None:
-        version = os.getenv("BITPRIM_CONAN_VERSION", None)
+        version = os.getenv("KNUTH_CONAN_VERSION", None)
 
     # print("version 2: %s" % (version,))
-    # print("BITPRIM_CONAN_VERSION: %s" % (os.getenv("BITPRIM_CONAN_VERSION", None),))
+    # print("KNUTH_CONAN_VERSION: %s" % (os.getenv("KNUTH_CONAN_VERSION", None),))
 
     if version is None:
         version = get_version_from_branch_name()
@@ -470,7 +470,7 @@ def get_version_no_releases(default=None):
 #     version = get_version_from_file()
 
 #     if version is None:
-#         version = os.getenv("BITPRIM_CONAN_VERSION", None)
+#         version = os.getenv("KNUTH_CONAN_VERSION", None)
 
 #     if version is None:
 #         version = get_version_from_branch_name_clean()
@@ -506,7 +506,7 @@ def get_channel():
     channel = get_channel_from_file()
 
     if channel is None:
-        channel = os.getenv("BITPRIM_CONAN_CHANNEL", None)
+        channel = os.getenv("KNUTH_CONAN_CHANNEL", None)
 
     if channel is None:
         # channel = get_git_branch()
@@ -519,13 +519,13 @@ def get_channel():
 
 def get_user():
     # return get_content('conan_user')
-    return get_content_default('conan_user', 'bitprim')
+    return get_content_default('conan_user', 'kth')
 
 def get_conan_req_version():
     return get_content('conan_req_version')
 
 def get_conan_vars():
-    login_username = os.getenv("CONAN_LOGIN_USERNAME", "bitprim-bintray")
+    login_username = os.getenv("CONAN_LOGIN_USERNAME", "fpelliccioni")
     username = os.getenv("CONAN_USERNAME", get_user())
     channel = os.getenv("CONAN_CHANNEL", get_channel())
     version = os.getenv("CONAN_VERSION", get_version())
@@ -542,15 +542,15 @@ def get_name_from_recipe():
     return get_value_from_recipe(r'''name\s*=\s*["'](\S*)["']''').groups()[0]
 
 def get_user_repository(username, repository_name):
-    # https://api.bintray.com/conan/bitprim/bitprim
+    # https://api.bintray.com/conan/k-nuth/k-nuth
     return "https://api.bintray.com/conan/{0}/{1}".format(username.lower(), repository_name)
 
 def get_conan_upload(username):
-    repository_name = os.getenv("BIPRIM_BINTRAY_REPOSITORY", "bitprim")
+    repository_name = os.getenv("BIPRIM_BINTRAY_REPOSITORY", "k-nuth")
     return os.getenv("CONAN_UPLOAD", get_user_repository(username, repository_name))
 
 def get_conan_upload_for_remote(username):
-    repository_name = os.getenv("BIPRIM_BINTRAY_REPOSITORY", "bitprim")
+    repository_name = os.getenv("BIPRIM_BINTRAY_REPOSITORY", "k-nuth")
     return get_user_repository(username, repository_name)
 
 def get_conan_remotes(username):
@@ -1141,7 +1141,7 @@ def get_requirements_from_file():
     return []
 
 
-class BitprimCxx11ABIFixer(ConanFile):
+class KnuthCxx11ABIFixer(ConanFile):
     def configure(self):
         self.output.info("configure() - glibcxx_supports_cxx11_abi: %s" % (self.options.get_safe("glibcxx_supports_cxx11_abi"),))
 
@@ -1195,7 +1195,7 @@ class BitprimCxx11ABIFixer(ConanFile):
         self.output.info("package_id() - glibcxx_supports_cxx11_abi: %s" % (self.options.get_safe("glibcxx_supports_cxx11_abi"),))
         # self.info.settings.compiler.libcxx = "libstdc++11"
 
-        #For Bitprim Packages libstdc++ and libstdc++11 are the same
+        #For Knuth Packages libstdc++ and libstdc++11 are the same
         if self.settings.compiler == "gcc" or self.settings.compiler == "clang":
             if self.settings.get_safe("compiler.libcxx") is not None:
                 if str(self.settings.compiler.libcxx) == "libstdc++" or str(self.settings.compiler.libcxx) == "libstdc++11":
@@ -1204,7 +1204,7 @@ class BitprimCxx11ABIFixer(ConanFile):
 
 
 
-class BitprimConanFile(BitprimCxx11ABIFixer):
+class KnuthConanFile(KnuthCxx11ABIFixer):
     if Version(conan_version) < Version(get_conan_req_version()):
         raise Exception ("Conan version should be greater or equal than %s. Detected: %s." % (get_conan_req_version(), conan_version))
 
@@ -1212,7 +1212,7 @@ class BitprimConanFile(BitprimCxx11ABIFixer):
         for r in reqs:
             self.requires(r % (self.user, self.channel))
 
-    def bitprim_requires(self, default_reqs):
+    def knuth_requires(self, default_reqs):
         file_reqs = get_requirements_from_file()
         # print(file_reqs)
 
@@ -1277,14 +1277,14 @@ class BitprimConanFile(BitprimCxx11ABIFixer):
     @property
     def channel(self):
         try:
-            return super(BitprimConanFile, self).channel
+            return super(KnuthConanFile, self).channel
         except ConanException:
             return get_channel()
 
     @property
     def user(self):
         try:
-            return super(BitprimConanFile, self).user
+            return super(KnuthConanFile, self).user
         except ConanException:
             return get_user()
 

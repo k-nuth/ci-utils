@@ -8,7 +8,7 @@ if 'TRAVIS_BRANCH' in os.environ:
 elif 'APPVEYOR_REPO_BRANCH' in os.environ:
     branch = os.environ.get('APPVEYOR_REPO_BRANCH')
 
-os.environ['BITPRIM_BRANCH'] = branch       # needed by get_version()
+os.environ['KNUTH_BRANCH'] = branch       # needed by get_version()
 
 #Note: duplicated in utils.branch_to_channel
 if branch == 'dev':
@@ -27,7 +27,7 @@ else:
     channel = "staging"
     full_build = "1"
 
-# export BITPRIM_CONAN_VERSION="$(python ci_utils/print_version.py)"
+# export KNUTH_CONAN_VERSION="$(python ci_utils/print_version.py)"
 version = get_version()
 
 if not os.path.exists('conan_version'):
@@ -35,9 +35,9 @@ if not os.path.exists('conan_version'):
         file.write(version)
 
 if platform.system() == "Windows":
-    export_str = '$Env:BITPRIM_BRANCH="%s"; $Env:BITPRIM_CONAN_CHANNEL="%s"; $Env:BITPRIM_FULL_BUILD="%s"; $Env:BITPRIM_CONAN_VERSION="%s"; $Env:CONAN_CHANNEL="%s";'
+    export_str = '$Env:KNUTH_BRANCH="%s"; $Env:KNUTH_CONAN_CHANNEL="%s"; $Env:KNUTH_FULL_BUILD="%s"; $Env:KNUTH_CONAN_VERSION="%s"; $Env:CONAN_CHANNEL="%s";'
 else:
-    export_str = "export BITPRIM_BRANCH=%s BITPRIM_CONAN_CHANNEL=%s BITPRIM_FULL_BUILD=%s BITPRIM_CONAN_VERSION=%s CONAN_CHANNEL=%s "
+    export_str = "export KNUTH_BRANCH=%s KNUTH_CONAN_CHANNEL=%s KNUTH_FULL_BUILD=%s KNUTH_CONAN_VERSION=%s CONAN_CHANNEL=%s "
 
 print(export_str % (pipes.quote(str(branch)), 
                     pipes.quote(str(channel)),

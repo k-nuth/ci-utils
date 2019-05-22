@@ -1,7 +1,7 @@
 #
-# Copyright (c) 2016-2018 Bitprim Inc.
+# Copyright (c) 2016-2019 Knuth Project.
 #
-# This file is part of Bitprim.
+# This file is part of K-nuth Project.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by

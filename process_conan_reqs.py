@@ -78,7 +78,7 @@ def get_conan_info_json(default=None):
 #                     pos = line.find('/')
 #                     name = line[:pos]
 #                     # print(name)
-#                     if name == "secp256k1" or name.startswith("bitprim-"):
+#                     if name == "secp256k1" or name.startswith("kth-"):
 #                         # print(name)
 #                         res.append(name)
 #                 else:
@@ -101,7 +101,7 @@ def get_conan_requires():
                 pos = req.find('/')
                 name = req[:pos]
                 # print(name)
-                if name == "secp256k1" or name.startswith("bitprim-"):
+                if name == "secp256k1" or name.startswith("kth-"):
                     # print(name)
                     res.append(name)
 
@@ -142,7 +142,7 @@ def get_alias_version(package, remote=None, default=None):
 #         with open("conan_requirements", "w") as file:
 #             for r in reqs:
 #                 # print(r)
-#                 alias = get_alias_version("%s/0.X@%s/%s" % (r, "bitprim", "staging"), "bitprim")
+#                 alias = get_alias_version("%s/0.X@%s/%s" % (r, "kth", "staging"), "k-nuth")
 #                 pos = alias.find('@')
 #                 alias = alias[:pos]
 #                 alias = alias + "@%s/%s"
@@ -177,7 +177,7 @@ def replace_conan_deps():
             # print(r)
             orig_req = ("%s/0.X@" % (r,)) + "%s/%s"
             # print(orig_req)
-            alias = get_alias_version(orig_req % ("bitprim", "staging"), "bitprim")
+            alias = get_alias_version(orig_req % ("kth", "staging"), "k-nuth")
             # print(alias)
             pos = alias.find('@')
             alias = alias[:pos]
@@ -187,7 +187,7 @@ def replace_conan_deps():
             replace_conan_recipe("conanfile.py", orig_req, alias)
 
 
-channel = os.environ.get('BITPRIM_CONAN_CHANNEL')
+channel = os.environ.get('KNUTH_CONAN_CHANNEL')
 # channel = 'staging'
 # print("--------------------------------------------")
 # print("process_conan_reqs.py")
