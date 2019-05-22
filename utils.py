@@ -519,7 +519,7 @@ def get_channel():
 
 def get_user():
     # return get_content('conan_user')
-    return get_content_default('conan_user', 'kth')
+    return get_content_default('conan_user', 'k-nuth')
 
 def get_conan_req_version():
     return get_content('conan_req_version')

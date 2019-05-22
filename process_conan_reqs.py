@@ -142,7 +142,7 @@ def get_alias_version(package, remote=None, default=None):
 #         with open("conan_requirements", "w") as file:
 #             for r in reqs:
 #                 # print(r)
-#                 alias = get_alias_version("%s/0.X@%s/%s" % (r, "kth", "staging"), "k-nuth")
+#                 alias = get_alias_version("%s/0.X@%s/%s" % (r, "k-nuth", "staging"), "k-nuth")
 #                 pos = alias.find('@')
 #                 alias = alias[:pos]
 #                 alias = alias + "@%s/%s"
@@ -177,7 +177,7 @@ def replace_conan_deps():
             # print(r)
             orig_req = ("%s/0.X@" % (r,)) + "%s/%s"
             # print(orig_req)
-            alias = get_alias_version(orig_req % ("kth", "staging"), "k-nuth")
+            alias = get_alias_version(orig_req % ("k-nuth", "staging"), "k-nuth")
             # print(alias)
             pos = alias.find('@')
             alias = alias[:pos]
