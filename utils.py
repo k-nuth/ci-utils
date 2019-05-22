@@ -555,7 +555,8 @@ def get_conan_upload_for_remote(username):
 
 def get_conan_remotes(username):
     # While redundant, this moves upload remote to position 0.
-    remotes = [get_conan_upload_for_remote(username)]
+    remotes = [get_conan_upload_for_remote(username),
+              'https://api.bintray.com/conan/bitprim/bitprim']
 
     # # Add bincrafters repository for other users, e.g. if the package would
     # # require other packages from the bincrafters repo.
