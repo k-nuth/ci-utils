@@ -21,6 +21,6 @@ conan remote add knuth https://api.bintray.com/conan/k-nuth/k-nuth
 python ci_utils/process_conan_reqs.py
 conan remove "*" -f
 conan remote remove knuth
-conan remote remove bitprim
+# conan remote remove bitprim
 
 python build.py
