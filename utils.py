@@ -16,6 +16,12 @@ from conans import __version__ as conan_version
 from subprocess import Popen, PIPE, STDOUT
 
 
+DEFAULT_ORGANIZATION_NAME = 'k-nuth'
+DEFAULT_LOGIN_USERNAME = 'fpelliccioni'
+DEFAULT_USERNAME = 'kth'
+DEFAULT_REPOSITORY = 'kth'
+
+
 def get_tempfile_name():
     return os.path.join(tempfile.gettempdir(), next(tempfile._get_candidate_names()))
 
@@ -519,17 +525,21 @@ def get_channel():
 
 def get_user():
     # return get_content('conan_user')
-    return get_content_default('conan_user', 'kth')
+    return get_content_default('conan_user', DEFAULT_USERNAME)
+
+def get_repository():
+    return os.getenv("BIPRIM_BINTRAY_REPOSITORY", DEFAULT_REPOSITORY)
 
 def get_conan_req_version():
     return get_content('conan_req_version')
 
 def get_conan_vars():
-    login_username = os.getenv("CONAN_LOGIN_USERNAME", "fpelliccioni")
+    org_name = os.getenv("CONAN_ORGANIZATION_NAME", DEFAULT_ORGANIZATION_NAME)
+    login_username = os.getenv("CONAN_LOGIN_USERNAME", DEFAULT_LOGIN_USERNAME)
     username = os.getenv("CONAN_USERNAME", get_user())
     channel = os.getenv("CONAN_CHANNEL", get_channel())
     version = os.getenv("CONAN_VERSION", get_version())
-    return login_username, username, channel, version
+    return org_name, login_username, username, channel, version
 
 def get_value_from_recipe(search_string, recipe_name="conanfile.py"):
     recipe_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', recipe_name)
@@ -541,21 +551,21 @@ def get_value_from_recipe(search_string, recipe_name="conanfile.py"):
 def get_name_from_recipe():
     return get_value_from_recipe(r'''name\s*=\s*["'](\S*)["']''').groups()[0]
 
-def get_user_repository(username, repository_name):
+def get_user_repository(org_name, repository_name):
     # https://api.bintray.com/conan/k-nuth/kth
-    return "https://api.bintray.com/conan/{0}/{1}".format(username.lower(), repository_name)
+    return "https://api.bintray.com/conan/{0}/{1}".format(org_name.lower(), repository_name)
 
-def get_conan_upload(username):
-    repository_name = os.getenv("BIPRIM_BINTRAY_REPOSITORY", "kth")
-    return os.getenv("CONAN_UPLOAD", get_user_repository(username, repository_name))
+def get_conan_upload(org_name):
+    repository_name = get_repository()
+    return os.getenv("CONAN_UPLOAD", get_user_repository(org_name, repository_name))
 
-def get_conan_upload_for_remote(username):
-    repository_name = os.getenv("BIPRIM_BINTRAY_REPOSITORY", "kth")
-    return get_user_repository(username, repository_name)
+def get_conan_upload_for_remote(org_name):
+    repository_name = get_repository()
+    return get_user_repository(org_name, repository_name)
 
-def get_conan_remotes(username):
+def get_conan_remotes(org_name):
     # While redundant, this moves upload remote to position 0.
-    remotes = [get_conan_upload_for_remote(username),
+    remotes = [get_conan_upload_for_remote(org_name),
               'https://api.bintray.com/conan/bitprim/bitprim']
 
     # # Add bincrafters repository for other users, e.g. if the package would
@@ -578,10 +588,10 @@ def get_archs():
 
 def get_builder(args=None):
     name = get_name_from_recipe()
-    login_username, username, channel, version = get_conan_vars()
+    org_name, login_username, username, channel, version = get_conan_vars()
     reference = "{0}/{1}".format(name, version)
-    upload = get_conan_upload(username)
-    remotes = os.getenv("CONAN_REMOTES", get_conan_remotes(username))
+    upload = get_conan_upload(org_name)
+    remotes = os.getenv("CONAN_REMOTES", get_conan_remotes(org_name))
 
     # upload_when_stable = get_upload_when_stable()
     # stable_branch_pattern = os.getenv("CONAN_STABLE_BRANCH_PATTERN", "stable/*")
