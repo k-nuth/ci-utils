@@ -519,7 +519,7 @@ def get_channel():
 
 def get_user():
     # return get_content('conan_user')
-    return get_content_default('conan_user', 'k-nuth')
+    return get_content_default('conan_user', 'kth')
 
 def get_conan_req_version():
     return get_content('conan_req_version')
@@ -542,15 +542,15 @@ def get_name_from_recipe():
     return get_value_from_recipe(r'''name\s*=\s*["'](\S*)["']''').groups()[0]
 
 def get_user_repository(username, repository_name):
-    # https://api.bintray.com/conan/k-nuth/k-nuth
+    # https://api.bintray.com/conan/k-nuth/kth
     return "https://api.bintray.com/conan/{0}/{1}".format(username.lower(), repository_name)
 
 def get_conan_upload(username):
-    repository_name = os.getenv("BIPRIM_BINTRAY_REPOSITORY", "k-nuth")
+    repository_name = os.getenv("BIPRIM_BINTRAY_REPOSITORY", "kth")
     return os.getenv("CONAN_UPLOAD", get_user_repository(username, repository_name))
 
 def get_conan_upload_for_remote(username):
-    repository_name = os.getenv("BIPRIM_BINTRAY_REPOSITORY", "k-nuth")
+    repository_name = os.getenv("BIPRIM_BINTRAY_REPOSITORY", "kth")
     return get_user_repository(username, repository_name)
 
 def get_conan_remotes(username):
