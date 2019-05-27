@@ -636,6 +636,14 @@ def filter_marchs_tests(name, builds, test_options, march_opt=None):
 
 
 
+# --------------------------------------------
+
+# https://gcc.gnu.org/onlinedocs/gcc-4.8.0/gcc/i386-and-x86_002d64-Options.html
+# https://gcc.gnu.org/onlinedocs/gcc-7.4.0/gcc/x86-Options.html#x86-Options
+# https://gcc.gnu.org/onlinedocs/gcc-8.3.0/gcc/x86-Options.html#x86-Options
+# https://gcc.gnu.org/onlinedocs/gcc-9.1.0/gcc/x86-Options.html#x86-Options
+
+
 microarchitecture_default = 'x86_64'
 
 def get_cpuid():
@@ -690,6 +698,8 @@ marchs_extensions = {
     # Coffee Lake
     # Whiskey Lake
     # Cascade Lake
+    'cascadelake':    ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3', 'SSE4', 'SSE4.1', 'SSE4.2', 'POPCNT', 'AES', 'PCLMUL', 'AVX', 'FSGSBASE', 'RDRND', 'F16C', 'FMA', 'BMI', 'BMI2', 'MOVBE', 'AVX2', 'RDSEED', 'ADCX', 'PREFETCHW', 'CLFLUSHOPT', 'XSAVEC', 'XSAVES', 'AVX512F', 'AVX512CD', 'AVX512VL', 'AVX512BW', 'AVX512DQ', 'PKU', 'CLWB', 'AVX512VNNI'],
+
     'cannonlake':     ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3', 'SSE4', 'SSE4.1', 'SSE4.2', 'POPCNT', 'AES', 'PCLMUL', 'AVX', 'FSGSBASE', 'RDRND', 'F16C', 'FMA', 'BMI', 'BMI2', 'MOVBE', 'AVX2', 'RDSEED', 'ADCX', 'PREFETCHW', 'CLFLUSHOPT', 'XSAVEC', 'XSAVES', 'AVX512F', 'AVX512CD', 'AVX512VL', 'AVX512BW', 'AVX512DQ', 'PKU', '????', 'AVX512VBMI', 'AVX512IFMA', 'SHA', 'UMIP'],
     'icelake-client': ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3', 'SSE4', 'SSE4.1', 'SSE4.2', 'POPCNT', 'AES', 'PCLMUL', 'AVX', 'FSGSBASE', 'RDRND', 'F16C', 'FMA', 'BMI', 'BMI2', 'MOVBE', 'AVX2', 'RDSEED', 'ADCX', 'PREFETCHW', 'CLFLUSHOPT', 'XSAVEC', 'XSAVES', 'AVX512F', 'AVX512CD', 'AVX512VL', 'AVX512BW', 'AVX512DQ', 'PKU', 'CLWB', 'AVX512VBMI', 'AVX512IFMA', 'SHA', 'UMIP', 'RDPID', 'GFNI', 'AVX512VBMI2', 'AVX512VPOPCNTDQ', 'AVX512BITALG', 'AVX512VNNI', 'VPCLMULQDQ', 'VAES'],
     'icelake-server': ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3', 'SSE4', 'SSE4.1', 'SSE4.2', 'POPCNT', 'AES', 'PCLMUL', 'AVX', 'FSGSBASE', 'RDRND', 'F16C', 'FMA', 'BMI', 'BMI2', 'MOVBE', 'AVX2', 'RDSEED', 'ADCX', 'PREFETCHW', 'CLFLUSHOPT', 'XSAVEC', 'XSAVES', 'AVX512F', 'AVX512CD', 'AVX512VL', 'AVX512BW', 'AVX512DQ', 'PKU', 'CLWB', 'AVX512VBMI', 'AVX512IFMA', 'SHA', 'UMIP', 'RDPID', 'GFNI', 'AVX512VBMI2', 'AVX512VPOPCNTDQ', 'AVX512BITALG', 'AVX512VNNI', 'VPCLMULQDQ', 'VAES', 'PCONFIG', 'WBNOINVD'],
@@ -744,6 +754,8 @@ marchs_extensions = {
     'bdver4':        ['64-bit extensions', 'MMX', 'SSE', 'SSE2', '3DNow!', 'enhanced 3DNow!', 'SSE3', 'SSE4A', 'ABM', 'SSSE3', 'SSE4.1', 'SSE4.2', 'FMA4', 'AVX', 'XOP', 'LWP', 'AES', 'PCL_MUL', 'CX16', 'BMI', 'TBM', 'F16C', 'FMA', 'FSGSBASE', 'AVX2', 'BMI2', 'MOVBE'],
 #           AMD Zen                                 https://en.wikipedia.org/wiki/Zen_(microarchitecture)
     'znver1':        ['64-bit extensions', 'MMX', 'SSE', 'SSE2', '3DNow!', 'enhanced 3DNow!', 'SSE3', 'SSE4A', 'ABM', 'SSSE3', 'SSE4.1', 'SSE4.2', 'FMA4', 'AVX', 'XOP', 'LWP', 'AES', 'PCL_MUL', 'CX16', 'BMI', 'TBM', 'F16C', 'FMA', 'FSGSBASE', 'AVX2', 'BMI2', 'MOVBE', 'ADCX', 'RDSEED', 'MWAITX', 'SHA', 'CLZERO', 'XSAVEC', 'XSAVES', 'CLFLUSHOPT', 'POPCNT'],
+#           AMD Zen 2                               https://en.wikipedia.org/wiki/Zen_2
+    'znver2':        ['64-bit extensions', 'MMX', 'SSE', 'SSE2', '3DNow!', 'enhanced 3DNow!', 'SSE3', 'SSE4A', 'ABM', 'SSSE3', 'SSE4.1', 'SSE4.2', 'FMA4', 'AVX', 'XOP', 'LWP', 'AES', 'PCL_MUL', 'CX16', 'BMI', 'TBM', 'F16C', 'FMA', 'FSGSBASE', 'AVX2', 'BMI2', 'MOVBE', 'ADCX', 'RDSEED', 'MWAITX', 'SHA', 'CLZERO', 'XSAVEC', 'XSAVES', 'CLFLUSHOPT', 'POPCNT', 'CLWB'],
 
 # VIA
     'eden-x2':        ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3'],
@@ -798,6 +810,14 @@ marchs_families['clang']= {}
 marchs_families['msvc']= {}
 marchs_families['mingw']= {}
 
+# msvc 2019
+    # (x86)
+        # /arch:[IA32|SSE|SSE2|AVX|AVX2]  
+    # (x64)
+        # /arch:[AVX|AVX2]  
+    # (ARM)
+        # /arch:[ARMv7VE|VFPv4]  
+
 # msvc 2017
     # (x86)
         # /arch:[IA32|SSE|SSE2|AVX|AVX2]  
@@ -814,6 +834,7 @@ marchs_families['msvc'][14] = {
 }
 
 marchs_families['msvc'][15] = copy.deepcopy(marchs_families['msvc'][14])
+marchs_families['msvc'][16] = copy.deepcopy(marchs_families['msvc'][15])
 
 
 msvc_to_extensions = {
@@ -841,8 +862,6 @@ marchs_families_base = {
     'intel_atom': ['x86-64', 'core2', 'bonnell', 'silvermont'],
 }
 
-
-
 marchs_families_clang_base = copy.deepcopy(marchs_families_base)
 marchs_families_clang_base['intel_high'] = copy.deepcopy(marchs_families_clang_base['intel_core'])
 marchs_families_clang_base['intel_core'].extend(['skylake', 'skylake-avx512', 'cannonlake'])
@@ -866,6 +885,7 @@ marchs_families['mingw'][7]['amd_high'].extend(['znver1'])
 
 marchs_families['gcc'][6] = copy.deepcopy(marchs_families['mingw'][7])
 marchs_families['gcc'][6]['intel_core'].extend(['skylake-avx512'])
+marchs_families['gcc'][6]['amd_high'].extend(['znver1'])
 
 marchs_families['mingw'][6] = copy.deepcopy(marchs_families['gcc'][6])
 remove_ext(marchs_families['mingw'][6], "skylake-avx512")
@@ -880,20 +900,24 @@ marchs_families['gcc'][8] = copy.deepcopy(marchs_families['gcc'][7])
 marchs_families['gcc'][8]['intel_high'].extend(['knm'])
 marchs_families['gcc'][8]['intel_core'].extend(['cannonlake', 'icelake-client', 'icelake-server'])
 
+marchs_families['gcc'][9] = copy.deepcopy(marchs_families['gcc'][8])
+marchs_families['gcc'][9]['intel_atom'].extend(['goldmont', 'goldmont-plus', 'tremont'])
+marchs_families['gcc'][9]['intel_core'].extend(['cascadelake'])
+
+
+
 marchs_families['mingw'][8] = copy.deepcopy(marchs_families['gcc'][7])
 marchs_families['mingw'][8]['intel_high'].extend(['knm'])
 remove_ext(marchs_families['mingw'][8], "skylake-avx512")
 
+#TODO(fernando): Check MinGW9
+marchs_families['mingw'][9] = copy.deepcopy(marchs_families['gcc'][8])
 
-marchs_families['gcc'][9] = copy.deepcopy(marchs_families['gcc'][8])
-marchs_families['gcc'][9]['intel_atom'].extend(['goldmont', 'goldmont-plus', 'tremont'])
 
-# marchs_families['clang'][6.0] = copy.deepcopy(marchs_families['gcc'][9])
-# marchs_families['clang'][5.0] = copy.deepcopy(marchs_families['gcc'][9])
-# marchs_families['clang'][4.0] = copy.deepcopy(marchs_families['gcc'][9])
-marchs_families['clang'][6.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
-marchs_families['clang'][5.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
 # marchs_families['clang'][4.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
+marchs_families['clang'][5.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
+marchs_families['clang'][6.0] = copy.deepcopy(marchs_families['clang'][5.0])
+marchs_families['clang'][7.0] = copy.deepcopy(marchs_families['clang'][6.0])
 
 #TODO(fernando): check if new march are supported in apple-clang 10.0
 marchs_families['apple-clang'][10.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
