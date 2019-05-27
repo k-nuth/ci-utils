@@ -1089,8 +1089,10 @@ def march_conan_manip(conanobj):
 
         if not march_exists_in(conanobj.options.microarchitecture, str(conanobj.settings.os), str(conanobj.settings.compiler), float(str(conanobj.settings.compiler.version))):
             fixed_march = get_march(conanobj.options.microarchitecture, str(conanobj.settings.os), str(conanobj.settings.compiler), float(str(conanobj.settings.compiler.version)))
+
             if not conanobj.options.fix_march:
-                raise Exception ("Microarchitecture '%s' is not supported by your compiler, you could use '%s'." % (conanobj.options.microarchitecture,fixed_march))
+                raise Exception ("Microarchitecture '%s' is not supported by your compiler, you could use '%s'. Compiler information: %s -- %s -- %s" % (conanobj.options.microarchitecture,fixed_march), str(conanobj.settings.os), str(conanobj.settings.compiler), str(float(str(conanobj.settings.compiler.version))))
+
                 # conanobj.output.error("Microarchitecture '%s' is not supported by your compiler, you could use '%s'." % (conanobj.options.microarchitecture,fixed_march))
                 # sys.exit
             else:
