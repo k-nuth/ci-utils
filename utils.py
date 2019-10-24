@@ -1,3 +1,7 @@
+#TODO(fernando): marchs supported by: apple-clang 10.0 and greater
+#                                     clang7, clang8 and clang9
+#                                     gcc8, gcc9
+
 # from conan.packager import ConanMultiPackager
 import os
 import copy
@@ -918,8 +922,11 @@ marchs_families['mingw'][9] = copy.deepcopy(marchs_families['gcc'][8])
 marchs_families['clang'][5.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
 marchs_families['clang'][6.0] = copy.deepcopy(marchs_families['clang'][5.0])
 marchs_families['clang'][7.0] = copy.deepcopy(marchs_families['clang'][6.0])
+marchs_families['clang'][8] = copy.deepcopy(marchs_families['clang'][7.0])
+marchs_families['clang'][9] = copy.deepcopy(marchs_families['clang'][8])
 
-#TODO(fernando): check if new march are supported in apple-clang 10.0
+
+marchs_families['apple-clang'][11.0] = copy.deepcopy(marchs_families['apple-clang'][10.0])
 marchs_families['apple-clang'][10.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
 marchs_families['apple-clang'][9.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
 marchs_families['apple-clang'][8.3] = copy.deepcopy(marchs_families_clang_base)
