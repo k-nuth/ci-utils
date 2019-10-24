@@ -926,7 +926,7 @@ marchs_families['clang'][8] = copy.deepcopy(marchs_families['clang'][7.0])
 marchs_families['clang'][9] = copy.deepcopy(marchs_families['clang'][8])
 
 
-marchs_families['apple-clang'][11.0] = copy.deepcopy(marchs_families['apple-clang'][10.0])
+marchs_families['apple-clang'][11.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
 marchs_families['apple-clang'][10.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
 marchs_families['apple-clang'][9.0] = copy.deepcopy(marchs_families['apple-clang'][9.1])
 marchs_families['apple-clang'][8.3] = copy.deepcopy(marchs_families_clang_base)
