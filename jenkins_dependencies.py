@@ -9,14 +9,14 @@ from utils import get_git_branch, access_file
 # Usage
 # rp = root path
 # p = project
-# python jenkins_dependencies.py -rp="/home/hanchon/devel/testing_script/bitprim-node" -p="bitprim-node"
+# python jenkins_dependencies.py -rp="$HOME/devel/testing_script/node" -p="node"
 
-GITHUB_URL = "https://github.com/bitprim/"
+GITHUB_URL = "https://github.com/k-nuth/"
 VERSION = "0.11.0"
 CHANNEL = "testing"
 COIN = "BCH"
-REPO = "bitprim-core"
-PATH = "/home/hanchon/devel/testing_script/bitprim-core"
+REPO = "domain"
+PATH = "$HOME/devel/testing_script/domain"
 ALREADY_INSTALLED_DEPS = []
 # Avoid building secp256k1 until the changes on the CI are completed
 ALREADY_INSTALLED_DEPS.append('secp256k1')
@@ -71,7 +71,7 @@ def build_dependency(dep_path, dep, branch):
         except subprocess.CalledProcessError:
             subprocess.check_call(['git', 'checkout', 'dev'])
             print('git checkout out at dev')
-        os.system('conan create . ' + dep + '/' + VERSION + '@bitprim/' + CHANNEL + ' -o *:currency=' + COIN + '')
+        os.system('conan create . ' + dep + '/' + VERSION + '@kth/' + CHANNEL + ' -o *:currency=' + COIN + '')
         ALREADY_INSTALLED_DEPS.append(dep)
         print(dep + ' installed')
 

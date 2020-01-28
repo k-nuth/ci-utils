@@ -1,6 +1,6 @@
-# bitprim-ci-utils
+# Knuth ci-utils
 
-Set of functions used in bitprim's continuous integration.
+Set of functions used in Knuth's continuous integration.
 
 # Requirements
 
@@ -15,13 +15,12 @@ apt-get install python -y
 apt-get install python-pip -y
 pip install conan --upgrade
 pip install conan-package-tools
-conan remote add bitprim https://api.bintray.com/conan/bitprim/bitprim
+conan remote add kth https://api.bintray.com/conan/k-nuth/kth
 ```
-
 
 # Usage
 * jenkins_dependencies.py
 
 ```
-python jenkins_dependencies.py -rp="/home/hanchon/devel/testing_script/bitprim-node" -p="bitprim-node"
+python jenkins_dependencies.py -rp="$HOME/devel/testing_script/kth-node" -p="kth-node"
 ```
