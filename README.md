@@ -22,5 +22,5 @@ conan remote add kth https://api.bintray.com/conan/k-nuth/kth
 * jenkins_dependencies.py
 
 ```
-python jenkins_dependencies.py -rp="$HOME/devel/testing_script/kth-node" -p="kth-node"
+python jenkins_dependencies.py -rp="$HOME/devel/testing_script/node" -p="node"
 ```

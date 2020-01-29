@@ -100,10 +100,17 @@ def get_conan_requires():
             for req in e['requires']:
                 pos = req.find('/')
                 name = req[:pos]
+
+                #TODO(fernando): check this:
+                # # print(name)
+                # if name == "secp256k1" or name.startswith("kth-"):
+                #     # print(name)
+                #     res.append(name)
                 # print(name)
-                if name == "secp256k1" or name.startswith("kth-"):
+                if name != "kthbuild" or name != "ci-utils" or not name.startswith("conan-"):
                     # print(name)
                     res.append(name)
+
 
     # print(res)
     return res
