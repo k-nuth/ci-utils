@@ -194,7 +194,7 @@ def replace_conan_deps():
             replace_conan_recipe("conanfile.py", orig_req, alias)
 
 
-channel = os.environ.get('KNUTH_CONAN_CHANNEL')
+channel = os.environ.get('KTH_CONAN_CHANNEL')
 # channel = 'staging'
 # print("--------------------------------------------")
 # print("process_conan_reqs.py")
