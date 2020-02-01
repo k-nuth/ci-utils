@@ -4,7 +4,8 @@ set -e
 set -x
 
 if [[ "$(uname -s)" == 'Darwin' ]]; then
-    brew update || brew update
+    # brew update || brew update
+    brew update
     brew outdated pyenv || brew upgrade pyenv
     brew install pyenv-virtualenv
     brew install cmake || true
@@ -13,8 +14,6 @@ if [[ "$(uname -s)" == 'Darwin' ]]; then
         eval "$(pyenv init -)"
     fi
 
-#     pyenv install 2.7.10
-#     pyenv virtualenv 2.7.10 conan
     pyenv install 3.7.1
     pyenv virtualenv 3.7.1 conan
     pyenv rehash
@@ -23,18 +22,9 @@ fi
 
 pip install  --upgrade pip > /dev/null
 
-# pip install conan==1.19.2 > /dev/null
-# pip install conan_package_tools==0.29.3 > /dev/null
-# pip install cpuid --upgrade > /dev/null
-# # pip install  --upgrade conan > /dev/null
-
-
 pip install conan_package_tools==0.30.4 > /dev/null
 # pip install kthbuild==0.0.14 > /dev/null
 pip install kthbuild --upgrade > /dev/null 
 
 conan --version
 conan user
-
-
-
