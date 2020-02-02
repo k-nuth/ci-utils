@@ -8,6 +8,22 @@ import subprocess
 
 remote = "kthbuild_kth_temp_"
 
+def repo_name_from_ci():
+    # REPO_NAME=$(echo $TRAVIS_REPO_SLUG| cut -d'/' -f 2)
+    # echo $REPO_NAME
+
+    full_name = os.getenv("TRAVIS_REPO_SLUG", None)
+    
+    if full_name is None:
+        full_name = os.getenv("APPVEYOR_REPO_NAME", None)
+
+    if full_name is None:
+        full_name = os.getenv("CIRRUS_REPO_FULL_NAME", None)
+    
+    if full_name is None:
+        return ''
+
+    return full_name.split('/')[1]
 
 def get_conan_search(package, remote):
     try:
@@ -36,10 +52,13 @@ deps_graph = {
     "node" : ["blockchain", "network"],
     "rpc" : ["node"],
     "node-exe": ["node", "rpc"],
-    "node-cint": ["node"]
+    "c-api": ["node"]
 }
 
-current = sys.argv[1]
+# current = sys.argv[1]
+current = repo_name_from_ci()
+print("wait for deps repo name: %s ..." % (current,))
+
 deps = deps_graph[current]
 
 for dep in deps:
@@ -52,20 +71,3 @@ for dep in deps:
         time.sleep(1)
         res = get_conan_search(package, remote)
     print("%s found." % (package,))
-
-# conan remove infrastructure/0.X@kth/staging -r kthbuild_kth_temp_
-# conan search infrastructure/0.X@kth/staging -r kthbuild_kth_temp_
-# conan search infrastructure/0.1.0@kth/testing -r kthbuild_kth_temp_
-# conan alias infrastructure/0.X@kth/staging infrastructure/0.1.0@kth/testing
-# conan upload infrastructure/0.X@kth/staging -r kthbuild_kth_temp_
-
-
-# 
-# echo "waiting for infrastructure/0.X@kth/staging ..."
-# conan search infrastructure/0.X@kth/staging -r kth_temp > $null
-# while($env:lastExitCode -eq 1) {
-#   Write-Host "."
-#   Start-Sleep -s 10
-#   conan search infrastructure/0.X@kth/staging -r kth_temp > $null
-# }
-# Write-Host "infrastructure/0.X@kth/staging found"
