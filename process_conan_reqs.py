@@ -100,7 +100,9 @@ def is_knuth_repo_name(name):
         'secp256k1'
     ]
 
-    return name in repos
+    ret = name in repos
+    return ret
+    # return name in repos
 
 
 def get_conan_requires():
@@ -207,7 +209,7 @@ def replace_conan_deps():
             # print(r)
             orig_req = ("%s/0.X@" % (r,)) + "%s/%s"
             # print(orig_req)
-            alias = get_alias_version(orig_req % ("kth", "staging"), "kth")
+            alias = get_alias_version(orig_req % ("kth", "staging"), "kthbuild_kth_temp_")
             # print(alias)
             pos = alias.find('@')
             alias = alias[:pos]
@@ -224,6 +226,6 @@ channel = os.environ.get('KTH_CONAN_CHANNEL')
 # print(channel)
 # print("--------------------------------------------")
 
-# if channel == 'staging':
+if channel == 'staging':
     # write_req_file()
-replace_conan_deps()
+    replace_conan_deps()
