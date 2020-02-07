@@ -85,6 +85,23 @@ def get_conan_info_json(default=None):
 #                     break
 #     return res
 
+def is_knuth_repo_name(name):
+    repos = [
+        'infrastructure',
+        'domain',
+        'consensus',
+        'network',
+        'database',
+        'blockchain',
+        'node',
+        'rpc',
+        'c-api',
+        'node-exe',
+        'secp256k1'
+    ]
+
+    return name in repos
+
 
 def get_conan_requires():
     res = []
@@ -107,10 +124,13 @@ def get_conan_requires():
                 #     # print(name)
                 #     res.append(name)
                 # print(name)
-                if name != "kthbuild" or name != "ci-utils" or not name.startswith("conan-"):
+                # if name != "kthbuild" or name != "ci-utils" or not name.startswith("conan-"):
+                #     # print(name)
+                #     res.append(name)
+
+                if is_knuth_repo_name(name):
                     # print(name)
                     res.append(name)
-
 
     # print(res)
     return res
@@ -176,6 +196,9 @@ def replace_conan_recipe(recipe_file, text_to_search, replacement_text):
 
 def replace_conan_deps():
     reqs = get_conan_requires()
+
+    print(reqs)
+
     if len(reqs) == 0:
         return
 
@@ -201,6 +224,6 @@ channel = os.environ.get('KTH_CONAN_CHANNEL')
 # print(channel)
 # print("--------------------------------------------")
 
-if channel == 'staging':
+# if channel == 'staging':
     # write_req_file()
-    replace_conan_deps()
+replace_conan_deps()
