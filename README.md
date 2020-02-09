@@ -1,4 +1,4 @@
-# Knuth ci-utils
+# knuth ci-utils
 
 Set of functions used in Knuth's continuous integration.
 
