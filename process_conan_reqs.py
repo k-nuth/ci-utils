@@ -96,7 +96,7 @@ def is_knuth_repo_name(name):
         'node',
         'rpc',
         'c-api',
-        'node-exe',
+        'kth',
         'secp256k1'
     ]
 

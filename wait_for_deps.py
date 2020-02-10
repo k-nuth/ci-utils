@@ -51,7 +51,7 @@ deps_graph = {
     "blockchain":["database"],
     "node" : ["blockchain", "network"],
     "rpc" : ["node"],
-    "node-exe": ["node", "rpc"],
+    "kth": ["node", "rpc"],
     "c-api": ["node"]
 }
 

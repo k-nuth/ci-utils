@@ -8,6 +8,6 @@
   "blockchain":["database"],
   "node" : ["blockchain", "network"],
   "rpc" : ["node"],
-  "node-exe": ["node", "rpc"],
-  "node-cint": ["node"]
+  "kth": ["node", "rpc"],
+  "c-api": ["node"]
 }
