@@ -413,8 +413,19 @@ jobs:
       python: "3.7"
       services:
         - docker
-      env: CONAN_CLANG_VERSIONS=9 CONAN_DOCKER_IMAGE=conanio/clang9
+      env: CONAN_CLANG_VERSIONS=10 CONAN_DOCKER_IMAGE=conanio/clang10
       if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
+
+    # - stage: build and upload binaries
+    #   os: linux
+    #   sudo: required
+    #   dist: xenial
+    #   language: python
+    #   python: "3.7"
+    #   services:
+    #     - docker
+    #   env: CONAN_CLANG_VERSIONS=9 CONAN_DOCKER_IMAGE=conanio/clang9
+    #   if: branch =~ /^(release|hotfix|dev|feature).*$/    #Avoid master
 
     # - stage: build and upload binaries
     #   os: linux
