@@ -24,6 +24,7 @@ conan remote remove kth || true
 conan remote remove kth || true
 
 conan remote remove kthbuild_kth_temp_ || true
-conan remote remove kthbuild_kth_temp _ || true
+
+conan remote add kthbuild_tao_temp_ https://api.bintray.com/conan/tao-cpp/tao || true
 
 python build.py
