@@ -570,7 +570,8 @@ def get_conan_upload_for_remote(org_name):
 def get_conan_remotes(org_name):
     # While redundant, this moves upload remote to position 0.
     remotes = [get_conan_upload_for_remote(org_name),
-              'https://api.bintray.com/conan/k-nuth/kth']
+              'https://api.bintray.com/conan/k-nuth/kth',
+              'https://api.bintray.com/conan/tao-cpp/tao',]
 
     # # Add bincrafters repository for other users, e.g. if the package would
     # # require other packages from the bincrafters repo.
