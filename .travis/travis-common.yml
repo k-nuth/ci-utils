@@ -497,19 +497,19 @@ jobs:
     #Note: do not run tests on dev for macOS (they are too expensive)
 
     #TODO(fernando): enable macOS build when 10.15 (Catalina) be available (because of std::filesystem)
-    # - stage: build and upload binaries
-    #   os: osx
-    #   language: generic
-    #   osx_image: xcode11.4
-    #   env: CONAN_APPLE_CLANG_VERSIONS=11.0
-    #        KTH_RUN_TESTS=true
-    #   if: branch =~ /^(release|hotfix).+$/    #Just releases
-    # - stage: build and upload binaries
-    #   os: osx
-    #   language: generic
-    #   osx_image: xcode11.4
-    #   env: CONAN_APPLE_CLANG_VERSIONS=11.0
-    #   if: branch =~ /^(feature|dev).*$/    #Just development
+    - stage: build and upload binaries
+      os: osx
+      language: generic
+      osx_image: xcode11.4
+      env: CONAN_APPLE_CLANG_VERSIONS=11.0
+           KTH_RUN_TESTS=true
+      if: branch =~ /^(release|hotfix).+$/    #Just releases
+    - stage: build and upload binaries
+      os: osx
+      language: generic
+      osx_image: xcode11.4
+      env: CONAN_APPLE_CLANG_VERSIONS=11.0
+      if: branch =~ /^(feature|dev).*$/    #Just development
 
     # - stage: build and upload binaries
     #   os: osx
