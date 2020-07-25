@@ -27,7 +27,8 @@ cache:
   timeout: 600
   ccache: true
   directories:
-    - $HOME/Library/Caches/Homebrew
+    - /usr/local/Homebrew/
+    - $HOME/Library/Caches/Homebrew/
 
 linux: &linux
    os: linux
