@@ -27,8 +27,7 @@ cache:
   timeout: 600
   ccache: true
   directories:
-    - /usr/local/Homebrew/
-    - $HOME/Library/Caches/Homebrew/
+    - $HOME/Library/Caches/Homebrew
 
 linux: &linux
    os: linux
@@ -56,6 +55,10 @@ before_install:
       echo "[skip travis] detected in commit message, exiting"
       travis_terminate 0
     fi
+  
+  # homebrew upgrades dependents when upgrading packages, which leads to an gdal upgrade, which in turn pulls a loooong list of other dependencies. Avoid that
+  - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then brew pin gdal; brew pin postgis; fi
+
 
 install:
   - cd ${TRAVIS_BUILD_DIR}
@@ -497,20 +500,33 @@ jobs:
 
     #Note: do not run tests on dev for macOS (they are too expensive)
 
-    #TODO(fernando): enable macOS build when 10.15 (Catalina) be available (because of std::filesystem)
     - stage: build and upload binaries
       os: osx
       language: generic
-      osx_image: xcode11.4
-      env: CONAN_APPLE_CLANG_VERSIONS=11.0
+      osx_image: xcode12
+      env: CONAN_APPLE_CLANG_VERSIONS=12.0
            KTH_RUN_TESTS=true
       if: branch =~ /^(release|hotfix).+$/    #Just releases
     - stage: build and upload binaries
       os: osx
       language: generic
-      osx_image: xcode11.4
-      env: CONAN_APPLE_CLANG_VERSIONS=11.0
+      osx_image: xcode12
+      env: CONAN_APPLE_CLANG_VERSIONS=12.0
       if: branch =~ /^(feature|dev).*$/    #Just development
+
+    # - stage: build and upload binaries
+    #   os: osx
+    #   language: generic
+    #   osx_image: xcode11.4
+    #   env: CONAN_APPLE_CLANG_VERSIONS=11.0
+    #        KTH_RUN_TESTS=true
+    #   if: branch =~ /^(release|hotfix).+$/    #Just releases
+    # - stage: build and upload binaries
+    #   os: osx
+    #   language: generic
+    #   osx_image: xcode11.4
+    #   env: CONAN_APPLE_CLANG_VERSIONS=11.0
+    #   if: branch =~ /^(feature|dev).*$/    #Just development
 
     # - stage: build and upload binaries
     #   os: osx
