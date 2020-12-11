@@ -3,7 +3,9 @@ import pipes
 import platform
 from utils import get_version
 
-if 'TRAVIS_BRANCH' in os.environ:
+if 'KTH_BRANCH' in os.environ:
+    branch = os.environ.get('KTH_BRANCH')
+elif 'TRAVIS_BRANCH' in os.environ:
     branch = os.environ.get('TRAVIS_BRANCH')
 elif 'APPVEYOR_REPO_BRANCH' in os.environ:
     branch = os.environ.get('APPVEYOR_REPO_BRANCH')
