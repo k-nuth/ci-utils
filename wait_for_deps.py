@@ -12,7 +12,11 @@ def repo_name_from_ci():
     # REPO_NAME=$(echo $TRAVIS_REPO_SLUG| cut -d'/' -f 2)
     # echo $REPO_NAME
 
-    full_name = os.getenv("TRAVIS_REPO_SLUG", None)
+    full_name = os.getenv("KTH_REPO_NAME", None)
+    print(full_name)
+
+    if full_name is None:
+        full_name = os.getenv("TRAVIS_REPO_SLUG", None)
     
     if full_name is None:
         full_name = os.getenv("APPVEYOR_REPO_NAME", None)
