@@ -532,7 +532,7 @@ def get_user():
     return get_content_default('conan_user', DEFAULT_USERNAME)
 
 def get_repository():
-    return os.getenv("BIPRIM_BINTRAY_REPOSITORY", DEFAULT_REPOSITORY)
+    return os.getenv("KTH_BINTRAY_REPOSITORY", DEFAULT_REPOSITORY)
 
 def get_conan_req_version():
     return get_content('conan_req_version')
