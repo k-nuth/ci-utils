@@ -148,8 +148,6 @@ def get_git_describe(default=None):
     except:
         return default
 
-        
-
 def get_version_from_git_describe_no_releases(default=None, is_dev_branch=False):
     describe = get_git_describe()
     
