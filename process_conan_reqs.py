@@ -188,7 +188,7 @@ def replace_conan_recipe(recipe_file, text_to_search, replacement_text):
     filedata = filedata.replace(text_to_search, replacement_text)
 
     # Write the file out again
-    with open(recipe_file, 'w') as file:
+    with open(recipe_file, 'w', newline='\n') as file:
         file.write(filedata)
 
     # # with fileinput.FileInput(filename, inplace=True, backup='.bak') as file:
