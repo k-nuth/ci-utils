@@ -2,7 +2,7 @@
 #                                     clang7, clang8 and clang9
 #                                     gcc8, gcc9
 
-# from conan.packager import ConanMultiPackager
+# from cpt.packager import ConanMultiPackager
 import os
 import copy
 import re
@@ -101,10 +101,10 @@ def glibcxx_supports_cxx11_abi():
 
 
 def get_conan_packager():
-    pkg = importlib.import_module('conan.packager')
+    pkg = importlib.import_module('cpt.packager')
     return pkg
     # try:
-    #     pkg = importlib.import_module('conan.packager')
+    #     pkg = importlib.import_module('cpt.packager')
     #     return pkg
     # except ImportError:
     #     # print("*** cpuid could not be imported")
