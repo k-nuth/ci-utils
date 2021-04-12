@@ -15,7 +15,7 @@ apt-get install python -y
 apt-get install python-pip -y
 pip install conan --upgrade
 pip install conan-package-tools
-conan remote add kth https://api.bintray.com/conan/k-nuth/kth
+conan remote add kth https://knuth.jfrog.io/artifactory/api/conan/knuth
 ```
 
 # Usage

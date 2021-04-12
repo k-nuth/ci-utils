@@ -44,7 +44,7 @@ def get_compilation_symbols_gcc_string_program(filename, default=None):
         # ar cr ofile.a ofile.o
         # nm ofile.a
 
-        p = Popen(['g++', '-D_GLIBCXX_USE_CXX11_ABI=1', '-c', '-o', ofile, '-x', 'c++', '-'], stdout=PIPE, stdin=PIPE, stderr=STDOUT)    
+        p = Popen(['g++', '-D_GLIBCXX_USE_CXX11_ABI=1', '-c', '-o', ofile, '-x', 'c++', '-'], stdout=PIPE, stdin=PIPE, stderr=STDOUT)
         # print("get_compilation_symbols_gcc_string_program - 2")
 
         output, _ = p.communicate(input=b'#include <string>\nstd::string foo __attribute__ ((visibility ("default")));\nstd::string bar __attribute__ ((visibility ("default")));\n')
@@ -56,7 +56,7 @@ def get_compilation_symbols_gcc_string_program(filename, default=None):
 
         # print("get_compilation_symbols_gcc_string_program - 5")
 
-        p = Popen(['ar', 'cr', afile, ofile], stdout=PIPE, stdin=PIPE, stderr=STDOUT)    
+        p = Popen(['ar', 'cr', afile, ofile], stdout=PIPE, stdin=PIPE, stderr=STDOUT)
 
         # print("get_compilation_symbols_gcc_string_program - 6")
         output, _ = p.communicate()
@@ -68,7 +68,7 @@ def get_compilation_symbols_gcc_string_program(filename, default=None):
 
         # print("get_compilation_symbols_gcc_string_program - 9")
 
-        p = Popen(['nm', afile], stdout=PIPE, stdin=PIPE, stderr=STDOUT)    
+        p = Popen(['nm', afile], stdout=PIPE, stdin=PIPE, stderr=STDOUT)
         # print("get_compilation_symbols_gcc_string_program - 10")
         output, _ = p.communicate()
         # print("get_compilation_symbols_gcc_string_program - 11")
@@ -150,7 +150,7 @@ def get_git_describe(default=None):
 
 def get_version_from_git_describe_no_releases(default=None, is_dev_branch=False):
     describe = get_git_describe()
-    
+
     # print('describe')
     # print(describe)
 
@@ -170,7 +170,7 @@ def get_version_from_git_describe_no_releases(default=None, is_dev_branch=False)
 
 def get_version_from_git_describe(default=None, is_dev_branch=False):
     describe = get_git_describe()
-    
+
     # print('describe')
     # print(describe)
 
@@ -185,11 +185,11 @@ def get_version_from_git_describe(default=None, is_dev_branch=False):
     if is_dev_branch:
         # print(version)
         # print(release_branch_version_to_int(version))
-        
+
         # print(max_release_branch())
 
         max_release_i, max_release_s = max_release_branch()
-        
+
         if max_release_i is not None and max_release_i > release_branch_version_to_int(version):
             version = max_release_s
 
@@ -245,7 +245,7 @@ def max_release_branch(default=None):
         line = line.strip()
         # print(line)
         # if line.startswith("origin/release-"):
-        if "release-" in line: 
+        if "release-" in line:
             veri, vers = release_branch_version(line)
             if veri is not None:
                 if max is None or veri > max:
@@ -258,7 +258,7 @@ def max_release_branch(default=None):
 
 # def get_version_from_git_describe_clean(default=None, increment_minor=False):
 #     describe = get_git_describe()
-    
+
 #     if describe is None:
 #         return None
 #     version = describe.split('-')[0][1:]
@@ -281,13 +281,13 @@ def copy_env_vars(env_vars):
     env_vars["KTH_CONAN_VERSION"] = os.getenv('KTH_CONAN_VERSION', '-')
 
 def is_development_branch_internal(branch = None):
-    if branch is None: 
+    if branch is None:
         branch = get_branch()
-        
-    if branch is None: 
+
+    if branch is None:
         return False
 
-    # return branch == 'dev' or branch.startswith('feature')    
+    # return branch == 'dev' or branch.startswith('feature')
 
     if branch == 'master':
         return False
@@ -301,10 +301,10 @@ def is_development_branch_internal(branch = None):
 
 def is_development_branch():
     branch = get_branch()
-    if branch is None: 
+    if branch is None:
         return False
 
-    # return branch == 'dev' or branch.startswith('feature')    
+    # return branch == 'dev' or branch.startswith('feature')
 
     if branch == 'master':
         return False
@@ -340,10 +340,10 @@ def is_development_branch():
 
 def get_branch():
     branch = os.getenv("KTH_BRANCH", None)
-    
+
     # print("branch: %s" % (branch,))
 
-    if branch is None: 
+    if branch is None:
         branch = get_git_branch()
 
     # print("branch: %s" % (branch,))
@@ -352,7 +352,7 @@ def get_branch():
 
 # def get_branch_clean():
 #     branch = os.getenv("KTH_BRANCH", None)
-#     if branch is None: 
+#     if branch is None:
 #         branch = get_git_branch()
 #     return branch
 
@@ -361,7 +361,7 @@ def get_version_from_branch_name():
 
     # print("get_version_from_branch_name - branch: %s" % (branch,))
 
-    if branch is None: 
+    if branch is None:
         return None
 
     if branch.startswith("release-") or branch.startswith("hotfix-"):
@@ -375,7 +375,7 @@ def get_version_from_branch_name():
 # def get_version_from_branch_name_clean():
 #     branch = get_branch_clean()
 
-#     if branch is None: 
+#     if branch is None:
 #         return None
 
 #     if branch.startswith("release-") or branch.startswith("hotfix-"):
@@ -509,7 +509,7 @@ def branch_to_channel(branch):
 
 def get_channel_from_branch():
     return branch_to_channel(get_branch())
-    
+
 def get_channel():
     channel = get_channel_from_file()
 
@@ -554,7 +554,7 @@ def get_name_from_recipe():
     return get_value_from_recipe(r'''name\s*=\s*["'](\S*)["']''').groups()[0]
 
 def get_user_repository(org_name, repository_name):
-    # https://api.bintray.com/conan/k-nuth/kth
+    # https://knuth.jfrog.io/artifactory/api/conan/knuth
     return "https://api.bintray.com/conan/{0}/{1}".format(org_name.lower(), repository_name)
 
 def get_conan_upload(org_name):
@@ -568,7 +568,7 @@ def get_conan_upload_for_remote(org_name):
 def get_conan_remotes(org_name):
     # While redundant, this moves upload remote to position 0.
     remotes = [get_conan_upload_for_remote(org_name),
-              'https://api.bintray.com/conan/k-nuth/kth',
+              'https://knuth.jfrog.io/artifactory/api/conan/knuth',
               'https://api.bintray.com/conan/tao-cpp/tao',]
 
     # # Add bincrafters repository for other users, e.g. if the package would
@@ -692,8 +692,8 @@ marchs_extensions = {
     #tock
     'haswell':        ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3', 'SSE4', 'SSE4.1', 'SSE4.2', 'POPCNT', 'AES', 'PCLMUL', 'AVX', 'FSGSBASE', 'RDRND', 'F16C', 'FMA', 'BMI', 'BMI2', 'MOVBE', 'AVX2'],
     #tick/process
-    'broadwell':      ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3', 'SSE4', 'SSE4.1', 'SSE4.2', 'POPCNT', 'AES', 'PCLMUL', 'AVX', 'FSGSBASE', 'RDRND', 'F16C', 'FMA', 'BMI', 'BMI2', 'MOVBE', 'AVX2', 'RDSEED', 'ADCX', 'PREFETCHW'],  #TXT, TSX, 
-                                 
+    'broadwell':      ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3', 'SSE4', 'SSE4.1', 'SSE4.2', 'POPCNT', 'AES', 'PCLMUL', 'AVX', 'FSGSBASE', 'RDRND', 'F16C', 'FMA', 'BMI', 'BMI2', 'MOVBE', 'AVX2', 'RDSEED', 'ADCX', 'PREFETCHW'],  #TXT, TSX,
+
 
     'skylake':        ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3', 'SSE4', 'SSE4.1', 'SSE4.2', 'POPCNT', 'AES', 'PCLMUL', 'AVX', 'FSGSBASE', 'RDRND', 'F16C', 'FMA', 'BMI', 'BMI2', 'MOVBE', 'AVX2', 'RDSEED', 'ADCX', 'PREFETCHW', 'CLFLUSHOPT', 'XSAVEC', 'XSAVES'],
     'skylake-avx512': ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3', 'SSE4', 'SSE4.1', 'SSE4.2', 'POPCNT', 'AES', 'PCLMUL', 'AVX', 'FSGSBASE', 'RDRND', 'F16C', 'FMA', 'BMI', 'BMI2', 'MOVBE', 'AVX2', 'RDSEED', 'ADCX', 'PREFETCHW', 'CLFLUSHOPT', 'XSAVEC', 'XSAVES', 'AVX512F', 'AVX512CD', 'AVX512VL', 'AVX512BW', 'AVX512DQ', 'PKU', 'CLWB'],
@@ -735,7 +735,7 @@ marchs_extensions = {
     'opteron-sse3':  ['64-bit extensions', 'MMX', 'SSE', 'SSE2', '3DNow!', 'enhanced 3DNow!', 'SSE3'],
     'athlon64-sse3': ['64-bit extensions', 'MMX', 'SSE', 'SSE2', '3DNow!', 'enhanced 3DNow!', 'SSE3'],
 
-#           AMD Family 10h, or K10: amdfam10, barcelona            
+#           AMD Family 10h, or K10: amdfam10, barcelona
 #           https://en.wikipedia.org/wiki/AMD_10h
     'amdfam10':      ['64-bit extensions', 'MMX', 'SSE', 'SSE2', '3DNow!', 'enhanced 3DNow!', 'SSE3', 'SSE4A', 'ABM'],
     'barcelona':     ['64-bit extensions', 'MMX', 'SSE', 'SSE2', '3DNow!', 'enhanced 3DNow!', 'SSE3', 'SSE4A', 'ABM'],
@@ -765,11 +765,11 @@ marchs_extensions = {
     'eden-x4':        ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3', 'SSE4.1', 'SSE4.2', 'AVX', 'AVX2'],
 
     'nano':           ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3'],
-    'nano-1000':      ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3'], 
-    'nano-2000':      ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3'], 
-    'nano-3000':      ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3', 'SSE4.1'], 
-    'nano-x2':        ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3', 'SSE4.1'], 
-    'nano-x4':        ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3', 'SSE4.1'], 
+    'nano-1000':      ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3'],
+    'nano-2000':      ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3'],
+    'nano-3000':      ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3', 'SSE4.1'],
+    'nano-x2':        ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3', 'SSE4.1'],
+    'nano-x4':        ['64-bit extensions', 'MMX', 'SSE', 'SSE2', 'SSE3', 'SSSE3', 'SSE4.1'],
 
 }
 
@@ -815,19 +815,19 @@ marchs_families['mingw']= {}
 
 # msvc 2019
     # (x86)
-        # /arch:[IA32|SSE|SSE2|AVX|AVX2]  
+        # /arch:[IA32|SSE|SSE2|AVX|AVX2]
     # (x64)
-        # /arch:[AVX|AVX2]  
+        # /arch:[AVX|AVX2]
     # (ARM)
-        # /arch:[ARMv7VE|VFPv4]  
+        # /arch:[ARMv7VE|VFPv4]
 
 # msvc 2017
     # (x86)
-        # /arch:[IA32|SSE|SSE2|AVX|AVX2]  
+        # /arch:[IA32|SSE|SSE2|AVX|AVX2]
     # (x64)
-        # /arch:[AVX|AVX2]  
+        # /arch:[AVX|AVX2]
     # (ARM)
-        # /arch:[ARMv7VE|VFPv4]  
+        # /arch:[ARMv7VE|VFPv4]
 
 marchs_families['msvc'][14] = {
     'amd_high':   ['x86-64', 'bdver1', 'bdver4'],
@@ -951,9 +951,9 @@ def adjust_compiler_name(os, compiler):
         return "mingw"
     if compiler == "Visual Studio":
         return "msvc"
-        
+
     return compiler
-        
+
 def get_march_basis(march_detected, os, compiler, compiler_version, full, default):
     compiler = adjust_compiler_name(os, compiler)
 
@@ -1045,7 +1045,7 @@ def filter_valid_exts(os, compiler, compiler_version, exts):
 def march_close_name(march_incorrect): #, compiler, compiler_version):
     # full = get_full_family()
     return difflib.get_close_matches(march_incorrect, marchs_full_list())
-    
+
 
 
 
@@ -1216,7 +1216,7 @@ class KnuthCxx11ABIFixer(ConanFile):
 
         abi_support = glibcxx_supports_cxx11_abi()
         self.output.info("glibcxx_supports_cxx11_abi(): %s" % (abi_support,))
-        
+
         self.options.glibcxx_supports_cxx11_abi = abi_support
         self.options["*"].glibcxx_supports_cxx11_abi = self.options.glibcxx_supports_cxx11_abi
         self.output.info("configure() - 2 - glibcxx_supports_cxx11_abi: %s" % (self.options.get_safe("glibcxx_supports_cxx11_abi"),))
@@ -1269,7 +1269,7 @@ class KnuthConanFile(KnuthCxx11ABIFixer):
         # return "MT" in str(self.settings.compiler.runtime)
         return "MT" in str(self.settings.get_safe("compiler.runtime"))
 
-        
+
 
     @property
     def fPIC_enabled(self):
@@ -1459,7 +1459,7 @@ class KnuthConanFile(KnuthCxx11ABIFixer):
 # Copyright (C) 2017 Free Software Foundation, Inc.
 # This is free software; see the source for copying conditions.  There is NO
 # warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- 
+
 # echo "" | gcc -fsyntax-only -march=pepe -xc -
 # cc1: note: valid arguments to '-march=' switch are: nocona core2 nehalem corei7 westmere sandybridge corei7-avx ivybridge core-avx-i haswell core-avx2 broadwell skylake skylake-avx512 bonnell atom silvermont slm knl x86-64 eden-x2 nano nano-1000 nano-2000 nano-3000 nano-x2 eden-x4 nano-x4 k8 k8-sse3 opteron opteron-sse3 athlon64 athlon64-sse3 athlon-fx amdfam10 barcelona bdver1 bdver2 bdver3 bdver4 znver1 btver1 btver2
 
@@ -1478,14 +1478,14 @@ class KnuthConanFile(KnuthCxx11ABIFixer):
 
 
 # Kaby Lake
-#     Successor	
+#     Successor
 #         Desktop: Coffee Lake (2nd Optimization)
 #                  Whiskey Lake (3rd Optimization)
 #         Mobile:  Cannon Lake (Process)
 #         Servers and Desktop: Cascade Lake (3rd Optimization)[4][5]
 
 # Coffee Lake
-#     Successor	
+#     Successor
 #         Desktop:    Whiskey Lake (3rd Optimization)
 #         Mobile:     Cannon Lake (Process)
 #         Ice Lake (Architecture)
@@ -1508,16 +1508,16 @@ class KnuthConanFile(KnuthCxx11ABIFixer):
 #     	Tiger Lake (Optimization)
 
 # Tiger Lake
-#     Successor	
+#     Successor
 #         Sapphire Rapids (unknown)
 
 # Sapphire Rapids
-#     Successor	
+#     Successor
 
 # Linea Knights
 #     Polaris | Larrabee (LRB) | Rock Creek
-#     Knights Ferry (KNF) 
-#     Knights Corner (KNC) 
+#     Knights Ferry (KNF)
+#     Knights Corner (KNC)
 #     Knights Landing (KNL) | Knights Mill (KNM)
 #     Knights Hill (KNH)
 #     Knights Peak (KNP)

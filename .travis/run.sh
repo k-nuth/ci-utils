@@ -14,8 +14,8 @@ echo $CONAN_CHANNEL
 eval $(python ci_utils/set_envvars_and_files.py)
 echo $CONAN_CHANNEL
 
-conan remote add kth https://api.bintray.com/conan/k-nuth/kth || true
-conan remote add kth https://api.bintray.com/conan/k-nuth/kth || true
+conan remote add kth https://knuth.jfrog.io/artifactory/api/conan/knuth || true
+conan remote add kth https://knuth.jfrog.io/artifactory/api/conan/knuth || true
 # conan info . --only None
 # conan info . --only None -s compiler=gcc -s compiler.version=5 -s compiler.libcxx=libstdc++
 python ci_utils/process_conan_reqs.py
