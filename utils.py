@@ -557,6 +557,7 @@ def get_user_repository(org_name, repository_name):
     # https://knuth.jfrog.io/artifactory/api/conan/knuth
     return "https://api.bintray.com/conan/{0}/{1}".format(org_name.lower(), repository_name)
 
+
 def get_conan_upload(org_name):
     repository_name = get_repository()
     return os.getenv("CONAN_UPLOAD", get_user_repository(org_name, repository_name))
@@ -569,7 +570,7 @@ def get_conan_remotes(org_name):
     # While redundant, this moves upload remote to position 0.
     remotes = [get_conan_upload_for_remote(org_name),
               'https://knuth.jfrog.io/artifactory/api/conan/knuth',
-              'https://api.bintray.com/conan/tao-cpp/tao',]
+              'https://taocpp.jfrog.io/artifactory/api/conan/tao',]
 
     # # Add bincrafters repository for other users, e.g. if the package would
     # # require other packages from the bincrafters repo.
