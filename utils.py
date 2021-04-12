@@ -555,8 +555,8 @@ def get_name_from_recipe():
 
 def get_user_repository(org_name, repository_name):
     # https://knuth.jfrog.io/artifactory/api/conan/knuth
-    return "https://api.bintray.com/conan/{0}/{1}".format(org_name.lower(), repository_name)
-
+    # return "https://api.bintray.com/conan/{0}/{1}".format(org_name.lower(), repository_name)
+    return "https://knuth.jfrog.io/artifactory/api/conan/knuth"
 
 def get_conan_upload(org_name):
     repository_name = get_repository()
