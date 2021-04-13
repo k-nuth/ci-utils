@@ -33,6 +33,6 @@ conan remote remove kth || true
 
 conan remote remove kthbuild_kth_temp_ || true
 
-conan remote add kthbuild_tao_temp_ https://taocpp.jfrog.io/artifactory/api/conan/tao || true
+conan remote add tao https://taocpp.jfrog.io/artifactory/api/conan/tao || true
 
 python build.py
