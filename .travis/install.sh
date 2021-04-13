@@ -30,3 +30,9 @@ pip install kthbuild --upgrade > /dev/null
 
 conan --version
 conan user
+
+uname -s
+
+if [[ "$(uname -s)" != 'Darwin' ]]; then
+    conan profile update settings.compiler.libcxx=libstdc++11 default
+fi
