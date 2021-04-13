@@ -16,13 +16,13 @@ def repo_name_from_ci():
 
     if full_name is None:
         full_name = os.getenv("TRAVIS_REPO_SLUG", None)
-    
+
     if full_name is None:
         full_name = os.getenv("APPVEYOR_REPO_NAME", None)
 
     if full_name is None:
         full_name = os.getenv("CIRRUS_REPO_FULL_NAME", None)
-    
+
     if full_name is None:
         return ''
 
@@ -33,9 +33,10 @@ def get_conan_search(package, remote):
         # conan search infrastructure/0.X@kth/staging -r kth_temp > $null
         params = ["conan", "search", package, "-r", remote]
         command = " ".join(params)
-        # print("executing for %s ..." % (command,))
+        print("executing for %s ..." % (command,))
         res = subprocess.Popen(params, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, _ = res.communicate()
+        print(output)
         if output:
             return res.returncode
         return 1
@@ -70,7 +71,7 @@ for dep in deps:
     print("waiting for %s ..." % (package,))
     res = get_conan_search(package, remote)
     while res != 0:
-        print('.', end='')
+        # print('.', end='')
         sys.stdout.flush()
         time.sleep(1)
         res = get_conan_search(package, remote)
