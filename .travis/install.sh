@@ -36,8 +36,10 @@ uname -s
 if [[ "$(uname -s)" == 'Linux' ]]; then
     # conan remote list
     conan profile new default --detect
+    conan profile show default
     ls ~/.conan
     ls ~/.conan/profiles
     cat ~/.conan/profiles/default
     conan profile update settings.compiler.libcxx=libstdc++11 default
+    conan profile show default
 fi

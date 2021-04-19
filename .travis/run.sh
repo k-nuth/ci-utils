@@ -35,4 +35,7 @@ conan remote remove kthbuild_kth_temp_ || true
 
 conan remote add tao https://taocpp.jfrog.io/artifactory/api/conan/tao -f || true
 
+
+conan profile show default
+
 python build.py
