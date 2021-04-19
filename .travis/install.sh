@@ -33,6 +33,10 @@ conan user
 
 uname -s
 
-if [[ "$(uname -s)" != 'Darwin' ]]; then
+if [[ "$(uname -s)" == 'Linux' ]]; then
+    conan remote list
+    ls ~/.conan
+    ls ~/.conan/profiles
+    cat ~/.conan/profiles/default
     conan profile update settings.compiler.libcxx=libstdc++11 default
 fi
