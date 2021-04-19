@@ -34,7 +34,8 @@ conan user
 uname -s
 
 if [[ "$(uname -s)" == 'Linux' ]]; then
-    conan remote list
+    # conan remote list
+    conan profile new default --detect
     ls ~/.conan
     ls ~/.conan/profiles
     cat ~/.conan/profiles/default
