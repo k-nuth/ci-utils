@@ -28,7 +28,7 @@ def get_package_ids(reference, remote=None, default=None):
         idx = l.find("Package_ID:") #, start, end)
         # print(idx)
         if idx != -1:
-            print(l)
+            # print(l)
             res.append(l[idx + len("Package_ID:") + 1:])
     return res
 
@@ -51,6 +51,12 @@ def exec_conan_remove(reference, package, remote=None, default=None):
         return default
 
 def main():
+
+    res = get_conan_search("secp256k1", "kth")
+    print(res)
+    return
+
+
     if (len(sys.argv) < 3):
         print('Arguments: <reference> <remote> [remove]')
         return
