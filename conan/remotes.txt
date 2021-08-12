@@ -1,3 +1,4 @@
+conancenter https://center.conan.io true
 conan-center https://conan.bintray.com true
 kth https://knuth.jfrog.io/artifactory/api/conan/knuth true
 tao https://taocpp.jfrog.io/artifactory/api/conan/tao true
