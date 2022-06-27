@@ -44,3 +44,9 @@ if [[ "$(uname -s)" == 'Linux' ]]; then
     conan profile update settings.compiler.libcxx=libstdc++11 default
     conan profile show default
 fi
+
+if [[ "$(uname -s)" == 'Darwin' ]]; then
+    conan profile show default
+    conan profile update settings.compiler.version=13 default
+    conan profile show default
+fi
