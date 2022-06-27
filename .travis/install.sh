@@ -46,6 +46,7 @@ if [[ "$(uname -s)" == 'Linux' ]]; then
 fi
 
 if [[ "$(uname -s)" == 'Darwin' ]]; then
+    conan profile new default --detect
     conan profile show default
     conan profile update settings.compiler.version=13 default
     conan profile show default
