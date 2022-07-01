@@ -1185,70 +1185,71 @@ def get_requirements_from_file():
     return []
 
 
-class KnuthCxx11ABIFixer(ConanFile):
-    def configure(self):
-        self.output.info("configure() - glibcxx_supports_cxx11_abi: %s" % (self.options.get_safe("glibcxx_supports_cxx11_abi"),))
+# class KnuthCxx11ABIFixer(ConanFile):
+#     def configure(self):
+#         self.output.info("configure() - glibcxx_supports_cxx11_abi: %s" % (self.options.get_safe("glibcxx_supports_cxx11_abi"),))
 
-        if self.options.get_safe("glibcxx_supports_cxx11_abi") is None:
-            return
+#         if self.options.get_safe("glibcxx_supports_cxx11_abi") is None:
+#             return
 
-        if not (self.settings.compiler == "gcc" or self.settings.compiler == "clang"):
-            self.output.info("glibcxx_supports_cxx11_abi option is only valid for 'gcc' or 'clang' compilers, deleting it. Your compiler is: '%s'." % (str(self.settings.compiler),))
-            del self.options.glibcxx_supports_cxx11_abi
-            return
+#         if not (self.settings.compiler == "gcc" or self.settings.compiler == "clang"):
+#             self.output.info("glibcxx_supports_cxx11_abi option is only valid for 'gcc' or 'clang' compilers, deleting it. Your compiler is: '%s'." % (str(self.settings.compiler),))
+#             del self.options.glibcxx_supports_cxx11_abi
+#             return
 
-        if self.settings.compiler == "gcc" and self.settings.os == "Windows":
-            self.output.info("glibcxx_supports_cxx11_abi option is not valid for 'MinGW' compiler, deleting it. Your compiler is: '%s, %s'." % (str(self.settings.compiler),str(self.settings.os)))
-            del self.options.glibcxx_supports_cxx11_abi
-            return
+#         if self.settings.compiler == "gcc" and self.settings.os == "Windows":
+#             self.output.info("glibcxx_supports_cxx11_abi option is not valid for 'MinGW' compiler, deleting it. Your compiler is: '%s, %s'." % (str(self.settings.compiler),str(self.settings.os)))
+#             del self.options.glibcxx_supports_cxx11_abi
+#             return
 
-        if self.settings.get_safe("compiler.libcxx") is None:
-            self.output.info("glibcxx_supports_cxx11_abi option is only useful for 'libstdc++' or 'libstdc++11', deleting it. Your compiler.libcxx is: '%s'." % (str(self.settings.compiler.libcxx),))
-            del self.options.glibcxx_supports_cxx11_abi
-            return
+#         if self.settings.get_safe("compiler.libcxx") is None:
+#             self.output.info("glibcxx_supports_cxx11_abi option is only useful for 'libstdc++' or 'libstdc++11', deleting it. Your compiler.libcxx is: '%s'." % (str(self.settings.compiler.libcxx),))
+#             del self.options.glibcxx_supports_cxx11_abi
+#             return
 
-        if not (str(self.settings.compiler.libcxx) == "libstdc++" or str(self.settings.compiler.libcxx) == "libstdc++11"):
-            self.output.info("glibcxx_supports_cxx11_abi option is only useful for 'libstdc++' or 'libstdc++11', deleting it. Your compiler.libcxx is: '%s'." % (str(self.settings.compiler.libcxx),))
-            del self.options.glibcxx_supports_cxx11_abi
-            return
+#         if not (str(self.settings.compiler.libcxx) == "libstdc++" or str(self.settings.compiler.libcxx) == "libstdc++11"):
+#             self.output.info("glibcxx_supports_cxx11_abi option is only useful for 'libstdc++' or 'libstdc++11', deleting it. Your compiler.libcxx is: '%s'." % (str(self.settings.compiler.libcxx),))
+#             del self.options.glibcxx_supports_cxx11_abi
+#             return
 
-        if self.options.get_safe("glibcxx_supports_cxx11_abi") != "_DUMMY_":
-            return
+#         if self.options.get_safe("glibcxx_supports_cxx11_abi") != "_DUMMY_":
+#             return
 
-        abi_support = glibcxx_supports_cxx11_abi()
-        self.output.info("glibcxx_supports_cxx11_abi(): %s" % (abi_support,))
+#         abi_support = glibcxx_supports_cxx11_abi()
+#         self.output.info("glibcxx_supports_cxx11_abi(): %s" % (abi_support,))
 
-        self.options.glibcxx_supports_cxx11_abi = abi_support
-        self.options["*"].glibcxx_supports_cxx11_abi = self.options.glibcxx_supports_cxx11_abi
-        self.output.info("configure() - 2 - glibcxx_supports_cxx11_abi: %s" % (self.options.get_safe("glibcxx_supports_cxx11_abi"),))
-        self.libcxx_changed = True
+#         self.options.glibcxx_supports_cxx11_abi = abi_support
+#         self.options["*"].glibcxx_supports_cxx11_abi = self.options.glibcxx_supports_cxx11_abi
+#         self.output.info("configure() - 2 - glibcxx_supports_cxx11_abi: %s" % (self.options.get_safe("glibcxx_supports_cxx11_abi"),))
+#         self.libcxx_changed = True
 
-        # libcxx_old = str(self.settings.compiler.libcxx)
-        # if str(self.settings.compiler.libcxx) == "libstdc++" and abi_support:
-        #     self.settings.compiler.libcxx = "libstdc++11"
-        #     # self.settings["*"].compiler.libcxx = self.settings.compiler.libcxx
-        #     self.output.info("compiler.libcxx changed from %s to %s" % (libcxx_old, str(self.settings.compiler.libcxx),))
+#         # libcxx_old = str(self.settings.compiler.libcxx)
+#         # if str(self.settings.compiler.libcxx) == "libstdc++" and abi_support:
+#         #     self.settings.compiler.libcxx = "libstdc++11"
+#         #     # self.settings["*"].compiler.libcxx = self.settings.compiler.libcxx
+#         #     self.output.info("compiler.libcxx changed from %s to %s" % (libcxx_old, str(self.settings.compiler.libcxx),))
 
-        # if str(self.settings.compiler.libcxx) == "libstdc++11" and not abi_support:
-        #     self.settings.compiler.libcxx = "libstdc++"
-        #     # self.settings["*"].compiler.libcxx = self.settings.compiler.libcxx
-        #     self.output.info("compiler.libcxx changed from %s to %s" % (libcxx_old, str(self.settings.compiler.libcxx),))
-
-
-    def package_id(self):
-        self.output.info("package_id() - glibcxx_supports_cxx11_abi: %s" % (self.options.get_safe("glibcxx_supports_cxx11_abi"),))
-        # self.info.settings.compiler.libcxx = "libstdc++11"
-
-        #For Knuth Packages libstdc++ and libstdc++11 are the same
-        if self.settings.compiler == "gcc" or self.settings.compiler == "clang":
-            if self.settings.get_safe("compiler.libcxx") is not None:
-                if str(self.settings.compiler.libcxx) == "libstdc++" or str(self.settings.compiler.libcxx) == "libstdc++11":
-                    # self.info.settings.compiler.libcxx = "ANY"
-                    self.info.settings.compiler.libcxx = "libstdc++"
+#         # if str(self.settings.compiler.libcxx) == "libstdc++11" and not abi_support:
+#         #     self.settings.compiler.libcxx = "libstdc++"
+#         #     # self.settings["*"].compiler.libcxx = self.settings.compiler.libcxx
+#         #     self.output.info("compiler.libcxx changed from %s to %s" % (libcxx_old, str(self.settings.compiler.libcxx),))
 
 
+#     def package_id(self):
+#         self.output.info("package_id() - glibcxx_supports_cxx11_abi: %s" % (self.options.get_safe("glibcxx_supports_cxx11_abi"),))
+#         # self.info.settings.compiler.libcxx = "libstdc++11"
 
-class KnuthConanFile(KnuthCxx11ABIFixer):
+#         #For Knuth Packages libstdc++ and libstdc++11 are the same
+#         if self.settings.compiler == "gcc" or self.settings.compiler == "clang":
+#             if self.settings.get_safe("compiler.libcxx") is not None:
+#                 if str(self.settings.compiler.libcxx) == "libstdc++" or str(self.settings.compiler.libcxx) == "libstdc++11":
+#                     # self.info.settings.compiler.libcxx = "ANY"
+#                     self.info.settings.compiler.libcxx = "libstdc++"
+
+
+
+# class KnuthConanFile(KnuthCxx11ABIFixer):
+class KnuthConanFile(ConanFile):
     if Version(conan_version) < Version(get_conan_req_version()):
         raise Exception ("Conan version should be greater or equal than %s. Detected: %s." % (get_conan_req_version(), conan_version))
 
