@@ -1,2 +1,2 @@
-from utils import get_version
+from kthbuild import get_version
 print(get_version())
