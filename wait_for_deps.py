@@ -1,7 +1,8 @@
 import os
 import pipes
 import platform
-from utils import get_version
+from utils import kthbuild
+# from utils import get_version
 import sys
 import time
 import subprocess
