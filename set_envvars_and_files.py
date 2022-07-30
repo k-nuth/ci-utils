@@ -1,7 +1,7 @@
 import os
 import pipes
 import platform
-from kthbuild import get_version
+from utils import get_version
 
 if 'KTH_BRANCH' in os.environ:
     branch = os.environ.get('KTH_BRANCH')
