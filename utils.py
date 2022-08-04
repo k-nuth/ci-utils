@@ -176,6 +176,41 @@ def is_development_branch():
 
     return True
 
+
+def branch_to_channel(branch):
+    if branch is None:
+        return "staging"
+    if branch == 'dev':
+        return "testing"
+    if branch.startswith('release'):
+        return "staging"
+    if branch.startswith('hotfix'):
+        return "staging"
+    if branch.startswith('feature'):
+        return branch
+
+    return "staging"
+
+def get_channel_from_file():
+    return get_content_default('conan_channel')
+
+def get_channel_from_branch():
+    return branch_to_channel(get_branch())
+
+def get_channel():
+    channel = get_channel_from_file()
+
+    if channel is None:
+        channel = os.getenv("KTH_CONAN_CHANNEL", None)
+
+    if channel is None:
+        # channel = get_git_branch()
+        channel = get_channel_from_branch()
+
+    if channel is None:
+        channel = 'staging'
+
+    return channel
 # def main():
 #     print(get_version())
 
