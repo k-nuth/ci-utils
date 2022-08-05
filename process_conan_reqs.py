@@ -4,6 +4,11 @@ import fileinput
 import platform
 import json
 
+_REMOTE = os.environ.get('KTH_CONAN_REMOTE', "kthbuild_kth_temp_")
+# print("*************************************************")
+# print(_REMOTE)
+# print("*************************************************")
+
 def get_conan_info(default=None):
     try:
 
@@ -11,7 +16,7 @@ def get_conan_info(default=None):
             # conan info . --only requires -s compiler=gcc -s compiler.version=5 -s compiler.libcxx=libstdc++
             params = ["conan", "info", ".", "--only", "requires", "-s", "compiler=gcc", "-s", "compiler.version=5", "-s", "compiler.libcxx=libstdc++"]
         else:
-            # # conan info . --only None  
+            # # conan info . --only None
             # params = ["conan", "info", ".", "--only", "None"]
             # conan info . --only requires
             params = ["conan", "info", ".", "--only", "requires"]
@@ -34,7 +39,7 @@ def get_conan_info_json(default=None):
             # conan info . --only requires  --json -s compiler=gcc -s compiler.version=5 -s compiler.libcxx=libstdc++
             params = ["conan", "info", ".", "--only", "requires", "--json", "-s", "compiler=gcc", "-s", "compiler.version=5", "-s", "compiler.libcxx=libstdc++"]
         else:
-            # # conan info . --only None  
+            # # conan info . --only None
             # params = ["conan", "info", ".", "--only", "None"]
             # conan info . --only requires --json
             params = ["conan", "info", ".", "--only", "requires", "--json"]
@@ -111,6 +116,7 @@ def get_conan_requires():
     info_str = get_conan_info_json()
     # print(info_str)
     info_json = json.loads(info_str)
+    # print(info_json)
 
     for e in info_json:
         if e['reference'].startswith("conanfile.py ("):
@@ -145,6 +151,8 @@ def get_conan_get(package, remote=None, default=None):
         else:
             params = ["conan", "get", package, "-r", remote]
 
+        # print("command to execute", " ".join(params))
+
         res = subprocess.Popen(params, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, _ = res.communicate()
         if output:
@@ -160,7 +168,7 @@ def get_alias_version(package, remote=None, default=None):
     conan_alias = get_conan_get(package, remote, default)
     conan_alias = conan_alias.split('\n')[4:][0]
     return conan_alias[12:].replace('"', '')
-    
+
 # def write_req_file():
 #     reqs = get_conan_requires()
 #     print(reqs)
@@ -209,7 +217,7 @@ def replace_conan_deps():
             # print(r)
             orig_req = ("%s/0.X@" % (r,)) + "%s/%s"
             # print(orig_req)
-            alias = get_alias_version(orig_req % ("kth", "staging"), "kthbuild_kth_temp_")
+            alias = get_alias_version(orig_req % ("kth", "staging"), _REMOTE)
             # print(alias)
             pos = alias.find('@')
             alias = alias[:pos]
