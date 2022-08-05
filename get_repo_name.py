@@ -1,7 +1,6 @@
 import os
 import pipes
 import platform
-from utils import get_version
 import sys
 import time
 import subprocess
@@ -12,13 +11,13 @@ repos = {
 
 def repo_name_from_ci():
     full_name = os.getenv("TRAVIS_REPO_SLUG", None)
-    
+
     if full_name is None:
         full_name = os.getenv("APPVEYOR_REPO_NAME", None)
 
     if full_name is None:
         full_name = os.getenv("CIRRUS_REPO_FULL_NAME", None)
-    
+
     if full_name is None:
         return ''
 

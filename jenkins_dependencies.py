@@ -4,7 +4,7 @@ from argparse import ArgumentParser
 from os.path import expanduser
 import subprocess
 import shutil
-from utils import get_git_branch, access_file
+from kthbuild import get_git_branch, access_file
 
 # Usage
 # rp = root path

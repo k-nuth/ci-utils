@@ -24,9 +24,13 @@ fi
 
 pip install  --upgrade pip > /dev/null
 
+# pip install conan_package_tools==0.38.0 #> /dev/null
 pip install conan_package_tools==0.35.1 #> /dev/null
+
 # pip install kthbuild==0.0.14 > /dev/null
-pip install kthbuild --upgrade > /dev/null
+# pip install kthbuild --upgrade > /dev/null
+# pip install conan==1.49.0 > /dev/null
+pip install kthbuild --upgrade
 
 conan --version
 conan user
@@ -41,5 +45,12 @@ if [[ "$(uname -s)" == 'Linux' ]]; then
     ls ~/.conan/profiles
     cat ~/.conan/profiles/default
     conan profile update settings.compiler.libcxx=libstdc++11 default
+    conan profile show default
+fi
+
+if [[ "$(uname -s)" == 'Darwin' ]]; then
+    conan profile new default --detect
+    conan profile show default
+    conan profile update settings.compiler.version=13 default
     conan profile show default
 fi

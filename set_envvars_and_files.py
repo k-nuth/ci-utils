@@ -41,7 +41,7 @@ if platform.system() == "Windows":
 else:
     export_str = "export KTH_BRANCH=%s KTH_CONAN_CHANNEL=%s KTH_FULL_BUILD=%s KTH_CONAN_VERSION=%s CONAN_CHANNEL=%s "
 
-print(export_str % (pipes.quote(str(branch)), 
+print(export_str % (pipes.quote(str(branch)),
                     pipes.quote(str(channel)),
                     pipes.quote(str(full_build)),
                     pipes.quote(str(version)),
