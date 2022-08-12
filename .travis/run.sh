@@ -40,4 +40,13 @@ conan remote add tao https://taocpp.jfrog.io/artifactory/api/conan/tao -f || tru
 
 # conan profile show default
 
+echo "-----------------------------------------------------------"
+conan config get
+echo "-----------------------------------------------------------"
+conan config set general.revisions_enabled=1
+echo "-----------------------------------------------------------"
+conan config get
+echo "-----------------------------------------------------------"
+
+
 python build.py
