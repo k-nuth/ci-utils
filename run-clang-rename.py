@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright (c) 2016-2022 Knuth Project developers.
+# Copyright (c) 2016-2023 Knuth Project developers.
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -71,7 +71,7 @@ def get_rename_invocation(f, clang_rename_binary, build_path, input_path):
 def run_rename(args, build_path, input_path, name, failed_files):
   while True:
     invocation = get_rename_invocation(name, args.clang_rename_binary, build_path, input_path)
-                                     
+
     sys.stdout.write(' '.join(invocation) + '\n')
     return_code = subprocess.call(invocation)
     if return_code != 0:

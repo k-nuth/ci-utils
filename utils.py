@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #
-# Copyright (c) 2019-2022 Knuth Project
+# Copyright (c) 2019-2023 Knuth Project
 #
 
 import os
