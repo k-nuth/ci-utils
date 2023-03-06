@@ -28,7 +28,8 @@ pip install "conan>=1.50.0,<2.0" --upgrade
 # pip install conan==1.49.0 > /dev/null
 
 # pip install conan_package_tools==0.38.0 #> /dev/null
-pip install conan_package_tools==0.35.1 #> /dev/null
+# pip install conan_package_tools==0.35.1 #> /dev/null
+pip install conan_package_tools==0.39.0 #> /dev/null
 
 # pip install kthbuild==0.0.14 > /dev/null
 # pip install kthbuild --upgrade > /dev/null
