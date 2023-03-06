@@ -15,8 +15,8 @@ if [[ "$(uname -s)" == 'Darwin' ]]; then
 
     # pyenv install 3.7.1
     # pyenv virtualenv 3.7.1 conan
-    pyenv install 3.8.6
-    pyenv virtualenv 3.8.6 conan
+    pyenv install 3.10.8
+    pyenv virtualenv 3.10.8 conan
 
     pyenv rehash
     pyenv activate conan
@@ -24,12 +24,15 @@ fi
 
 pip install  --upgrade pip > /dev/null
 
+pip install "conan>=1.50.0,<2.0" --upgrade
+# pip install conan==1.49.0 > /dev/null
+
 # pip install conan_package_tools==0.38.0 #> /dev/null
-pip install conan_package_tools==0.35.1 #> /dev/null
+# pip install conan_package_tools==0.35.1 #> /dev/null
+pip install conan_package_tools==0.39.0 #> /dev/null
 
 # pip install kthbuild==0.0.14 > /dev/null
 # pip install kthbuild --upgrade > /dev/null
-# pip install conan==1.49.0 > /dev/null
 pip install kthbuild --upgrade
 
 conan --version
@@ -44,6 +47,7 @@ if [[ "$(uname -s)" == 'Linux' ]]; then
     ls ~/.conan
     ls ~/.conan/profiles
     cat ~/.conan/profiles/default
+    conan profile update settings.compiler.version=11 default
     conan profile update settings.compiler.libcxx=libstdc++11 default
     conan profile show default
 fi
