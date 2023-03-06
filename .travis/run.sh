@@ -28,6 +28,7 @@ conan remote list
 # conan info . --only None -s compiler=gcc -s compiler.version=5 -s compiler.libcxx=libstdc++
 # conan info . --only requires -s compiler=gcc -s compiler.version=5 -s compiler.libcxx=libstdc++
 
+echo $KTH_CONAN_CHANNEL
 conan info . --only requires  --json -s compiler=gcc -s compiler.version=5 -s compiler.libcxx=libstdc++
 
 python ci_utils/process_conan_reqs.py
