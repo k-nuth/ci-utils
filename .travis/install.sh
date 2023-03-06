@@ -46,6 +46,7 @@ if [[ "$(uname -s)" == 'Linux' ]]; then
     ls ~/.conan
     ls ~/.conan/profiles
     cat ~/.conan/profiles/default
+    conan profile update settings.compiler.version=11 default
     conan profile update settings.compiler.libcxx=libstdc++11 default
     conan profile show default
 fi
