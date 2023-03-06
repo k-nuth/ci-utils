@@ -1,1 +1,1 @@
-{"config": [{"name": "Linux GCC 11","compiler": "GCC","version": "11","os": "ubuntu-20.04","docker_suffix": "-ubuntu16.04"},{"name": "macOS apple-clang 13","compiler": "apple-clang","version": "14","os": "macos-12"}]}
+{"config": [{"name": "Linux GCC 11","compiler": "GCC","version": "11","os": "ubuntu-20.04","docker_suffix": "-ubuntu16.04"},{"name": "macOS apple-clang 13","compiler": "apple-clang","version": "13","os": "macos-12"}]}
