@@ -231,7 +231,7 @@ channel = os.environ.get('KTH_CONAN_CHANNEL')
 # channel = 'staging'
 # print("--------------------------------------------")
 # print("process_conan_reqs.py")
-print(f'*** process_conan_reqs.py channel: {channel}')
+# print(f'*** process_conan_reqs.py channel: {channel}')
 # print("--------------------------------------------")
 
 if channel == 'staging':
