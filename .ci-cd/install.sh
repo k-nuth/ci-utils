@@ -29,7 +29,7 @@ fi
 # pip install kthbuild --upgrade
 
 conan --version
-conan user
+# conan user
 
 uname -s
 

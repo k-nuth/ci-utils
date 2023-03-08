@@ -14,7 +14,7 @@ set -x
 # eval $(python ci_utils/set_envvars_and_files.py)
 # echo $CONAN_CHANNEL
 
-conan user
+# conan user
 conan remote list
 
 # conan remote add kth https://knuth.jfrog.io/artifactory/api/conan/knuth || true
