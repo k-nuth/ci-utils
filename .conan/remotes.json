@@ -1,0 +1,19 @@
+{
+ "remotes": [
+  {
+   "name": "conancenter",
+   "url": "https://center.conan.io",
+   "verify_ssl": true
+  },
+  {
+   "name": "kth",
+   "url": "https://knuth.jfrog.io/artifactory/api/conan/knuth",
+   "verify_ssl": true
+  },
+  {
+   "name": "tao",
+   "url": "https://taocpp.jfrog.io/artifactory/api/conan/tao",
+   "verify_ssl": true
+  }
+ ]
+}
