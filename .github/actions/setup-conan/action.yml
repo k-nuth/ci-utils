@@ -1,0 +1,20 @@
+name: "Setup Conan"
+description: "Install and configure the conan client for use in the model project"
+runs:
+  using: "composite"
+  steps:
+    # - run: python3 -m pip install conan --upgrade
+    # - run: python3 -m pip install "conan>=1.50.0,<2.0" --upgrade --ignore-installed
+    - run: python3 -m pip install "conan>=2.0" --upgrade --ignore-installed
+      shell: bash
+    - run: python3 -m pip install "conan_package_tools==0.39.0" --upgrade --ignore-installed
+      shell: bash
+
+    # - run: conan config init --force
+    #   shell: bash
+    - run: conan profile detect
+      shell: bash
+
+
+    - run: conan config install -t dir ./ci_utils/.conan
+      shell: bash
