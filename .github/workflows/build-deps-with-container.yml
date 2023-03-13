@@ -54,7 +54,7 @@ jobs:
           name: conan-lockfile
       - name: build
         if: ${{ inputs.reference != 'null' }}
-        run: conan install --requires=${{ inputs.reference }} -l conan.lock -b missing
+        run: conan install --requires=${{ inputs.reference }} -l conan.lock -b missing -pr:b linux-ci-cd -pr:h linux-ci-cd
       - name: upload
         if: ${{ inputs.reference != 'null' }}
         run: conan upload ${{ inputs.reference }} -r ${{ inputs.conan-remote }} # --all
