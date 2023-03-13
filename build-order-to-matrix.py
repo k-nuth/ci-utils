@@ -1,4 +1,5 @@
 import json
+from copy import deepcopy
 
 def main():
     matrix = {"config": []}
@@ -9,11 +10,14 @@ def main():
         with open("build_order.json", "r") as read_file:
             data = json.load(read_file)
             for level in data:
+                # print(f"Level: {level}")
                 for reference in level:
+                    print(f"reference: {reference['ref']}")
                     for platform in platform_data['config']:
                         platform["name"] = f'{platform["name"]} - {reference["ref"]}'
                         platform["reference"] = reference["ref"]
-                        matrix["config"].append(platform)
+                        # print(f"reference: {platform['reference']}")
+                        matrix["config"].append(deepcopy(platform))
 
             if len(matrix["config"]) == 0:
                 matrix["config"].append({"reference": "null"})
