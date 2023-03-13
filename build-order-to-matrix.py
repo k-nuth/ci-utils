@@ -14,10 +14,11 @@ def main():
                 for reference in level:
                     print(f"reference: {reference['ref']}")
                     for platform in platform_data['config']:
-                        platform["name"] = f'{platform["name"]} - {reference["ref"]}'
-                        platform["reference"] = reference["ref"]
+                        platform_final = deepcopy(platform)
+                        platform_final["name"] = f'{platform_final["name"]} - {reference["ref"]}'
+                        platform_final["reference"] = reference["ref"]
                         # print(f"reference: {platform['reference']}")
-                        matrix["config"].append(deepcopy(platform))
+                        matrix["config"].append(deepcopy(platform_final))
 
             if len(matrix["config"]) == 0:
                 matrix["config"].append({"reference": "null"})
