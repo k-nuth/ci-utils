@@ -62,33 +62,6 @@ jobs:
           # echo "github.event_name:         ${{ github.event_name }}"
 
 
-
-
-      # ----------------------------------------------------------------
-
-      # - uses: actions/checkout@v3
-      # - if: ${{ inputs.reference != 'null' }}
-      #   uses: ./ci_utils/.github/actions/setup-conan
-      # - if: ${{ inputs.reference != 'null' }}
-      #   uses: ./ci_utils/.github/actions/setup-kthbuild
-      # - if: ${{ inputs.reference != 'null' }}
-      #   run: conan remote login -p ${{ secrets.conan-password }} ${{ inputs.conan-remote }} ${{ secrets.conan-user }}
-      # - name: download
-      #   if: ${{ inputs.reference != 'null' }}
-      #   uses: actions/download-artifact@v3
-      #   with:
-      #     name: conan-lockfile
-      # - name: build
-      #   if: ${{ inputs.reference != 'null' }}
-      #   run: conan install --requires=${{ inputs.reference }} -l conan.lock -b missing
-      # - name: upload
-      #   if: ${{ inputs.reference != 'null' }}
-      #   run: conan upload ${{ inputs.reference }} -r ${{ inputs.conan-remote }} # --all
-      # - run: exit 0
-
-
-      # ----------------------------------------------------------------
-
       - uses: actions/checkout@v3
         with:
           submodules: true
@@ -127,8 +100,6 @@ jobs:
           conan lock create conanfile.py --version ${{ inputs.build-version }} --lockfile=conan.lock --lockfile-out=build/conan.lock -pr:b linux-ci-cd -pr:h linux-ci-cd
           conan create conanfile.py --version ${{ inputs.build-version }} --lockfile=build/conan.lock -pr:b linux-ci-cd -pr:h linux-ci-cd --build=missing
 
-
-
       # - uses: github/codeql-action/analyze@v2
 
       - name: upload
@@ -139,114 +110,3 @@ jobs:
           # conan user -p ${{ inputs.CONAN_PASSWORD }} -r ${{ inputs.conan-remote }} ${{ inputs.CONAN_LOGIN_USERNAME }}
           conan remote login -p ${{ secrets.CONAN_PASSWORD }} ${{ inputs.conan-remote }} ${{ secrets.CONAN_LOGIN_USERNAME }}
           conan upload ${{ inputs.recipe-name }}/${{ inputs.build-version }}@ -r ${{ inputs.conan-remote }} # --all
-
-
-
-      # ----------------------------------------------------------------
-
-
-      # - uses: actions/checkout@v3
-      #   with:
-      #     submodules: true
-      # - uses: actions/setup-python@v4
-      #   with:
-      #     python-version: "3.11"
-      # - uses: ./ci_utils/.github/actions/setup-conan
-      # - uses: ./ci_utils/.github/actions/setup-kthbuild
-      # - uses: lukka/get-cmake@latest
-
-
-      # - name: Settting EnvVars (Linux)
-      #   if: ${{ inputs.compiler == 'GCC' }}
-      #   shell: bash
-      #   run: |
-      #     echo "CONAN_GCC_VERSIONS=${{ inputs.config-version }}" >> $GITHUB_ENV
-
-      # # - name: Settting EnvVars (macOS)
-      # #   if: ${{ inputs.compiler == 'apple-clang' }}
-      # #   shell: bash
-      # #   run: |
-      # #     echo "CONAN_APPLE_CLANG_VERSIONS=${{ inputs.config-version }}.0" >> $GITHUB_ENV
-
-      # # - name: Settting EnvVars (Windows)
-      # #   if: ${{ inputs.compiler == 'Visual Studio' }}
-      # #   # shell: bash
-      # #   shell: powershell
-      # #   run: |
-      # #     echo "CONAN_VISUAL_VERSIONS=${{ inputs.config-version }}" >> $Env:GITHUB_ENV
-      # #     echo "CONAN_VISUAL_RUNTIMES=${{ matrix.config.msvc_runtime }}" >> $Env:GITHUB_ENV
-      # #     # echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-6)" >> $env:GITHUB_ENV
-
-      # - name: Build (Unix)
-      #   if: ${{ inputs.compiler != 'Visual Studio' }}
-      #   env:
-      #     CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
-      #     CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
-      #     CONAN_LOGIN_USERNAME_UPLOAD_REPO: ${{ secrets.CONAN_LOGIN_USERNAME_UPLOAD_REPO }}
-      #     CONAN_PASSWORD_UPLOAD_REPO: ${{ secrets.CONAN_PASSWORD_UPLOAD_REPO }}
-      #     CONAN_STABLE_BRANCH_PATTERN: "master$" #"release/*"
-      #     CONAN_DISABLE_STRICT_MODE: 1          # Remove after implementing Conan v2
-      #     # CONAN_BUILD_POLICY: "missing"
-      #   shell: bash
-      #   run: |
-      #     echo ${{ inputs.compiler }}
-      #     echo ${BPT_MATRIX}
-      #     echo ${CONAN_STABLE_BRANCH_PATTERN}
-      #     echo ${CONAN_GCC_VERSIONS}
-      #     echo ${CONAN_APPLE_CLANG_VERSIONS}
-      #     echo ${CONAN_DOCKER_IMAGE}
-      #     echo ${CONAN_LOGIN_USERNAME}
-      #     echo ${CONAN_LOGIN_USERNAME_UPLOAD_REPO}
-      #     echo ${CONAN_LOGIN_USERNAME}
-      #     echo ${CONAN_DOCKER_ENTRY_SCRIPT}
-      #     echo ${CONAN_DISABLE_STRICT_MODE}
-      #     # echo ${CONAN_BUILD_POLICY}
-
-      #     export KTH_BRANCH=$(echo '${{ github.ref }}' | awk -F '/' '{print $3}')
-      #     echo "My branch name is $KTH_BRANCH"
-
-      #     chmod +x ci_utils/.ci-cd/run.sh
-      #     ./ci_utils/.ci-cd/run.sh
-
-      # # - name: Build (Windows)
-      # #   if: ${{ inputs.compiler == 'Visual Studio' }}
-      # #   env:
-      # #     CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
-      # #     CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
-      # #     CONAN_LOGIN_USERNAME_UPLOAD_REPO: ${{ secrets.CONAN_LOGIN_USERNAME_UPLOAD_REPO }}
-      # #     CONAN_PASSWORD_UPLOAD_REPO: ${{ secrets.CONAN_PASSWORD_UPLOAD_REPO }}
-      # #     CONAN_STABLE_BRANCH_PATTERN: "master$" #"release/*"
-      # #     CONAN_DISABLE_STRICT_MODE: 1          # Remove after implementing Conan v2
-      # #     # CONAN_BUILD_POLICY: "missing"
-
-      # #   shell: powershell
-      # #   run: |
-      # #     # echo ${{ inputs.compiler }}
-      # #     # echo %BPT_MATRIX%
-      # #     # echo %CONAN_STABLE_BRANCH_PATTERN%
-      # #     # echo %CONAN_LOGIN_USERNAME%
-
-      # #     Write-Host "CONAN_VISUAL_VERSIONS: $Env:CONAN_VISUAL_VERSIONS"
-      # #     Write-Host "CONAN_VISUAL_RUNTIMES: $Env:CONAN_VISUAL_RUNTIMES"
-      # #     # Write-Host "CONAN_BUILD_POLICY: $Env:CONAN_BUILD_POLICY"
-
-      # #     $Env:KTH_BRANCH = "${{ github.ref }}".Split("/")[2]
-      # #     Write-Host "My branch name is $Env:KTH_BRANCH"
-
-      # #     $a = python ci_utils/set_envvars_and_files.py
-      # #     Write-Host $a
-      # #     Invoke-Expression $a
-
-      # #     $ErrorActionPreference = 'SilentlyContinue'
-      # #     conan remote add kth https://knuth.jfrog.io/artifactory/api/conan/knuth
-      # #     $ErrorActionPreference = 'Continue'
-
-      # #     # python ci_utils/process_conan_reqs.py
-
-      # #     $ErrorActionPreference = 'SilentlyContinue'
-      # #     conan remove "*" -f
-      # #     conan remote remove kth
-      # #     conan remote remove kthbuild_kth_temp_
-      # #     $ErrorActionPreference = 'Continue'
-
-      # #     python build.py
