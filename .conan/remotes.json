@@ -7,15 +7,10 @@
   },
   {
    "name": "kth",
-   "url": "https://knuth.jfrog.io/artifactory/api/conan/knuth",
+   "url": "https://kthnode.jfrog.io/artifactory/api/conan/knuth",
    "verify_ssl": true
   },
   {
-    "name": "kth2",
-    "url": "https://kthnode.jfrog.io/artifactory/api/conan/knuth",
-    "verify_ssl": true
-   },
-   {
    "name": "tao",
    "url": "https://taocpp.jfrog.io/artifactory/api/conan/tao",
    "verify_ssl": true
