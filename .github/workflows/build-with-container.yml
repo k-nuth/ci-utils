@@ -97,7 +97,7 @@ jobs:
         run: |
           # conan remote disable ${{ inputs.conan-remote }}
           # conan profile show default
-          conan remote login -p ${{ secrets.CONAN_PASSWORD }} ${{ inputs.conan-remote }} ${{ secrets.CONAN_LOGIN_USERNAME }}
+          conan remote login -p ${{ secrets.CONAN_3_PASSWORD }} ${{ inputs.conan-remote }} ${{ secrets.CONAN_LOGIN_USERNAME }}
           conan remote list
           conan lock create conanfile.py --version ${{ inputs.build-version }} --lockfile=conan.lock --lockfile-out=build/conan.lock -pr:b linux-ci-cd -pr:h linux-ci-cd
           conan create conanfile.py --version ${{ inputs.build-version }} --lockfile=build/conan.lock -pr:b linux-ci-cd -pr:h linux-ci-cd --build=missing
@@ -110,5 +110,5 @@ jobs:
         run: |
           # conan remote enable ${{ inputs.conan-remote }}
           # conan user -p ${{ inputs.CONAN_PASSWORD }} -r ${{ inputs.conan-remote }} ${{ inputs.CONAN_LOGIN_USERNAME }}
-          conan remote login -p ${{ secrets.CONAN_PASSWORD }} ${{ inputs.conan-remote }} ${{ secrets.CONAN_LOGIN_USERNAME }}
+          conan remote login -p ${{ secrets.CONAN_3_PASSWORD }} ${{ inputs.conan-remote }} ${{ secrets.CONAN_LOGIN_USERNAME }}
           conan upload ${{ inputs.recipe-name }}/${{ inputs.build-version }}@ -r ${{ inputs.conan-remote }} # --all
