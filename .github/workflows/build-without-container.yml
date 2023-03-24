@@ -232,7 +232,7 @@ jobs:
       # #     Invoke-Expression $a
 
       # #     $ErrorActionPreference = 'SilentlyContinue'
-      # #     conan remote add kth https://knuth.jfrog.io/artifactory/api/conan/knuth
+      # #     conan remote add kth https://packages.kth.cash/api/
       # #     $ErrorActionPreference = 'Continue'
 
       # #     # python ci_utils/process_conan_reqs.py

@@ -17,8 +17,8 @@ set -x
 # conan user
 conan remote list
 
-# conan remote add kth https://knuth.jfrog.io/artifactory/api/conan/knuth || true
-# conan remote add kth https://knuth.jfrog.io/artifactory/api/conan/knuth || true
+# conan remote add kth https://packages.kth.cash/api/ || true
+# conan remote add kth https://packages.kth.cash/api/ || true
 
 
 # conan user
