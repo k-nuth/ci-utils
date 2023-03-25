@@ -131,7 +131,7 @@ jobs:
         run: |
           # conan remote enable ${{ inputs.conan-remote }}
           # conan user -p ${{ inputs.CONAN_PASSWORD }} -r ${{ inputs.conan-remote }} ${{ inputs.CONAN_LOGIN_USERNAME }}
-          conan remote login -p ${{ secrets.CONAN_3_PASSWORD }} ${{ inputs.conan-remote }} ${{ secrets.CONAN_LOGIN_USERNAME }}
+          conan remote login -p ${{ secrets.CONAN_PASSWORD }} ${{ inputs.conan-remote }} ${{ secrets.CONAN_LOGIN_USERNAME }}
           conan upload ${{ inputs.recipe-name }}/${{ inputs.build-version }}@ -r ${{ inputs.conan-remote }} # --all
 
 
@@ -175,9 +175,9 @@ jobs:
       #   if: ${{ inputs.compiler != 'Visual Studio' }}
       #   env:
       #     CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
-      #     CONAN_PASSWORD: ${{ secrets.CONAN_3_PASSWORD }}
+      #     CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
       #     CONAN_LOGIN_USERNAME_UPLOAD_REPO: ${{ secrets.CONAN_LOGIN_USERNAME_UPLOAD_REPO }}
-      #     CONAN_PASSWORD_UPLOAD_REPO: ${{ secrets.CONAN_3_PASSWORD_UPLOAD_REPO }}
+      #     CONAN_PASSWORD_UPLOAD_REPO: ${{ secrets.CONAN_PASSWORD_UPLOAD_REPO }}
       #     CONAN_STABLE_BRANCH_PATTERN: "master$" #"release/*"
       #     CONAN_DISABLE_STRICT_MODE: 1          # Remove after implementing Conan v2
       #     # CONAN_BUILD_POLICY: "missing"
@@ -206,9 +206,9 @@ jobs:
       # #   if: ${{ inputs.compiler == 'Visual Studio' }}
       # #   env:
       # #     CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
-      # #     CONAN_PASSWORD: ${{ secrets.CONAN_3_PASSWORD }}
+      # #     CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
       # #     CONAN_LOGIN_USERNAME_UPLOAD_REPO: ${{ secrets.CONAN_LOGIN_USERNAME_UPLOAD_REPO }}
-      # #     CONAN_PASSWORD_UPLOAD_REPO: ${{ secrets.CONAN_3_PASSWORD_UPLOAD_REPO }}
+      # #     CONAN_PASSWORD_UPLOAD_REPO: ${{ secrets.CONAN_PASSWORD_UPLOAD_REPO }}
       # #     CONAN_STABLE_BRANCH_PATTERN: "master$" #"release/*"
       # #     CONAN_DISABLE_STRICT_MODE: 1          # Remove after implementing Conan v2
       # #     # CONAN_BUILD_POLICY: "missing"
