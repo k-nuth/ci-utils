@@ -6,8 +6,8 @@
    "verify_ssl": true
   },
   {
-   "name": "kth2",
-   "url": "https://kthnode.jfrog.io/artifactory/api/conan/knuth",
+   "name": "kth",
+   "url": "https://packages.kth.cash/api/",
    "verify_ssl": true
   },
   {
