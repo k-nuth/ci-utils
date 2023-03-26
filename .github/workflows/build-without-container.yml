@@ -36,7 +36,7 @@ on:
       CONAN_PASSWORD:
         required: true
 jobs:
-  reusable-build-with-container:
+  reusable-build-without-container:
     if: ${{ inputs.if }}
     runs-on: ${{ inputs.os }}
     steps:
@@ -89,8 +89,8 @@ jobs:
         # This should not be logged in to conan remote since we are building for ubuntu the binaries are available in CCI
         run: |
           conan remote login -p ${{ secrets.CONAN_PASSWORD }} ${{ inputs.conan-remote }} ${{ secrets.CONAN_LOGIN_USERNAME }}
-          conan lock create conanfile.py --version ${{ inputs.build-version }} --lockfile=conan.lock --lockfile-out=build/conan.lock -pr:b linux-ci-cd -pr:h linux-ci-cd
-          conan create conanfile.py --version ${{ inputs.build-version }} --lockfile=build/conan.lock -pr:b linux-ci-cd -pr:h linux-ci-cd --build=missing
+          conan lock create conanfile.py --version ${{ inputs.build-version }} --lockfile=conan.lock --lockfile-out=build/conan.lock -pr:b general-ci-cd -pr:h general-ci-cd
+          conan create conanfile.py --version ${{ inputs.build-version }} --lockfile=build/conan.lock -pr:b general-ci-cd -pr:h general-ci-cd --build=missing
 
       # - uses: github/codeql-action/analyze@v2
 
