@@ -55,32 +55,6 @@ jobs:
           echo "inputs.upload:             ${{ inputs.upload }}"
           # echo "github.event_name:         ${{ github.event_name }}"
 
-
-
-
-      # ----------------------------------------------------------------
-
-      # - uses: actions/checkout@v3
-      # - if: ${{ inputs.reference != 'null' }}
-      #   uses: ./ci_utils/.github/actions/setup-conan
-      # - if: ${{ inputs.reference != 'null' }}
-      #   uses: ./ci_utils/.github/actions/setup-kthbuild
-      # - if: ${{ inputs.reference != 'null' }}
-      #   run: conan remote login -p ${{ secrets.conan-password }} ${{ inputs.conan-remote }} ${{ secrets.conan-user }}
-      # - name: download
-      #   if: ${{ inputs.reference != 'null' }}
-      #   uses: actions/download-artifact@v3
-      #   with:
-      #     name: conan-lockfile
-      # - name: build
-      #   if: ${{ inputs.reference != 'null' }}
-      #   run: conan install --requires=${{ inputs.reference }} -l conan.lock -b missing
-      # - name: upload
-      #   if: ${{ inputs.reference != 'null' }}
-      #   run: conan upload ${{ inputs.reference }} -r ${{ inputs.conan-remote }} # --all
-      # - run: exit 0
-
-
       # ----------------------------------------------------------------
 
       - uses: actions/checkout@v3
@@ -95,8 +69,6 @@ jobs:
       #   with:
       #     path: ~/.cache/pip
       #     key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-
-
 
       - uses: ./ci_utils/.github/actions/setup-conan
       - uses: ./ci_utils/.github/actions/setup-kthbuild
@@ -116,12 +88,9 @@ jobs:
         working-directory: .
         # This should not be logged in to conan remote since we are building for ubuntu the binaries are available in CCI
         run: |
-          # conan remote disable ${{ inputs.conan-remote }}
-          # conan profile show default
+          conan remote login -p ${{ secrets.CONAN_PASSWORD }} ${{ inputs.conan-remote }} ${{ secrets.CONAN_LOGIN_USERNAME }}
           conan lock create conanfile.py --version ${{ inputs.build-version }} --lockfile=conan.lock --lockfile-out=build/conan.lock -pr:b linux-ci-cd -pr:h linux-ci-cd
           conan create conanfile.py --version ${{ inputs.build-version }} --lockfile=build/conan.lock -pr:b linux-ci-cd -pr:h linux-ci-cd --build=missing
-
-
 
       # - uses: github/codeql-action/analyze@v2
 
@@ -129,6 +98,5 @@ jobs:
         # if: github.event_name == 'push' && needs.check.outputs.permitted == 'true'
         if: ${{ inputs.upload }}
         run: |
-          # conan remote enable ${{ inputs.conan-remote }}
           conan remote login -p ${{ secrets.CONAN_PASSWORD }} ${{ inputs.conan-remote }} ${{ secrets.CONAN_LOGIN_USERNAME }}
           conan upload ${{ inputs.recipe-name }}/${{ inputs.build-version }}@ -r ${{ inputs.conan-remote }} # --all
