@@ -109,6 +109,5 @@ jobs:
         if: ${{ inputs.upload }}
         run: |
           # conan remote enable ${{ inputs.conan-remote }}
-          # conan user -p ${{ inputs.CONAN_PASSWORD }} -r ${{ inputs.conan-remote }} ${{ inputs.CONAN_LOGIN_USERNAME }}
           conan remote login -p ${{ secrets.CONAN_PASSWORD }} ${{ inputs.conan-remote }} ${{ secrets.CONAN_LOGIN_USERNAME }}
           conan upload ${{ inputs.recipe-name }}/${{ inputs.build-version }}@ -r ${{ inputs.conan-remote }} # --all
