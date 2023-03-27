@@ -51,7 +51,7 @@ jobs:
         if: ${{ inputs.reference != 'null' }}
         uses: actions/download-artifact@v3
         with:
-          name: conan-lockfile
+          name: conan-lockfile-container
       - name: build
         if: ${{ inputs.reference != 'null' }}
         run: conan install --requires=${{ inputs.reference }} -l conan.lock -b missing -pr:b linux-ci-cd -pr:h linux-ci-cd
