@@ -28,6 +28,8 @@ jobs:
   reusable-calc-deps-without-container:
     if: ${{ inputs.if }}
     runs-on: ${{ inputs.os }}
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v3
         with:
