@@ -28,7 +28,7 @@ on:
     outputs:
       matrix:
         description: "Matrix"
-        value: ${{ jobs.reusable-calc-deps-with-container:.outputs.matrix }}
+        value: ${{ jobs.reusable-calc-deps-with-container.outputs.matrix }}
 jobs:
   reusable-calc-deps-with-container:
     if: ${{ inputs.if }}
