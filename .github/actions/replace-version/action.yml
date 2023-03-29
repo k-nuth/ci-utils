@@ -14,5 +14,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: sed -i'' -e 's/${{ inputs.old-version }}/${{ inputs.new-version }}/1' ${{ inputs.target-file }}
+    - run: |
+        sed -i'' -e 's/${{ inputs.old-version }}/${{ inputs.new-version }}/1' ${{ inputs.target-file }}
+        rm '${{ inputs.target-file }}-e'
       shell: bash
