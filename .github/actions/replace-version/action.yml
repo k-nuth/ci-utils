@@ -16,5 +16,5 @@ runs:
   steps:
     - run: |
         sed -i'' -e 's/${{ inputs.old-version }}/${{ inputs.new-version }}/1' ${{ inputs.target-file }}
-        rm '${{ inputs.target-file }}-e'
+        rm -rf '${{ inputs.target-file }}-e' || true
       shell: bash
