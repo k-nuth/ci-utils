@@ -9,11 +9,6 @@
    "name": "kth",
    "url": "https://packages.kth.cash/api/",
    "verify_ssl": true
-  },
-  {
-   "name": "tao",
-   "url": "https://taocpp.jfrog.io/artifactory/api/conan/tao",
-   "verify_ssl": true
   }
  ]
 }
