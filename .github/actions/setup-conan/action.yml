@@ -12,6 +12,9 @@ runs:
     # - run: conan config init --force
     #   shell: bash
 
+    - run: python3 --version
+      shell: bash
+
     - run: conan --version
       shell: bash
 
