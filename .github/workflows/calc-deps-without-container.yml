@@ -40,6 +40,7 @@ jobs:
           path: ~/.conan/data
           key: alpine-${{ hashFiles('**/conan.lock') }}
 
+      # - if: ${{ inputs.compiler != 'GCC' }}
       - uses: actions/setup-python@v4
         with:
           python-version: '3.11'

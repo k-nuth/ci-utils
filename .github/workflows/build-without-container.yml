@@ -71,6 +71,7 @@ jobs:
       #     key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
 
 
+      # - if: ${{ inputs.compiler != 'GCC' }}
       - uses: actions/setup-python@v4
         with:
           python-version: '3.11'

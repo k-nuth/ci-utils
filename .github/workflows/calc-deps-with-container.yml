@@ -45,9 +45,10 @@ jobs:
           key: alpine-${{ hashFiles('**/conan.lock') }}
 
 
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
+      # - if: ${{ inputs.compiler != 'GCC' }}
+      #   uses: actions/setup-python@v4
+      #   with:
+      #     python-version: '3.11'
 
       - uses: ./ci_utils/.github/actions/setup-conan
       - uses: ./ci_utils/.github/actions/setup-kthbuild
