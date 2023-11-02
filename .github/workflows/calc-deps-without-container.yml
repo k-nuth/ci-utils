@@ -39,6 +39,11 @@ jobs:
         with:
           path: ~/.conan/data
           key: alpine-${{ hashFiles('**/conan.lock') }}
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
       - uses: ./ci_utils/.github/actions/setup-conan
       - uses: ./ci_utils/.github/actions/setup-kthbuild
       - name: conan login

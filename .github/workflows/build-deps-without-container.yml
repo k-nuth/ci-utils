@@ -49,6 +49,11 @@ jobs:
       - uses: actions/checkout@v3
         with:
           submodules: true
+
+      - if: ${{ inputs.reference != 'null' }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
       - if: ${{ inputs.reference != 'null' }}
         uses: ./ci_utils/.github/actions/setup-conan
       # - if: ${{ inputs.reference != 'null' }}
