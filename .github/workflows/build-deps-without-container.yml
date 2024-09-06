@@ -41,23 +41,24 @@ jobs:
 
           uname -m
           python3 --version
-          pip3 install cpuid --upgrade --user
-          pip3 install kthbuild --upgrade --user
-          # python3 -m pip install kthbuild --upgrade
+          # pip3 install cpuid --upgrade --user
+          # pip3 install kthbuild --upgrade --user
+          # # python3 -m pip install kthbuild --upgrade
 
 
       - uses: actions/checkout@v4
         with:
           submodules: true
 
-      # - if: ${{ inputs.reference != 'null' && inputs.compiler != 'GCC' }}
-      #   uses: actions/setup-python@v4
-      #   with:
-      #     python-version: '3.11'
+      - if: ${{ inputs.reference != 'null' && inputs.compiler != 'GCC' }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
       - if: ${{ inputs.reference != 'null' }}
         uses: ./ci_utils/.github/actions/setup-conan
-      # - if: ${{ inputs.reference != 'null' }}
-      #   uses: ./ci_utils/.github/actions/setup-kthbuild
+      - if: ${{ inputs.reference != 'null' }}
+        uses: ./ci_utils/.github/actions/setup-kthbuild
       - if: ${{ inputs.reference != 'null' }}
         run: conan remote login -p ${{ secrets.conan-password }} ${{ inputs.conan-remote }} ${{ secrets.conan-user }}
       - name: download
