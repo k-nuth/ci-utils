@@ -9,10 +9,12 @@ def main():
 
         with open("build_order.json", "r") as read_file:
             data = json.load(read_file)
-            for level in data:
+            order_arr = data["order"]
+            for level in order_arr:
                 # print(f"Level: {level}")
                 for reference in level:
-                    print(f"reference: {reference['ref']}")
+                    # print(f"reference: {reference}")
+                    # print(f"reference: {reference['ref']}")
                     for platform in platform_data['config']:
                         platform_final = deepcopy(platform)
                         platform_final["name"] = f'{platform_final["name"]} - {reference["ref"]}'
@@ -23,7 +25,7 @@ def main():
             if len(matrix["config"]) == 0:
                 matrix["config"].append({"reference": "null"})
 
-    # print(matrix)
+    print(matrix)
     with open("matrix.json", "w") as write_file:
         json.dump(matrix, write_file)
         write_file.write("\n")

@@ -60,7 +60,13 @@ jobs:
         run: |
           conan lock create conanfile.py --version ${{ inputs.build-version }} --lockfile=conan.lock --lockfile-out=build/conan.lock -pr linux-ci-cd -s build_type=Release
           # conan lock build-order build/conan.lock --json=build_order.json
-          conan graph build-order conanfile.py --lockfile=build/conan.lock -f json > build_order.json
+          # conan graph build-order conanfile.py --lockfile=build/conan.lock -f json > build_order.json
+
+          # Conan 2.7 build order recipe
+          conan graph build-order conanfile.py --lockfile=build/conan.lock -f json --order-by recipe --build=missing --reduce > build_order.json
+          # Conan 2.7 build order configuration
+          # conan graph build-order conanfile.py --lockfile=build/conan.lock -f json --order-by configuration --build=missing --reduce > build_order.json
+
       - uses: actions/upload-artifact@v4
         with:
           name: conan-lockfile-container
